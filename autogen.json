@@ -1,0 +1,54 @@
+{
+  "wasm32-wasi-ghc-gmp": {
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1228024/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
+    "sha256": "0d16iak3nqyd9jfddrhgqbn8dh3b5fvwxjigkfc5imq9i7zcgnrh"
+  },
+  "wasm32-wasi-ghc-native": {
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1228025/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
+    "sha256": "0ahbm8y79wk1yl3l078li5h4jjz7fxacq7c752apgq9b2vvv862y"
+  },
+  "wasi-sdk": {
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1227986/artifacts/dist/wasi-sdk-16-linux.tar.gz",
+    "sha256": "1xaaj7l91wwmmdmhl1apcl20gbj1prpjpklbj67wmjqjhrapznh0"
+  },
+  "libffi-wasm": {
+    "url": "https://gitlab.haskell.org/api/v4/projects/3214/jobs/1227903/artifacts",
+    "sha256": "1rj03kdjn1ppkymcbixwa96gcgyw7gg49vmib861q6wvsm721ia0"
+  },
+  "deno": {
+    "url": "https://github.com/denoland/deno/releases/download/v1.27.2/deno-x86_64-unknown-linux-gnu.zip",
+    "sha256": "07ck4jjgmxd79ifcxbb60789fp4kbk5vvipvl4awkxs15wnp1h9f"
+  },
+  "binaryen": {
+    "url": "https://github.com/WebAssembly/binaryen/releases/download/version_110/binaryen-version_110-x86_64-linux.tar.gz",
+    "sha256": "1ck6c2wvhba54y87hb2nbqckp8p7i1nzg3cvk0n2hl1xm568m12g"
+  },
+  "wabt": {
+    "url": "https://github.com/WebAssembly/wabt/releases/download/1.0.30/wabt-1.0.30-ubuntu.tar.gz",
+    "sha256": "0zvbabnrxgy6hr8ijy4z36si2glyk5f4bhw2win43nl1sbxh8kni"
+  },
+  "wasmtime": {
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v2.0.2/wasmtime-v2.0.2-x86_64-linux.tar.xz",
+    "sha256": "1kqs0f24afqdma781209jb5icpi6anr4jd7i797q3jlqyifgppmm"
+  },
+  "wasmedge": {
+    "url": "https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz",
+    "sha256": "12529cz889vp2lrvwzga94qa0b6ff4fhi4j25ivym7m22g7yad6q"
+  },
+  "wasmer": {
+    "url": "https://github.com/wasmerio/wasmer/releases/download/2.3.0/wasmer-linux-amd64.tar.gz",
+    "sha256": "1ivid43xrki55h0145digkf3xx9sb566hz1xzkigfllq3nwhxabr"
+  },
+  "wizer": {
+    "url": "https://nightly.link/bytecodealliance/wizer/actions/artifacts/431598906.zip",
+    "sha256": "0jjmw333nkrcfd0v0kajkfbjyrx4v4j4ypk3g6kz8g16gbysxmpz"
+  },
+  "cabal": {
+    "url": "https://downloads.haskell.org/cabal/cabal-install-3.8.1.0/cabal-install-3.8.1.0-x86_64-linux-deb10.tar.xz",
+    "sha256": "0js242sml0ns813gzld2bl79a92wh5h8d5myhsxkblj2zm31l6n7"
+  },
+  "proot": {
+    "url": "https://gitlab.com/api/v4/projects/9799675/jobs/2370229665/artifacts/dist/proot",
+    "sha256": "1lkhvm46r1p83xggzvav3m61rqgbzszal1a99wb0l015lbssvwmp"
+  }
+}
