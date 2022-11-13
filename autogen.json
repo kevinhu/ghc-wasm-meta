@@ -1,11 +1,11 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1228024/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
-    "sha256": "0d16iak3nqyd9jfddrhgqbn8dh3b5fvwxjigkfc5imq9i7zcgnrh"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1229004/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
+    "sha256": "13finpih2lk72vngbag3353pwnkxwkymrw4anwwya155ps2s2zv4"
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1228025/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
-    "sha256": "0ahbm8y79wk1yl3l078li5h4jjz7fxacq7c752apgq9b2vvv862y"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1229005/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
+    "sha256": "06wwjk2qnqk4szk9hw314fza6rmpck55amrn203ppbnzx4x8nrfw"
   },
   "wasi-sdk": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1227986/artifacts/dist/wasi-sdk-16-linux.tar.gz",
