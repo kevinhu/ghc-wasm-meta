@@ -2,7 +2,7 @@ variables:
   DOCKER_REV: 205afce5c7ebdb8666b96638f6758fe527f40a7f
   GIT_DEPTH: "1"
 
-x86_64-linux:
+.x86_64-linux:
   tags:
     - x86_64-linux
   image: registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-ubuntu20_04:$DOCKER_REV
@@ -13,6 +13,22 @@ x86_64-linux:
       PREFIX=/tmp/.ghc-wasm ./setup.sh
       . /tmp/.ghc-wasm/env
 
+      pushd "$(mktemp -d)"
+      echo 'main = putStrLn "hello world"' > hello.hs
+      wasm32-wasi-ghc hello.hs -o hello.wasm
+      wasm-run ./hello.wasm
+      popd
+
+x86_64-linux-int_gmp:
+  extends: .x86_64-linux
+  variables:
+    BIGNUM_BACKEND: gmp
+
+x86_64-linux-int_native:
+  extends: .x86_64-linux
+  variables:
+    BIGNUM_BACKEND: native
+
 x86_64-linux-nix:
   tags:
     - x86_64-linux
@@ -21,4 +37,4 @@ x86_64-linux-nix:
     - echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
   script:
     - |
-      nix build --json --no-link .#all
+      nix build --json --no-link .

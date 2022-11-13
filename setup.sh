@@ -47,18 +47,24 @@ unzip wizer.zip
 mkdir -p "$PREFIX/wizer/bin"
 tar xJf wizer-*.tar.xz -C "$PREFIX/wizer/bin" --strip-components=1 --wildcards '*/wizer'
 
-mkdir -p "$PREFIX/cabal/bin"
-curl -f -L --retry 5 "$(jq -r .cabal.url "$REPO"/autogen.json)" | tar xJ -C "$PREFIX/cabal/bin" 'cabal'
-
 mkdir -p "$PREFIX/proot/bin"
 curl -f -L --retry 5 "$(jq -r .proot.url "$REPO"/autogen.json)" -o "$PREFIX/proot/bin/proot"
 chmod 755 "$PREFIX/proot/bin/proot"
+
+mkdir -p "$PREFIX/wasm-run/bin"
+cp -a "$REPO/wasm-run/qemu-system-wasm32.js" "$PREFIX/wasm-run/bin"
+cc -DWASM_RUN="\"$PREFIX/wasm-run/bin/qemu-system-wasm32.js\"" -Wall -O3 "$REPO/wasm-run/qemu-system-wasm32.c" -o "$PREFIX/wasm-run/bin/qemu-system-wasm32"
+echo "#!/bin/sh" >> "$PREFIX/wasm-run/bin/wasm-run"
+echo "exec $PREFIX/proot/bin/proot -q $PREFIX/wasm-run/bin/qemu-system-wasm32" '${1+"$@"}' >> "$PREFIX/wasm-run/bin/wasm-run"
+chmod +x "$PREFIX/wasm-run/bin/wasm-run"
 
 echo "#!/bin/sh" >> "$PREFIX/add_to_github_path.sh"
 chmod 755 "$PREFIX/add_to_github_path.sh"
 
 for p in \
+  "$PREFIX/wasm-run/bin" \
   "$PREFIX/proot/bin" \
+  "$PREFIX/wasm32-wasi-cabal/bin" \
   "$PREFIX/cabal/bin" \
   "$PREFIX/wizer/bin" \
   "$PREFIX/wasmer/bin" \
@@ -121,6 +127,25 @@ pushd ghc
   --prefix="$PREFIX/wasm32-wasi-ghc"
 make install
 popd
+
+mkdir -p "$PREFIX/cabal/bin"
+curl -f -L --retry 5 "$(jq -r .cabal.url "$REPO"/autogen.json)" | tar xJ -C "$PREFIX/cabal/bin" 'cabal'
+
+mkdir -p "$PREFIX/wasm32-wasi-cabal/bin"
+echo "#!/bin/sh" >> "$PREFIX/wasm32-wasi-cabal/bin/wasm32-wasi-cabal"
+echo \
+  "CABAL_DIR=$PREFIX/.cabal" \
+  "exec" \
+  "$PREFIX/cabal/bin/cabal" \
+  "--with-compiler=$PREFIX/wasm32-wasi-ghc/bin/wasm32-wasi-ghc" \
+  "--with-hc-pkg=$PREFIX/wasm32-wasi-ghc/bin/wasm32-wasi-ghc-pkg" \
+  "--with-hsc2hs=$PREFIX/wasm32-wasi-ghc/bin/wasm32-wasi-hsc2hs" \
+  '${1+"$@"}' >> "$PREFIX/wasm32-wasi-cabal/bin/wasm32-wasi-cabal"
+chmod +x "$PREFIX/wasm32-wasi-cabal/bin/wasm32-wasi-cabal"
+
+mkdir "$PREFIX/.cabal"
+cp "$REPO/cabal.config" "$PREFIX/.cabal/config"
+"$PREFIX/wasm32-wasi-cabal/bin/wasm32-wasi-cabal" update
 
 popd
 

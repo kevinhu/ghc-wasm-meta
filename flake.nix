@@ -15,7 +15,7 @@
           config = haskell-nix.config;
           overlays = [ haskell-nix.overlay ];
         };
-        all = pkgs.symlinkJoin {
+        default = pkgs.symlinkJoin {
           name = "ghc-wasm";
           paths = [
             wasm32-wasi-ghc-gmp
@@ -28,7 +28,9 @@
             wasmer
             wizer
             cabal
+            wasm32-wasi-cabal
             proot
+            wasm-run
           ];
         };
         wasm32-wasi-ghc-gmp = pkgs.callPackage ./pkgs/wasm32-wasi-ghc.nix {
@@ -46,12 +48,17 @@
         wasmer = pkgs.callPackage ./pkgs/wasmer.nix { };
         wizer = pkgs.callPackage ./pkgs/wizer.nix { };
         cabal = pkgs.callPackage ./pkgs/cabal.nix { };
+        wasm32-wasi-cabal = pkgs.callPackage ./pkgs/wasm32-wasi-cabal.nix {
+          bignumBackend = "gmp";
+        };
         proot = pkgs.callPackage ./pkgs/proot.nix { };
+        wasm-run = pkgs.callPackage ./pkgs/wasm-run.nix { };
       in
       {
         packages = {
-          inherit all wasm32-wasi-ghc-gmp wasm32-wasi-ghc-native wasi-sdk deno
-            binaryen wabt wasmtime wasmedge wasmer wizer cabal proot;
+          inherit default wasm32-wasi-ghc-gmp wasm32-wasi-ghc-native wasi-sdk
+            deno binaryen wabt wasmtime wasmedge wasmer wizer cabal
+            wasm32-wasi-cabal proot wasm-run;
         };
       });
 }

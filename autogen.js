@@ -170,19 +170,19 @@ async function fetchurl(url) {
   return { url, sha256 };
 }
 
-const _wasm32_wasi_ghc_gmp = fetchGitLabMRArtifact(
+const _wasm32_wasi_ghc_gmp = fetchGitLabArtifact(
   "builtins.fetchTarball",
   "gitlab.haskell.org",
   1,
-  9204,
+  "master",
   "x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release",
   "ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz"
 );
-const _wasm32_wasi_ghc_native = fetchGitLabMRArtifact(
+const _wasm32_wasi_ghc_native = fetchGitLabArtifact(
   "builtins.fetchTarball",
   "gitlab.haskell.org",
   1,
-  9204,
+  "master",
   "x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release",
   "ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz"
 );
