@@ -52,17 +52,44 @@ After installing, `~/.ghc-wasm` will contain:
 
 ## What it emits when it emits a `.wasm` file?
 
-Besides wasm MVP, these extensions are used, given they have been
-supported by default in latest versions of major wasm runtimes:
+Besides wasm MVP, certain extensions are used. The feature flags are
+enabled globally in our
+[wasi-sdk](https://gitlab.haskell.org/ghc/wasi-sdk) build, passed at
+GHC configure time, and the wasm NCG may make use of the features. The
+rationale of post-MVP wasm feature inclusion:
 
-- nontrapping-fptoint
-- sign-ext
-- bulk-memory
-- mutable-globals
-- reference-types
+- Supported by default in latest versions of major wasm runtimes
+(check wasm [roadmap](https://webassembly.org/roadmap) for details)
+- LLVM support has been stable enough (doesn't get into our way when
+enabled globally)
+
+List of wasm extensions that we use:
+
+- [Non-trapping Float-to-int
+  Conversions](https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md)
+- [Sign-extension
+  operators](https://github.com/WebAssembly/spec/blob/master/proposals/sign-extension-ops/Overview.md)
+- [Bulk Memory
+  Operations](https://github.com/WebAssembly/spec/blob/master/proposals/bulk-memory-operations/Overview.md)
+- [Import/Export mutable
+  globals](https://github.com/WebAssembly/mutable-global/blob/master/proposals/mutable-global/Overview.md)
+- [Reference
+  Types](https://github.com/WebAssembly/spec/blob/master/proposals/reference-types/Overview.md)
 
 The target triple is `wasm32-wasi`, and it uses WASI snapshot 1 as
 used in `wasi-libc`.
+
+List of wasm extensions that we don't use yet but are keeping an eye
+on:
+
+- [128-bit packed
+  SIMD](https://github.com/WebAssembly/spec/blob/master/proposals/simd/SIMD.md),
+  blocked by [WebKit](https://bugs.webkit.org/show_bug.cgi?id=222382)
+- [Tail
+  Call](https://github.com/WebAssembly/tail-call/blob/main/proposals/tail-call/Overview.md),
+  blocked by
+  [wasmtime](https://github.com/bytecodealliance/wasmtime/issues/1065)
+  and a few other engines
 
 ## What runtimes support those `.wasm` files?
 
