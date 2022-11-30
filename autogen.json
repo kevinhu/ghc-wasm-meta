@@ -1,11 +1,11 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1233303/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
-    "sha256": "1ifm10xbj5wbra4j00x6ilcdp8kdrfjq3z0f0q3qrjcb2gbl2iig"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1246325/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
+    "sha256": "0bi6sifpb84jrq3p0p48sxczqmszpj2y13rbyc05cc6nqf92ql3v"
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1233304/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
-    "sha256": "023njj1gblql3x4dhf0zqyz58zb6kqzhcvzq3c2s13142fh1niwp"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1246326/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
+    "sha256": "03wdgzpxy5yw5jc2ywd2lqyljdsldx4ad1galmzkj9pyds92i32z"
   },
   "wasi-sdk": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1237939/artifacts/dist/wasi-sdk-16-linux.tar.gz",
@@ -16,28 +16,28 @@
     "sha256": "1rj03kdjn1ppkymcbixwa96gcgyw7gg49vmib861q6wvsm721ia0"
   },
   "deno": {
-    "url": "https://github.com/denoland/deno/releases/download/v1.28.1/deno-x86_64-unknown-linux-gnu.zip",
-    "sha256": "1v7ggkxp8df908v22n1fmy64hwnjhhwx0als418l93qwyjgmw7z9"
+    "url": "https://github.com/denoland/deno/releases/download/v1.28.2/deno-x86_64-unknown-linux-gnu.zip",
+    "sha256": "06d3l6b782lhs0ml7cdx06wrn9sc41g6q21cv1qz3jvs9b5li1xd"
   },
   "binaryen": {
-    "url": "https://github.com/WebAssembly/binaryen/releases/download/version_110/binaryen-version_110-x86_64-linux.tar.gz",
-    "sha256": "1ck6c2wvhba54y87hb2nbqckp8p7i1nzg3cvk0n2hl1xm568m12g"
+    "url": "https://github.com/WebAssembly/binaryen/releases/download/version_111/binaryen-version_111-x86_64-linux.tar.gz",
+    "sha256": "1177mvidh1w9822a96zjswpz6pbpx36fpa2xx968089623avpn6m"
   },
   "wabt": {
     "url": "https://github.com/WebAssembly/wabt/releases/download/1.0.31/wabt-1.0.31-ubuntu.tar.gz",
     "sha256": "01pf1f443kjgy6gc8jvhy5f2lcvmf1iwmwzp8yfga5ynf0aqszby"
   },
   "wasmtime": {
-    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v2.0.2/wasmtime-v2.0.2-x86_64-linux.tar.xz",
-    "sha256": "1kqs0f24afqdma781209jb5icpi6anr4jd7i797q3jlqyifgppmm"
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v3.0.0/wasmtime-v3.0.0-x86_64-linux.tar.xz",
+    "sha256": "0hhiq5a6a4p7l53fzpb6nhci8wrf4xi20wcppv8x1p3mj228mb0w"
   },
   "wasmedge": {
     "url": "https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz",
     "sha256": "12529cz889vp2lrvwzga94qa0b6ff4fhi4j25ivym7m22g7yad6q"
   },
   "wasmer": {
-    "url": "https://github.com/wasmerio/wasmer/releases/download/v3.0.0/wasmer-linux-amd64.tar.gz",
-    "sha256": "16l5al274kcm51fd37blh8jsd3iy3lnv70zwbn712nshfl9af3jl"
+    "url": "https://github.com/wasmerio/wasmer/releases/download/v3.0.2/wasmer-linux-amd64.tar.gz",
+    "sha256": "0l49ld6xal13qxxsy1q4fgw2gyp8i2h4rb9f5rkx7c1j31md8rrm"
   },
   "wizer": {
     "url": "https://nightly.link/bytecodealliance/wizer/actions/artifacts/431598906.zip",
