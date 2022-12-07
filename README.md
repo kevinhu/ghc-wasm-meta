@@ -37,9 +37,11 @@ Run 'source /home/username/.ghc-wasm/env' to add tools to your PATH.
 After installing, `~/.ghc-wasm` will contain:
 
   - `env` which can be sourced into the current shell to add the tools
-    to `PATH`
+    to `PATH`, plus all the environment variables needed to build
+    `wasm32-wasi-ghc`
   - `add_to_github_path.sh` which can be run in GitHub actions, so
-    later steps in the same job can access the tools from `PATH`
+    later steps in the same job can access the same environment
+    variables set by `env`
 
 `setup.sh` can be configured via these environment variables:
 
@@ -90,6 +92,8 @@ on:
   blocked by
   [wasmtime](https://github.com/bytecodealliance/wasmtime/issues/1065)
   and a few other engines
+- [Multi-value](https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md),
+  blocked by [LLVM](https://github.com/llvm/llvm-project/issues/59095)
 
 ## What runtimes support those `.wasm` files?
 
@@ -106,7 +110,34 @@ least these runtimes:
   implementation)
 - [`node`](https://nodejs.org)
 
-## Accessing the host file system
+## Running in browsers
+
+According to the [Roadmap](https://webassembly.org/roadmap), recent
+versions of Firefox/Chrome/Safari also support them, as long as you
+have corresponding JavaScript code to supply the wasi imports. Known
+examples include
+[`ormolu`](https://twitter.com/tweagio/status/1598618914761719808) and
+[`pointfree`](https://www.reddit.com/r/haskell/comments/zc8o75/try_the_wasm_port_of_pointfree).
+We don't have an official recommendation about which JavaScript
+library to use for wasi logic yet, hopefully some time later we'll
+have one which is tested in headless browsers.
+
+Important points to keep in mind when running in browsers:
+
+- Always create a fresh `WebAssembly.Instance` for each run! Because
+  `wasm32-wasi-ghc` only supports outputting wasi
+  [command](https://github.com/WebAssembly/WASI/blob/main/legacy/application-abi.md)
+  modules for now, and wasi commands are supposed to be only run once,
+  afterwards the instance state is undefined.
+- Avoid recompiling the module multiple times; the same
+  `WebAssembly.Module` can be reused many times.
+- For now, the recommended workflow is using
+  [`WebAssembly.compileStreaming`](https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/compileStreaming)
+  to get a `WebAssembly.Module`, then use
+  [`WebAssembly.instantiate`](https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/instantiate)
+  to get the `WebAssembly.Instance` for each run.
+
+## Accessing the host file system in non-browsers
 
 By default, only stdin/stdout/stderr is supported. To access the host
 file system, one needs to map the allowed root directory into `/` as a
@@ -116,6 +147,42 @@ The initial working directoy is always `/`. If you'd like to specify
 another working directory other than `/` in the virtual filesystem,
 use the `PWD` environment variable. This is not a WASI standard, just
 a workaround we implemented in the GHC RTS shall the need arises.
+
+## Building guide
+
+The following guide works for x86_64 non-nix Linux.
+
+- Do a GHC checkout with wasm backend, either `master` or `ghc-9.6`
+  branch
+- Apply the patches
+  [here](https://gitlab.haskell.org/ghc/ghc/-/blob/cc25d52e0f65d54c052908c7d91d5946342ab88a/.gitlab-ci.yml#L816)
+- Install the usual dependencies needed to compile GHC, e.g.
+  `alex`/`happy`/`cabal`/`ghc`/`python`
+- Use `setup.sh` to install the toolchain; you may set `SKIP_GHC=1` to
+  avoid installing existing `wasm32-wasi-ghc`, only regular GHC is
+  needed
+- `source ~/.ghc-wasm/env` into your current shell session to get the
+  required environment variables
+- Boot and configure GHC via `./boot && ./configure $CONFIGURE_ARGS`.
+  `$CONFIGURE_ARGS` is mandatory to get it right. You may append other
+  configure options if they don't conflict with existing
+  `$CONFIGURE_ARGS`
+- Now you may use hadrian to build stuff, happy hacking :)
+
+If you intend to use nix to build, `ghc.nix` is incompatible yet. Feel
+free to take a look at the nix code in this repo and start from here.
+
+If you intend to build everything from scratch (e.g. on platforms other
+than x86_64 Linux):
+
+- Build and install our `wasi-sdk`
+  [fork](https://gitlab.haskell.org/ghc/wasi-sdk) first
+- Install [`libffi-wasm`](https://gitlab.haskell.org/ghc/libffi-wasm)
+  into the `wasi-sdk` sysroot. Take a look at `setup.sh` on how to do
+  that
+- Set the correct environment variables before configuring and
+  building GHC; again, take a look at `setup.sh` on what those
+  environment variables are
 
 ## Reporting issues
 
