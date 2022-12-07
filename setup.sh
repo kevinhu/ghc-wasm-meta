@@ -92,7 +92,13 @@ for e in \
   "RANLIB=$PREFIX/wasi-sdk/bin/llvm-ranlib" \
   "SIZE=$PREFIX/wasi-sdk/bin/llvm-size" \
   "STRINGS=$PREFIX/wasi-sdk/bin/llvm-strings" \
-  "STRIP=$PREFIX/wasi-sdk/bin/llvm-strip"
+  "STRIP=$PREFIX/wasi-sdk/bin/llvm-strip" \
+  "LLC=/bin/false" \
+  "OPT=/bin/false" \
+  'CONF_CC_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"' \
+  'CONF_CXX_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"' \
+  'CONF_GCC_LINKER_OPTS_STAGE2="-Wl,--error-limit=0,--growable-table,--stack-first -Wno-unused-command-line-argument"' \
+  'CONFIGURE_ARGS="--host=x86_64-linux --target=wasm32-wasi --with-intree-gmp --with-system-libffi"'
 do
   echo "export $e" >> "$PREFIX/env"
   echo "echo $e >> \$GITHUB_PATH" >> "$PREFIX/add_to_github_path.sh"
@@ -107,25 +113,7 @@ mkdir -p "$PREFIX/wasm32-wasi-ghc"
 mkdir ghc
 curl -f -L --retry 5 "$(jq -r '."wasm32-wasi-ghc-'"$BIGNUM_BACKEND"'".url' "$REPO"/autogen.json)" | tar xJ -C ghc --strip-components=1
 pushd ghc
-./configure \
-  "AR=$PREFIX/wasi-sdk/bin/llvm-ar" \
-  "CC=$PREFIX/wasi-sdk/bin/clang" \
-  "CXX=$PREFIX/wasi-sdk/bin/clang++" \
-  "LD=$PREFIX/wasi-sdk/bin/wasm-ld" \
-  "NM=$PREFIX/wasi-sdk/bin/llvm-nm" \
-  "OBJCOPY=$PREFIX/wasi-sdk/bin/llvm-objcopy" \
-  "OBJDUMP=$PREFIX/wasi-sdk/bin/llvm-objdump" \
-  "RANLIB=$PREFIX/wasi-sdk/bin/llvm-ranlib" \
-  "SIZE=$PREFIX/wasi-sdk/bin/llvm-size" \
-  "STRINGS=$PREFIX/wasi-sdk/bin/llvm-strings" \
-  "STRIP=$PREFIX/wasi-sdk/bin/llvm-strip" \
-  CONF_CC_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types" \
-  CONF_CXX_OPTS_STAGE2="-fno-exceptions -Wno-int-conversion -Wno-strict-prototypes -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types" \
-  CONF_GCC_LINKER_OPTS_STAGE2="-Wl,--error-limit=0,--growable-table,--stack-first -Wno-unused-command-line-argument" \
-  --host=x86_64-linux \
-  --target=wasm32-wasi \
-  --prefix="$PREFIX/wasm32-wasi-ghc"
-make install
+sh -c ". $PREFIX/env && ./configure \$CONFIGURE_ARGS --prefix=$PREFIX/wasm32-wasi-ghc && make install"
 popd
 
 mkdir -p "$PREFIX/cabal/bin"
