@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --v8-flags=--no-liftoff,--wasm-lazy-compilation,--wasm-lazy-validation
 
-import WasiContext from "https://deno.land/std@0.166.0/wasi/snapshot_preview1.ts";
-import * as path from "https://deno.land/std@0.166.0/path/mod.ts";
+import WasiContext from "https://deno.land/std@0.167.0/wasi/snapshot_preview1.ts";
+import * as path from "https://deno.land/std@0.167.0/path/mod.ts";
 
 function parseArgv(args) {
   const i = args.indexOf("-0");

@@ -1,4 +1,4 @@
-{ autoPatchelfHook, ncurses, stdenv, stdenvNoCC, zlib, }:
+{ autoPatchelfHook, stdenvNoCC, }:
 let
   common-src = builtins.fromJSON (builtins.readFile ../autogen.json);
   wasi-sdk-src = builtins.fetchTarball common-src.wasi-sdk;
@@ -7,7 +7,6 @@ in
 stdenvNoCC.mkDerivation {
   name = "wasi-sdk";
   dontUnpack = true;
-  buildInputs = [ ncurses stdenv.cc.cc.lib zlib ];
   nativeBuildInputs = [ autoPatchelfHook ];
   installPhase = ''
     cp -a ${wasi-sdk-src} $out

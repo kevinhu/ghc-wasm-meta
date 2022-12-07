@@ -1,23 +1,23 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1246325/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
-    "sha256": "0bi6sifpb84jrq3p0p48sxczqmszpj2y13rbyc05cc6nqf92ql3v"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1254242/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
+    "sha256": "1z2kj9yyjcs406wc40660ipjn0dxx07r1p7v9sz3cmh33x86nxn4"
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1246326/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
-    "sha256": "03wdgzpxy5yw5jc2ywd2lqyljdsldx4ad1galmzkj9pyds92i32z"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1254243/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
+    "sha256": "1nzqjhhqrcnls3axmkilhx9y24k1xddz0zll99cwq62jakkrg61d"
   },
   "wasi-sdk": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1237939/artifacts/dist/wasi-sdk-16-linux.tar.gz",
-    "sha256": "18h0yvajfcsv22dxm2gn36vcjh0qcbrszaqcbz2a1zqwij7agbvx"
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1254906/artifacts/dist/wasi-sdk-16-linux.tar.gz",
+    "sha256": "09zn2s3f19sdh1g9r0qhp2dv73flhvl0w9nkk9qkypqrawa6jp5x"
   },
   "libffi-wasm": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3214/jobs/1227903/artifacts",
     "sha256": "1rj03kdjn1ppkymcbixwa96gcgyw7gg49vmib861q6wvsm721ia0"
   },
   "deno": {
-    "url": "https://github.com/denoland/deno/releases/download/v1.28.2/deno-x86_64-unknown-linux-gnu.zip",
-    "sha256": "06d3l6b782lhs0ml7cdx06wrn9sc41g6q21cv1qz3jvs9b5li1xd"
+    "url": "https://github.com/denoland/deno/releases/download/v1.28.3/deno-x86_64-unknown-linux-gnu.zip",
+    "sha256": "146a3b87094cj5ypf8bdcbkd7r3hr9r8vna7c513ihqvznb9j1y3"
   },
   "binaryen": {
     "url": "https://github.com/WebAssembly/binaryen/releases/download/version_111/binaryen-version_111-x86_64-linux.tar.gz",
@@ -28,8 +28,8 @@
     "sha256": "01pf1f443kjgy6gc8jvhy5f2lcvmf1iwmwzp8yfga5ynf0aqszby"
   },
   "wasmtime": {
-    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v3.0.0/wasmtime-v3.0.0-x86_64-linux.tar.xz",
-    "sha256": "0hhiq5a6a4p7l53fzpb6nhci8wrf4xi20wcppv8x1p3mj228mb0w"
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v3.0.1/wasmtime-v3.0.1-x86_64-linux.tar.xz",
+    "sha256": "0svvvz0iwb8s4wclyzd9blz12ahayaxdq83d6mms867xbq4z19d6"
   },
   "wasmedge": {
     "url": "https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz",
