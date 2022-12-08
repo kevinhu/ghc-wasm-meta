@@ -1,5 +1,5 @@
 variables:
-  DOCKER_REV: 205afce5c7ebdb8666b96638f6758fe527f40a7f
+  DOCKER_REV: 0de79b7676de197f5d4b79f22a8220a7d563a427
   GIT_DEPTH: "1"
 
 .x86_64-linux:
@@ -32,7 +32,7 @@ x86_64-linux-int_native:
 x86_64-linux-nix:
   tags:
     - x86_64-linux
-  image: nixos/nix:2.11.1
+  image: nixos/nix:2.12.0
   before_script:
     - echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
   script:
