@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-read --allow-write --v8-flags=--experimental-wasm-return_call,--no-liftoff,--wasm-lazy-compilation,--wasm-lazy-validation
+#!/usr/bin/env -S deno run --allow-read --allow-write --v8-flags=--no-liftoff,--wasm-lazy-compilation,--wasm-lazy-validation
 
 import WasiContext from "https://deno.land/std@0.167.0/wasi/snapshot_preview1.ts";
 
