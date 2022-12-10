@@ -94,14 +94,19 @@ for e in \
   "STRINGS=$PREFIX/wasi-sdk/bin/llvm-strings" \
   "STRIP=$PREFIX/wasi-sdk/bin/llvm-strip" \
   "LLC=/bin/false" \
-  "OPT=/bin/false" \
-  'CONF_CC_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"' \
-  'CONF_CXX_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"' \
-  'CONF_GCC_LINKER_OPTS_STAGE2="-Wl,--error-limit=0,--growable-table,--stack-first -Wno-unused-command-line-argument"' \
-  'CONFIGURE_ARGS="--host=x86_64-linux --target=wasm32-wasi --with-intree-gmp --with-system-libffi"'
+  "OPT=/bin/false"
 do
   echo "export $e" >> "$PREFIX/env"
   echo "echo $e >> \$GITHUB_PATH" >> "$PREFIX/add_to_github_path.sh"
+done
+
+for e in \
+  'CONF_CC_OPTS_STAGE2=${CONF_CC_OPTS_STAGE2:-"-Wno-int-conversion -Wno-strict-prototypes -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
+  'CONF_CXX_OPTS_STAGE2=${CONF_CXX_OPTS_STAGE2:-"-Wno-int-conversion -Wno-strict-prototypes -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
+  'CONF_GCC_LINKER_OPTS_STAGE2=${CONF_GCC_LINKER_OPTS_STAGE2:-"-Wl,--error-limit=0,--growable-table,--stack-first -Wno-unused-command-line-argument"}' \
+  'CONFIGURE_ARGS=${CONFIGURE_ARGS:-"--host=x86_64-linux --target=wasm32-wasi --with-intree-gmp --with-system-libffi"}'
+do
+  echo "export $e" >> "$PREFIX/env"
 done
 
 if [ -n "${SKIP_GHC}" ]
