@@ -14,10 +14,10 @@ variables:
       . /tmp/.ghc-wasm/env
 
       pushd "$(mktemp -d)"
-      echo 'main = putStrLn "hello world"' > hello.hs
+      echo "import System.Environment.Blank" >> hello.hs
+      echo 'main = print =<< getArgs' >> hello.hs
       wasm32-wasi-ghc hello.hs -o hello.wasm
-      wasm-run ./hello.wasm
-      wasm-run.sh ./hello.wasm
+      wasm-run ./hello.wasm "114 514" 233
       popd
 
 x86_64-linux-int_gmp:
