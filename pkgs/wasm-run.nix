@@ -12,10 +12,10 @@ stdenv.mkDerivation {
   installPhase = ''
     mkdir -p $out/bin
 
-    cp ${../wasm-run/qemu-system-wasm32.js} $out/bin/qemu-system-wasm32.js
+    cp ${../wasm-run/wasm-run.js} $out/bin/wasm-run.js
 
     $CC \
-      -DWASM_RUN="\"$out/bin/qemu-system-wasm32.js\"" \
+      -DWASM_RUN="\"$out/bin/wasm-run.js\"" \
       -Wall \
       -O3 \
       ${../wasm-run/qemu-system-wasm32.c} \

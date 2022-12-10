@@ -52,8 +52,8 @@ curl -f -L --retry 5 "$(jq -r .proot.url "$REPO"/autogen.json)" -o "$PREFIX/proo
 chmod 755 "$PREFIX/proot/bin/proot"
 
 mkdir -p "$PREFIX/wasm-run/bin"
-cp -a "$REPO/wasm-run/qemu-system-wasm32.js" "$PREFIX/wasm-run/bin"
-cc -DWASM_RUN="\"$PREFIX/wasm-run/bin/qemu-system-wasm32.js\"" -Wall -O3 "$REPO/wasm-run/qemu-system-wasm32.c" -o "$PREFIX/wasm-run/bin/qemu-system-wasm32"
+cp -a "$REPO/wasm-run/wasm-run.js" "$PREFIX/wasm-run/bin"
+cc -DWASM_RUN="\"$PREFIX/wasm-run/bin/wasm-run.js\"" -Wall -O3 "$REPO/wasm-run/qemu-system-wasm32.c" -o "$PREFIX/wasm-run/bin/qemu-system-wasm32"
 echo "#!/bin/sh" >> "$PREFIX/wasm-run/bin/wasm-run"
 echo "exec $PREFIX/proot/bin/proot -q $PREFIX/wasm-run/bin/qemu-system-wasm32" '${1+"$@"}' >> "$PREFIX/wasm-run/bin/wasm-run"
 chmod +x "$PREFIX/wasm-run/bin/wasm-run"
