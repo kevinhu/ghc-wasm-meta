@@ -1,14 +1,13 @@
-#!/usr/bin/env -S deno run --allow-read --allow-write --v8-flags=--no-liftoff,--wasm-lazy-compilation,--wasm-lazy-validation
+#!/usr/bin/env -S deno run --allow-read --allow-write --v8-flags=--experimental-wasm-return_call,--no-liftoff,--wasm-lazy-compilation,--wasm-lazy-validation
 
 import WasiContext from "https://deno.land/std@0.167.0/wasi/snapshot_preview1.ts";
 
 function parseArgv(args) {
   const i = args.indexOf("-0");
-  return args.slice(i + 2);
+  return i === -1 ? args : args.slice(i + 2);
 }
 
 const argv = parseArgv(Deno.args);
-const argv0 = await Deno.realPath(argv[0]);
 
 const context = new WasiContext({
   args: argv,
@@ -17,7 +16,7 @@ const context = new WasiContext({
 });
 
 const instance = (
-  await WebAssembly.instantiate(await Deno.readFile(argv0), {
+  await WebAssembly.instantiate(await Deno.readFile(argv[0]), {
     wasi_snapshot_preview1: context.exports,
   })
 ).instance;
