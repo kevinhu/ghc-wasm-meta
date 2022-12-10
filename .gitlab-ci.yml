@@ -17,6 +17,7 @@ variables:
       echo 'main = putStrLn "hello world"' > hello.hs
       wasm32-wasi-ghc hello.hs -o hello.wasm
       wasm-run ./hello.wasm
+      wasm-run.sh ./hello.wasm
       popd
 
 x86_64-linux-int_gmp:
