@@ -17,6 +17,7 @@ variables:
       echo "import System.Environment.Blank" >> hello.hs
       echo 'main = print =<< getArgs' >> hello.hs
       wasm32-wasi-ghc hello.hs -o hello.wasm
+      $CROSS_EMULATOR ./hello.wasm "114 514" 233
       wasm-run ./hello.wasm "114 514" 233
       popd
 
