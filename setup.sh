@@ -52,8 +52,8 @@ curl -f -L --retry 5 "$(jq -r .proot.url "$REPO"/autogen.json)" -o "$PREFIX/proo
 chmod 755 "$PREFIX/proot/bin/proot"
 
 mkdir -p "$PREFIX/wasm-run/bin"
-cp -a "$REPO/wasm-run/qemu-system-wasm32.js" "$PREFIX/wasm-run/bin"
-cc -DWASM_RUN="\"$PREFIX/wasm-run/bin/qemu-system-wasm32.js\"" -Wall -O3 "$REPO/wasm-run/qemu-system-wasm32.c" -o "$PREFIX/wasm-run/bin/qemu-system-wasm32"
+cp -a "$REPO"/wasm-run/wasm-run.* "$PREFIX/wasm-run/bin"
+cc -DWASM_RUN="\"$PREFIX/wasm-run/bin/wasm-run.js\"" -Wall -O3 "$REPO/wasm-run/qemu-system-wasm32.c" -o "$PREFIX/wasm-run/bin/qemu-system-wasm32"
 echo "#!/bin/sh" >> "$PREFIX/wasm-run/bin/wasm-run"
 echo "exec $PREFIX/proot/bin/proot -q $PREFIX/wasm-run/bin/qemu-system-wasm32" '${1+"$@"}' >> "$PREFIX/wasm-run/bin/wasm-run"
 chmod +x "$PREFIX/wasm-run/bin/wasm-run"
@@ -94,14 +94,20 @@ for e in \
   "STRINGS=$PREFIX/wasi-sdk/bin/llvm-strings" \
   "STRIP=$PREFIX/wasi-sdk/bin/llvm-strip" \
   "LLC=/bin/false" \
-  "OPT=/bin/false" \
-  'CONF_CC_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"' \
-  'CONF_CXX_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"' \
-  'CONF_GCC_LINKER_OPTS_STAGE2="-Wl,--error-limit=0,--growable-table,--stack-first -Wno-unused-command-line-argument"' \
-  'CONFIGURE_ARGS="--host=x86_64-linux --target=wasm32-wasi --with-intree-gmp --with-system-libffi"'
+  "OPT=/bin/false"
 do
   echo "export $e" >> "$PREFIX/env"
   echo "echo $e >> \$GITHUB_PATH" >> "$PREFIX/add_to_github_path.sh"
+done
+
+for e in \
+  'CONF_CC_OPTS_STAGE2=${CONF_CC_OPTS_STAGE2:-"-Wno-int-conversion -Wno-strict-prototypes -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
+  'CONF_CXX_OPTS_STAGE2=${CONF_CXX_OPTS_STAGE2:-"-Wno-int-conversion -Wno-strict-prototypes -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
+  'CONF_GCC_LINKER_OPTS_STAGE2=${CONF_GCC_LINKER_OPTS_STAGE2:-"-Wl,--compress-relocations,--error-limit=0,--growable-table,--stack-first,--strip-debug -Wno-unused-command-line-argument"}' \
+  'CONFIGURE_ARGS=${CONFIGURE_ARGS:-"--host=x86_64-linux --target=wasm32-wasi --with-intree-gmp --with-system-libffi"}' \
+  'CROSS_EMULATOR=${CROSS_EMULATOR:-"'"$PREFIX/wasm-run/bin/wasm-run.js"'"}'
+do
+  echo "export $e" >> "$PREFIX/env"
 done
 
 if [ -n "${SKIP_GHC}" ]

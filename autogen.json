@@ -1,15 +1,15 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1254242/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
-    "sha256": "1z2kj9yyjcs406wc40660ipjn0dxx07r1p7v9sz3cmh33x86nxn4"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1262418/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
+    "sha256": "146xd8nx0m8xci2km41sb18xvnj5k9fbbm5jn0wq7myqfvkir502"
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1254243/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
-    "sha256": "1nzqjhhqrcnls3axmkilhx9y24k1xddz0zll99cwq62jakkrg61d"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1262419/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
+    "sha256": "10wwc3j9y65gmjiw8ln6al1w4pjmr82jnmqw6dhf7vzhcs5mpqfi"
   },
   "wasi-sdk": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1254906/artifacts/dist/wasi-sdk-16-linux.tar.gz",
-    "sha256": "09zn2s3f19sdh1g9r0qhp2dv73flhvl0w9nkk9qkypqrawa6jp5x"
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1262665/artifacts/dist/wasi-sdk-16-linux.tar.gz",
+    "sha256": "0vfwrby31xal3dhk0qpask932gdmdh26bmxgqbw4rgkbd9h4sajy"
   },
   "libffi-wasm": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3214/jobs/1227903/artifacts",
@@ -36,12 +36,12 @@
     "sha256": "12529cz889vp2lrvwzga94qa0b6ff4fhi4j25ivym7m22g7yad6q"
   },
   "wasmer": {
-    "url": "https://github.com/wasmerio/wasmer/releases/download/v3.0.2/wasmer-linux-amd64.tar.gz",
-    "sha256": "0l49ld6xal13qxxsy1q4fgw2gyp8i2h4rb9f5rkx7c1j31md8rrm"
+    "url": "https://github.com/wasmerio/wasmer/releases/download/v3.1.0/wasmer-linux-amd64.tar.gz",
+    "sha256": "1i51x6xarx58xdz8nfpjl86xsgkv2dx36hswqm30dgsi5bj1c8f2"
   },
   "wizer": {
-    "url": "https://nightly.link/bytecodealliance/wizer/actions/artifacts/431598906.zip",
-    "sha256": "0jjmw333nkrcfd0v0kajkfbjyrx4v4j4ypk3g6kz8g16gbysxmpz"
+    "url": "https://nightly.link/bytecodealliance/wizer/actions/artifacts/470133437.zip",
+    "sha256": "18bpc05lyhq092q9cb117a2g40wmr8l4l228rk0y8iy1gqx0npk3"
   },
   "cabal": {
     "url": "https://downloads.haskell.org/cabal/cabal-install-3.8.1.0/cabal-install-3.8.1.0-x86_64-linux-deb10.tar.xz",
