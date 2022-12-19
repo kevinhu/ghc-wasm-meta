@@ -150,39 +150,91 @@ a workaround we implemented in the GHC RTS shall the need arises.
 
 ## Building guide
 
-The following guide works for x86_64 non-nix Linux.
+If you intend to build the GHC's wasm backend, here's a building
+guide, assuming you already have some experience with building native
+GHC.
 
-- Do a GHC checkout with wasm backend, either `master` or `ghc-9.6`
-  branch
-- Apply the patches
-  [here](https://gitlab.haskell.org/ghc/ghc/-/blob/cc25d52e0f65d54c052908c7d91d5946342ab88a/.gitlab-ci.yml#L816)
-- Install the usual dependencies needed to compile GHC, e.g.
-  `alex`/`happy`/`cabal`/`ghc`/`python`
-- Use `setup.sh` to install the toolchain; you may set `SKIP_GHC=1` to
-  avoid installing existing `wasm32-wasi-ghc`, only regular GHC is
-  needed
-- `source ~/.ghc-wasm/env` into your current shell session to get the
-  required environment variables
-- Boot and configure GHC via `./boot && ./configure $CONFIGURE_ARGS`.
-  `$CONFIGURE_ARGS` is mandatory to get it right. You may append other
-  configure options if they don't conflict with existing
-  `$CONFIGURE_ARGS`
-- Now you may use hadrian to build stuff, happy hacking :)
+### Install `wasi-sdk`
 
-If you intend to use nix to build, `ghc.nix` is incompatible yet. Feel
-free to take a look at the nix code in this repo and start from here.
+To build the wasm backend, the systemwide C/C++ toolchain won't work.
+You need to install our `wasi-sdk`
+[fork](https://gitlab.haskell.org/ghc/wasi-sdk). Upstream `wasi-sdk`
+won't work yet.
 
-If you intend to build everything from scratch (e.g. on platforms other
-than x86_64 Linux):
+If your host system is one of `{x86_64,aarch64}-{linux,darwin}`, then
+you can avoid building and simply download & extract the GitLab CI
+artifact from the latest `master` commit. The linux artifacts are
+statically linked and work out of the box on all distros; the macos
+artifact contains universal binaries and works on either apple silicon
+or intel mac.
 
-- Build and install our `wasi-sdk`
-  [fork](https://gitlab.haskell.org/ghc/wasi-sdk) first
-- Install [`libffi-wasm`](https://gitlab.haskell.org/ghc/libffi-wasm)
-  into the `wasi-sdk` sysroot. Take a look at `setup.sh` on how to do
-  that
-- Set the correct environment variables before configuring and
-  building GHC; again, take a look at `setup.sh` on what those
-  environment variables are
+If your host system is `x86_64-linux`, you can use the `setup.sh`
+script to install it, as documented in previous sections.
+
+For simplicity, the following subsections all assume `wasi-sdk` is
+installed to `~/.ghc-wasm/wasi-sdk`, and
+`~/.ghc-wasm/wasi-sdk/bin/clang` works.
+
+### Install `libffi-wasm`
+
+Skip this subsection if `wasi-sdk` is installed by `setup.sh` instead
+of extracting CI artifacts directly.
+
+Extract the CI artifact of
+[`libffi-wasm`](https://gitlab.haskell.org/ghc/libffi-wasm), and copy
+its contents:
+
+- `cp *.h ~/.ghc-wasm/wasi-sdk/share/wasi-sysroot/include`
+- `cp *.a ~/.ghc-wasm/wasi-sdk/share/wasi-sysroot/lib/wasm32-wasi`
+
+### Set environment variables
+
+If you used `setup.sh` to install `wasi-sdk`/`libffi-wasm`, then you
+can `source ~/.ghc-wasm/env` into your current shell to set the
+following environment variables required for building. Otherwise, you
+can save this to somewhere else and source that script.
+
+```bash
+export AR=~/.ghc-wasm/wasi-sdk/bin/llvm-ar
+export CC=~/.ghc-wasm/wasi-sdk/bin/clang
+export CC_FOR_BUILD=cc
+export CXX=~/.ghc-wasm/wasi-sdk/bin/clang++
+export LD=~/.ghc-wasm/wasi-sdk/bin/wasm-ld
+export NM=~/.ghc-wasm/wasi-sdk/bin/llvm-nm
+export OBJCOPY=~/.ghc-wasm/wasi-sdk/bin/llvm-objcopy
+export OBJDUMP=~/.ghc-wasm/wasi-sdk/bin/llvm-objdump
+export RANLIB=~/.ghc-wasm/wasi-sdk/bin/llvm-ranlib
+export SIZE=~/.ghc-wasm/wasi-sdk/bin/llvm-size
+export STRINGS=~/.ghc-wasm/wasi-sdk/bin/llvm-strings
+export STRIP=~/.ghc-wasm/wasi-sdk/bin/llvm-strip
+export CONF_CC_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
+export CONF_CXX_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
+export CONF_GCC_LINKER_OPTS_STAGE2="-Wl,--compress-relocations,--error-limit=0,--growable-table,--stack-first,--strip-debug -Wno-unused-command-line-argument"
+export CONFIGURE_ARGS="--target=wasm32-wasi --with-intree-gmp --with-system-libffi"
+```
+
+### Checkout & patch GHC
+
+Checkout GHC. Latest `master` revision contains wasm backend support.
+Do apply the patches
+[here](https://gitlab.haskell.org/ghc/ghc/-/blob/cc25d52e0f65d54c052908c7d91d5946342ab88a/.gitlab-ci.yml#L816),
+they may get removed some time later but for now they're mandatory to
+get the wasm backend building.
+
+### Boot & configure & build GHC
+
+The rest is the usual boot & configure & build process. You need to
+ensure the environment variables described earlier are correctly set
+up; for `ghc.nix` users, it sets up a default `CONFIGURE_ARGS` in the
+nix-shell which is incompatible, and the `env` script set up by
+`setup.sh` respects existing `CONFIGURE_ARGS`, so don't forget to
+unset it first!
+
+Configure with `./configure $CONFIGURE_ARGS`, then build with hadrian.
+After the build completes, you can compile stuff to wasm using
+`_build/stage1/bin/wasm32-wasi-ghc`.
+
+Happy hacking!
 
 ## Reporting issues
 

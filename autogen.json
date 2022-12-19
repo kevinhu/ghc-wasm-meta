@@ -1,23 +1,23 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1262418/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
-    "sha256": "146xd8nx0m8xci2km41sb18xvnj5k9fbbm5jn0wq7myqfvkir502"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1267961/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz",
+    "sha256": "1y9w9ysnhj9rcd2pxgzvmhd7xxjvm17fxlppich8z6vsknhmbhi9"
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1262419/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
-    "sha256": "10wwc3j9y65gmjiw8ln6al1w4pjmr82jnmqw6dhf7vzhcs5mpqfi"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1267962/artifacts/ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz",
+    "sha256": "04h1n4c9i7ax4m5cqq4jk4f41cj37dzvx99jvgh1m4wyx0y86dpy"
   },
   "wasi-sdk": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1262665/artifacts/dist/wasi-sdk-16-linux.tar.gz",
-    "sha256": "0vfwrby31xal3dhk0qpask932gdmdh26bmxgqbw4rgkbd9h4sajy"
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1268063/artifacts/dist/wasi-sdk-16-linux.tar.gz",
+    "sha256": "0awsz6kmzwyfnlbzv59y7ybdrb7ii2sraimhm8kib864mrkd72vy"
   },
   "libffi-wasm": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3214/jobs/1227903/artifacts",
     "sha256": "1rj03kdjn1ppkymcbixwa96gcgyw7gg49vmib861q6wvsm721ia0"
   },
   "deno": {
-    "url": "https://github.com/denoland/deno/releases/download/v1.28.3/deno-x86_64-unknown-linux-gnu.zip",
-    "sha256": "146a3b87094cj5ypf8bdcbkd7r3hr9r8vna7c513ihqvznb9j1y3"
+    "url": "https://github.com/denoland/deno/releases/download/v1.29.1/deno-x86_64-unknown-linux-gnu.zip",
+    "sha256": "0j05zxsn1wzdkpqpgrsikx1abm417avy1gzwl02lvwkff4nr2hsn"
   },
   "binaryen": {
     "url": "https://github.com/WebAssembly/binaryen/releases/download/version_111/binaryen-version_111-x86_64-linux.tar.gz",
