@@ -1,5 +1,5 @@
 variables:
-  DOCKER_REV: 0de79b7676de197f5d4b79f22a8220a7d563a427
+  DOCKER_REV: 3d0a10fa218be2f5e3cc0e68717c0b1a6d2909ad
   GIT_DEPTH: "1"
 
 .x86_64-linux:
