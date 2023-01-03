@@ -37,7 +37,7 @@ async function fetchGitLabArtifactURL(
 ) {
   const pipeline_id = (
     await fetchJSON(
-      `https://${gitlab_domain}/api/v4/projects/${project_id}/pipelines?source=push&ref=${ref}`
+      `https://${gitlab_domain}/api/v4/projects/${project_id}/pipelines?ref=${ref}`
     )
   )[0].id;
   const job_id = (
