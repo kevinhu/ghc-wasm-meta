@@ -6,43 +6,22 @@ async function fetchJSON(url) {
   return r.json();
 }
 
-async function fetchGitLabMRArtifactURL(
-  gitlab_domain,
-  project_id,
-  merge_request_iid,
-  job_name,
-  artifact_path
-) {
-  const pipeline_id = (
-    await fetchJSON(
-      `https://${gitlab_domain}/api/v4/projects/${project_id}/merge_requests/${merge_request_iid}/pipelines`
-    )
-  )[0].id;
-  const job_id = (
-    await fetchJSON(
-      `https://${gitlab_domain}/api/v4/projects/${project_id}/pipelines/${pipeline_id}/jobs`
-    )
-  ).find((e) => e.name === job_name).id;
-  return artifact_path
-    ? `https://${gitlab_domain}/api/v4/projects/${project_id}/jobs/${job_id}/artifacts/${artifact_path}`
-    : `https://${gitlab_domain}/api/v4/projects/${project_id}/jobs/${job_id}/artifacts`;
-}
-
 async function fetchGitLabArtifactURL(
   gitlab_domain,
   project_id,
   ref,
   job_name,
-  artifact_path
+  artifact_path,
+  pipeline_filter
 ) {
   const pipeline_id = (
     await fetchJSON(
-      `https://${gitlab_domain}/api/v4/projects/${project_id}/pipelines?ref=${ref}`
+      `https://${gitlab_domain}/api/v4/projects/${project_id}/pipelines?ref=${ref}${pipeline_filter}`
     )
   )[0].id;
   const job_id = (
     await fetchJSON(
-      `https://${gitlab_domain}/api/v4/projects/${project_id}/pipelines/${pipeline_id}/jobs`
+      `https://${gitlab_domain}/api/v4/projects/${project_id}/pipelines/${pipeline_id}/jobs?per_page=100`
     )
   ).find((e) => e.name === job_name).id;
   return artifact_path
@@ -103,39 +82,22 @@ async function fetchHash(fetcher, fetcher_opts) {
   return hash;
 }
 
-async function fetchGitLabMRArtifact(
-  fetcher,
-  gitlab_domain,
-  project_id,
-  merge_request_iid,
-  job_name,
-  artifact_path
-) {
-  const url = await fetchGitLabMRArtifactURL(
-    gitlab_domain,
-    project_id,
-    merge_request_iid,
-    job_name,
-    artifact_path
-  );
-  const sha256 = await fetchHash(fetcher, { url, sha256: "" });
-  return { url, sha256 };
-}
-
 async function fetchGitLabArtifact(
   fetcher,
   gitlab_domain,
   project_id,
   ref,
   job_name,
-  artifact_path
+  artifact_path,
+  pipeline_filter = ""
 ) {
   const url = await fetchGitLabArtifactURL(
     gitlab_domain,
     project_id,
     ref,
     job_name,
-    artifact_path
+    artifact_path,
+    pipeline_filter
   );
   const sha256 = await fetchHash(fetcher, { url, sha256: "" });
   return { url, sha256 };
@@ -175,16 +137,27 @@ const _wasm32_wasi_ghc_gmp = fetchGitLabArtifact(
   "gitlab.haskell.org",
   1,
   "master",
-  "x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release",
-  "ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_gmp-release.tar.xz"
+  "nightly-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static",
+  "ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
+  "&source=schedule"
 );
 const _wasm32_wasi_ghc_native = fetchGitLabArtifact(
   "builtins.fetchTarball",
   "gitlab.haskell.org",
   1,
   "master",
-  "x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release",
-  "ghc-x86_64-linux-ubuntu20_04-cross_wasm32-wasi-int_native-release.tar.xz"
+  "nightly-x86_64-linux-alpine3_12-int_native-cross_wasm32-wasi-release+fully_static",
+  "ghc-x86_64-linux-alpine3_12-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
+  "&source=schedule"
+);
+const _wasm32_wasi_ghc_unreg = fetchGitLabArtifact(
+  "builtins.fetchTarball",
+  "gitlab.haskell.org",
+  1,
+  "master",
+  "nightly-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static",
+  "ghc-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
+  "&source=schedule"
 );
 const _wasi_sdk = fetchGitLabArtifact(
   "builtins.fetchTarball",
@@ -192,7 +165,8 @@ const _wasi_sdk = fetchGitLabArtifact(
   3212,
   "main",
   "x86_64-linux",
-  "dist/wasi-sdk-16-linux.tar.gz"
+  "dist/wasi-sdk-16-linux.tar.gz",
+  "&status=success"
 );
 const _libffi_wasm = fetchGitLabArtifact(
   "builtins.fetchTarball",
@@ -246,7 +220,7 @@ const _wizer = fetchGitHubArtifact(
   "bins-x86_64-linux"
 );
 const _cabal = fetchurl(
-  "https://downloads.haskell.org/cabal/cabal-install-3.8.1.0/cabal-install-3.8.1.0-x86_64-linux-deb10.tar.xz"
+  "https://downloads.haskell.org/cabal/cabal-install-3.8.1.0/cabal-install-3.8.1.0-x86_64-linux-alpine.tar.xz"
 );
 const _proot = fetchGitLabArtifact(
   "builtins.fetchurl",
@@ -263,6 +237,7 @@ await Deno.writeTextFile(
     {
       "wasm32-wasi-ghc-gmp": await _wasm32_wasi_ghc_gmp,
       "wasm32-wasi-ghc-native": await _wasm32_wasi_ghc_native,
+      "wasm32-wasi-ghc-unreg": await _wasm32_wasi_ghc_unreg,
       "wasi-sdk": await _wasi_sdk,
       "libffi-wasm": await _libffi_wasm,
       deno: await _deno,

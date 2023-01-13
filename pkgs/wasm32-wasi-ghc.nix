@@ -1,20 +1,16 @@
-{ autoPatchelfHook, bignumBackend, callPackage, gmp, stdenvNoCC, }:
+{ callPackage, flavour, runtimeShellPackage, stdenvNoCC, }:
 let
   common-src = builtins.fromJSON (builtins.readFile ../autogen.json);
-  src = builtins.fetchTarball common-src."wasm32-wasi-ghc-${bignumBackend}";
+  src = builtins.fetchTarball common-src."wasm32-wasi-ghc-${flavour}";
   wasi-sdk = callPackage ./wasi-sdk.nix { };
 in
 stdenvNoCC.mkDerivation {
-  name = "wasm32-wasi-ghc-${bignumBackend}";
-
-  buildInputs = [ gmp ];
-  nativeBuildInputs = [ autoPatchelfHook ];
+  name = "wasm32-wasi-ghc-${flavour}";
 
   inherit src;
 
   preConfigure = ''
     patchShebangs .
-    autoPatchelf .
 
     configureFlagsArray+=(
       AR=${wasi-sdk}/bin/llvm-ar
@@ -50,5 +46,5 @@ stdenvNoCC.mkDerivation {
   '';
 
   dontFixup = true;
-  strictDeps = true;
+  allowedReferences = [ "out" runtimeShellPackage wasi-sdk ];
 }

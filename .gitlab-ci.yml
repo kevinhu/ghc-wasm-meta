@@ -40,3 +40,5 @@ x86_64-linux-nix:
   script:
     - |
       nix build --json --no-link .
+      nix build --json --no-link .#wasm32-wasi-ghc-native
+      nix build --json --no-link .#wasm32-wasi-ghc-unreg

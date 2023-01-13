@@ -33,12 +33,12 @@
             wasm-run
           ];
         };
-        wasm32-wasi-ghc-gmp = pkgs.callPackage ./pkgs/wasm32-wasi-ghc.nix {
-          bignumBackend = "gmp";
-        };
-        wasm32-wasi-ghc-native = pkgs.callPackage ./pkgs/wasm32-wasi-ghc.nix {
-          bignumBackend = "native";
-        };
+        wasm32-wasi-ghc-gmp =
+          pkgs.callPackage ./pkgs/wasm32-wasi-ghc.nix { flavour = "gmp"; };
+        wasm32-wasi-ghc-native =
+          pkgs.callPackage ./pkgs/wasm32-wasi-ghc.nix { flavour = "native"; };
+        wasm32-wasi-ghc-unreg =
+          pkgs.callPackage ./pkgs/wasm32-wasi-ghc.nix { flavour = "unreg"; };
         wasi-sdk = pkgs.callPackage ./pkgs/wasi-sdk.nix { };
         deno = pkgs.callPackage ./pkgs/deno.nix { };
         binaryen = pkgs.callPackage ./pkgs/binaryen.nix { };
@@ -48,17 +48,16 @@
         wasmer = pkgs.callPackage ./pkgs/wasmer.nix { };
         wizer = pkgs.callPackage ./pkgs/wizer.nix { };
         cabal = pkgs.callPackage ./pkgs/cabal.nix { };
-        wasm32-wasi-cabal = pkgs.callPackage ./pkgs/wasm32-wasi-cabal.nix {
-          bignumBackend = "gmp";
-        };
+        wasm32-wasi-cabal =
+          pkgs.callPackage ./pkgs/wasm32-wasi-cabal.nix { flavour = "gmp"; };
         proot = pkgs.callPackage ./pkgs/proot.nix { };
         wasm-run = pkgs.callPackage ./pkgs/wasm-run.nix { };
       in
       {
         packages = {
-          inherit default wasm32-wasi-ghc-gmp wasm32-wasi-ghc-native wasi-sdk
-            deno binaryen wabt wasmtime wasmedge wasmer wizer cabal
-            wasm32-wasi-cabal proot wasm-run;
+          inherit default wasm32-wasi-ghc-gmp wasm32-wasi-ghc-native
+            wasm32-wasi-ghc-unreg wasi-sdk deno binaryen wabt wasmtime wasmedge
+            wasmer wizer cabal wasm32-wasi-cabal proot wasm-run;
         };
       });
 }
