@@ -46,7 +46,21 @@ After installing, `~/.ghc-wasm` will contain:
 `setup.sh` can be configured via these environment variables:
 
   - `PREFIX`: installation destination, defaults to `~/.ghc-wasm`
-  - `FLAVOUR`: can be `gmp`, `native` or `unreg`, defaults to `gmp`
+  - `FLAVOUR`: can be `gmp`, `native` or `unreg`.
+    - The `gmp` flavour uses the `gmp` bignum backend and the wasm
+      native codegen. It's the default flavour, offers good
+      compile-time and run-time performance.
+    - `native` uses the `native` bignum backend and the wasm native
+      codegen. Compared to the `gmp` flavour, the run-time performance
+      may be slightly worse if the workload involves big `Integer`
+      operations. May be useful if you are compiling proprietary
+      projects and have concerns about statically linking the
+      LGPL-licensed `gmp` library.
+    - The `unreg` flavour uses the `gmp` bignum backend and the
+      unregisterised C codegen. Compared to the default flavour,
+      compile-time performance is noticeably worse. May be useful for
+      debugging the native codegen, since there are less GHC test
+      suite failures in the unregisterised codegen at the moment.
   - `SKIP_GHC`: set this to skip installing `cabal` and `ghc`
 
 `setup.sh` requires `cc`, `curl`, `jq`, `unzip` to run.
@@ -123,11 +137,12 @@ have one which is tested in headless browsers.
 
 Important points to keep in mind when running in browsers:
 
-- Always create a fresh `WebAssembly.Instance` for each run! Because
-  `wasm32-wasi-ghc` only supports outputting wasi
+- Create a fresh `WebAssembly.Instance` for each run. Because
+  `wasm32-wasi-ghc` defaults to outputting wasi
   [command](https://github.com/WebAssembly/WASI/blob/main/legacy/application-abi.md)
   modules for now, and wasi commands are supposed to be only run once,
-  afterwards the instance state is undefined.
+  afterwards the instance state is undefined. To preserve the same
+  instance across different invocations, read the next section.
 - Avoid recompiling the module multiple times; the same
   `WebAssembly.Module` can be reused many times.
 - For now, the recommended workflow is using
@@ -135,6 +150,124 @@ Important points to keep in mind when running in browsers:
   to get a `WebAssembly.Module`, then use
   [`WebAssembly.instantiate`](https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/instantiate)
   to get the `WebAssembly.Instance` for each run.
+
+## Compiling to WASI reactor module with user-defined exports
+
+It's possible to compile Haskell to a WASI reactor module instead of a
+WASI command module. A WASI reactor module exports an `_initialize`
+function that must be called exactly once after the module is
+instantiated, and after that, you can call other exported functions as
+you wish, preserving the heap state.
+
+Suppose there's a `Hello.hs` that has a `fib :: Int -> Int`. To invoke
+it from the JavaScript host, first you need to create a `foreign
+export` for it:
+
+```haskell
+foreign export ccall fib :: Int -> Int
+```
+
+Now you need to compile and link it with special flags:
+
+```sh
+$ wasm32-wasi-ghc Hello.hs -o Hello.wasm -no-hs-main -optl-mexec-model=reactor -optl-Wl,--export=hs_init,--export=myMain
+```
+
+Some explainers:
+
+- `-no-hs-main`, since we only care about manually exported functions
+  and don't have a default `main :: IO ()`
+- `-optl-mexec-model=reactor` passes `-mexec-model=reactor` to `clang`
+  when linking, so it creates a WASI reactor instead of a WASI
+  command.
+- `-optl-Wl,--export=hs_init,--export=fib` passes the linker flags
+  to export `hs_init` and `fib`.
+- `-o Hello.wasm` is necessary, otherwise the output name defaults to
+  `a.out` which can be confusing.
+
+The flags above also work in the `ghc-options` field of a cabal
+executable component, see
+[here](https://github.com/tweag/ormolu/blob/master/ormolu-live/ormolu-live.cabal)
+for an example.
+
+Now, here's an example `deno` script to load and run `Hello.wasm`:
+
+```javascript
+import WasiContext from "https://deno.land/std/wasi/snapshot_preview1.ts";
+
+const context = new WasiContext({});
+
+const instance = (
+  await WebAssembly.instantiate(await Deno.readFile("Hello.wasm"), {
+    wasi_snapshot_preview1: context.exports,
+  })
+).instance;
+
+// The initialize() method will call the module's _initialize export
+// under the hood. This is only true for the wasi implementation used
+// in this example; if you're using another wasi implementation, do
+// read its source code to figure out whether you need to manually
+// call the module's _initialize export!
+context.initialize(instance);
+
+// This function is a part of GHC's RTS API. It must be called before
+// any other exported Haskell functions are called.
+instance.exports.hs_init(0, 0);
+
+console.log(instance.exports.fib(10));
+```
+
+For simplicity, we call `hs_init` with `argc` set to `0` and `argv`
+set to `NULL`, assuming we don't use things like
+`getArgs`/`getProgName` in the program. Now, we can call `fib`, or any
+function with `foreign export` and the correct `--export=` flag!
+
+Before we add first-class JavaScript interop feature, it's only
+possible to use the `ccall` calling convention for foreign exports.
+It's still possible to exchange large values between Haskell and
+JavaScript:
+
+- Add `--export` flag for `malloc`/`free`. You can now allocate and
+  free linear memory buffers that can be visible to the Haskell world,
+  since the entire linear memory is available as the `memory` export.
+- In the Haskell world, you can pass `Ptr` as foreign export
+  argument/return values.
+- You can also use `mallocBytes` in `Foreign.Marshal.Alloc` to
+  allocate buffers in the Haskell world. A buffer allocated by
+  `mallocBytes` in Haskell can be passed to JavaScript and be freed by
+  the exported `free`, and vice versa.
+
+Now you can create and manage C buffers, you can create and pass the
+correct `argc`/`argv` if you want `getArgs`/`getProgName` to work.
+
+Which functions can be exported via the `--export` flag?
+
+- Any C function which symbol is externally visible. For libc, there
+  is a
+  [list](https://gitlab.haskell.org/ghc/wasi-libc/-/blob/main/expected/wasm32-wasi/defined-symbols.txt)
+  of all externally visible symbols. For the GHC RTS, see
+  [`HsFFI.h`](https://gitlab.haskell.org/ghc/ghc/-/blob/master/rts/include/HsFFI.h)
+  and
+  [`RtsAPI.h`](https://gitlab.haskell.org/ghc/ghc/-/blob/master/rts/include/RtsAPI.h)
+  for the functions that you're likely interested in. For instance,
+  `hs_init` is in `HsFFI.h`, other variants of `hs_init*` is in
+  `RtsAPI.h`.
+- Any Haskell function that has been exported via a `foreign export`
+  declaration.
+
+TODO:
+
+- Table of Haskell/JavaScript type marshaling
+- Example of setting RTS options
+- Example of working with dynamic exports (`foreign import ccall
+  "wrapper"`)
+- Example of handling exceptions
+
+Further reading:
+
+- [Using the FFI with
+  GHC](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/ffi.html#using-the-ffi-with-ghc)
+- [WebAssembly lld port](https://lld.llvm.org/WebAssembly.html)
 
 ## Accessing the host file system in non-browsers
 
