@@ -18,6 +18,8 @@
         default = pkgs.symlinkJoin {
           name = "ghc-wasm";
           paths = [
+            pkgs.haskellPackages.alex
+            pkgs.haskellPackages.happy
             wasm32-wasi-ghc-gmp
             wasi-sdk
             deno

@@ -3,7 +3,7 @@ variables:
   GIT_DEPTH: 1
   GIT_STRATEGY: clone
 
-.x86_64-linux:
+.x86_64-linux-alpine:
   tags:
     - x86_64-linux
   image: registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-alpine3_12:$DOCKER_REV
@@ -22,20 +22,43 @@ variables:
       wasm-run ./hello.wasm "114 514" 233
       popd
 
-x86_64-linux-gmp:
-  extends: .x86_64-linux
+x86_64-linux-alpine-gmp:
+  extends: .x86_64-linux-alpine
   variables:
     FLAVOUR: gmp
 
-x86_64-linux-native:
-  extends: .x86_64-linux
+x86_64-linux-alpine-native:
+  extends: .x86_64-linux-alpine
   variables:
     FLAVOUR: native
 
-x86_64-linux-unreg:
-  extends: .x86_64-linux
+x86_64-linux-alpine-unreg:
+  extends: .x86_64-linux-alpine
   variables:
     FLAVOUR: unreg
+
+x86_64-linux-ubuntu:
+  tags:
+    - x86_64-linux
+  image: registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-ubuntu20_04:$DOCKER_REV
+  before_script:
+    - |
+      mkdir -p ~/.local
+      curl -f -L --retry 5 https://nodejs.org/dist/v19.4.0/node-v19.4.0-linux-x64.tar.xz | tar xJ --strip-components=1 -C ~/.local
+      export PATH=~/.local/bin:$PATH
+    - sudo chown ghc:ghc -R .
+  script:
+    - |
+      PREFIX=/tmp/.ghc-wasm ./setup.sh
+      . /tmp/.ghc-wasm/env
+    - |
+      pushd "$(mktemp -d)"
+      curl -f -L --retry 5 https://github.com/haskell/unix/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
+      cp /tmp/.ghc-wasm/wasi-sdk/share/misc/config.* .
+      autoreconf -i
+      wasm32-wasi-cabal --project-file=cabal.project.wasm32-wasi build
+      ./test-wasm32-wasi.mjs
+      popd
 
 x86_64-linux-nix:
   tags:
@@ -48,3 +71,10 @@ x86_64-linux-nix:
       nix build --json --no-link .
       nix build --json --no-link .#wasm32-wasi-ghc-native
       nix build --json --no-link .#wasm32-wasi-ghc-unreg
+    - |
+      pushd "$(mktemp -d)"
+      curl -f -L --retry 5 https://github.com/tweag/ormolu/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
+      cd ormolu-live
+      echo "allow-newer: template-haskell" > cabal.project.local
+      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && ./build-wasm.sh"
+      popd
