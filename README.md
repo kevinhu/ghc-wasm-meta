@@ -46,8 +46,7 @@ After installing, `~/.ghc-wasm` will contain:
 `setup.sh` can be configured via these environment variables:
 
   - `PREFIX`: installation destination, defaults to `~/.ghc-wasm`
-  - `BIGNUM_BACKEND`: which `ghc-bignum` backend to use, can be either
-    `gmp` or `native`, defaults to `gmp`
+  - `FLAVOUR`: can be `gmp`, `native` or `unreg`, defaults to `gmp`
   - `SKIP_GHC`: set this to skip installing `cabal` and `ghc`
 
 `setup.sh` requires `cc`, `curl`, `jq`, `unzip` to run.

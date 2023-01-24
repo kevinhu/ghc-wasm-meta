@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-readonly BIGNUM_BACKEND="${BIGNUM_BACKEND:-gmp}"
+readonly FLAVOUR="${FLAVOUR:-gmp}"
 readonly PREFIX="${PREFIX:-$HOME/.ghc-wasm}"
 readonly REPO=$PWD
 readonly SKIP_GHC="${SKIP_GHC:-}"
@@ -117,7 +117,7 @@ fi
 
 mkdir -p "$PREFIX/wasm32-wasi-ghc"
 mkdir ghc
-curl -f -L --retry 5 "$(jq -r '."wasm32-wasi-ghc-'"$BIGNUM_BACKEND"'".url' "$REPO"/autogen.json)" | tar xJ -C ghc --strip-components=1
+curl -f -L --retry 5 "$(jq -r '."wasm32-wasi-ghc-'"$FLAVOUR"'".url' "$REPO"/autogen.json)" | tar xJ -C ghc --strip-components=1
 pushd ghc
 sh -c ". $PREFIX/env && ./configure \$CONFIGURE_ARGS --prefix=$PREFIX/wasm32-wasi-ghc && make install"
 popd
