@@ -1,8 +1,7 @@
-{ bignumBackend, callPackage, writeShellScriptBin, }:
+{ callPackage, flavour, writeShellScriptBin, }:
 let
   cabal = callPackage ./cabal.nix { };
-  wasm32-wasi-ghc =
-    callPackage ./wasm32-wasi-ghc.nix { inherit bignumBackend; };
+  wasm32-wasi-ghc = callPackage ./wasm32-wasi-ghc.nix { inherit flavour; };
 in
 writeShellScriptBin "wasm32-wasi-cabal" ''
   export CABAL_DIR="''${CABAL_DIR:-$HOME/.ghc-wasm/.cabal}"

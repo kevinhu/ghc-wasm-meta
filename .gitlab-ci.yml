@@ -1,11 +1,12 @@
 variables:
-  DOCKER_REV: 3d0a10fa218be2f5e3cc0e68717c0b1a6d2909ad
-  GIT_DEPTH: "1"
+  DOCKER_REV: afba24f3b3826c616b4d6236582152b43e6a51e6
+  GIT_DEPTH: 1
+  GIT_STRATEGY: clone
 
-.x86_64-linux:
+.x86_64-linux-alpine:
   tags:
     - x86_64-linux
-  image: registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-ubuntu20_04:$DOCKER_REV
+  image: registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-alpine3_12:$DOCKER_REV
   before_script:
     - sudo chown ghc:ghc -R .
   script:
@@ -21,22 +22,59 @@ variables:
       wasm-run ./hello.wasm "114 514" 233
       popd
 
-x86_64-linux-int_gmp:
-  extends: .x86_64-linux
+x86_64-linux-alpine-gmp:
+  extends: .x86_64-linux-alpine
   variables:
-    BIGNUM_BACKEND: gmp
+    FLAVOUR: gmp
 
-x86_64-linux-int_native:
-  extends: .x86_64-linux
+x86_64-linux-alpine-native:
+  extends: .x86_64-linux-alpine
   variables:
-    BIGNUM_BACKEND: native
+    FLAVOUR: native
+
+x86_64-linux-alpine-unreg:
+  extends: .x86_64-linux-alpine
+  variables:
+    FLAVOUR: unreg
+
+x86_64-linux-ubuntu:
+  tags:
+    - x86_64-linux
+  image: registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-ubuntu20_04:$DOCKER_REV
+  before_script:
+    - |
+      mkdir -p ~/.local
+      curl -f -L --retry 5 https://nodejs.org/dist/v19.4.0/node-v19.4.0-linux-x64.tar.xz | tar xJ --strip-components=1 -C ~/.local
+      export PATH=~/.local/bin:$PATH
+    - sudo chown ghc:ghc -R .
+  script:
+    - |
+      PREFIX=/tmp/.ghc-wasm ./setup.sh
+      . /tmp/.ghc-wasm/env
+    - |
+      pushd "$(mktemp -d)"
+      curl -f -L --retry 5 https://github.com/haskell/unix/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
+      cp /tmp/.ghc-wasm/wasi-sdk/share/misc/config.* .
+      autoreconf -i
+      wasm32-wasi-cabal --project-file=cabal.project.wasm32-wasi build
+      ./test-wasm32-wasi.mjs
+      popd
 
 x86_64-linux-nix:
   tags:
     - x86_64-linux
-  image: nixos/nix:2.12.0
+  image: nixos/nix:2.13.1
   before_script:
     - echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
   script:
     - |
       nix build --json --no-link .
+      nix build --json --no-link .#wasm32-wasi-ghc-native
+      nix build --json --no-link .#wasm32-wasi-ghc-unreg
+    - |
+      pushd "$(mktemp -d)"
+      curl -f -L --retry 5 https://github.com/tweag/ormolu/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
+      cd ormolu-live
+      echo "allow-newer: template-haskell" > cabal.project.local
+      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && ./build-wasm.sh"
+      popd

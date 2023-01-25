@@ -1,4 +1,4 @@
-{ stdenvNoCC, }:
+{ runtimeShellPackage, stdenvNoCC }:
 let
   common-src = builtins.fromJSON (builtins.readFile ../autogen.json);
   wasi-sdk-src = builtins.fetchTarball common-src.wasi-sdk;
@@ -26,5 +26,5 @@ stdenvNoCC.mkDerivation {
     popd
   '';
   dontFixup = true;
-  strictDeps = true;
+  allowedReferences = [ runtimeShellPackage ];
 }
