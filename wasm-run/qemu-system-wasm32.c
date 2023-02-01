@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
   my_argv[1] = "run";
   my_argv[2] = "--allow-read";
   my_argv[3] = "--allow-write";
-  my_argv[4] = "--v8-flags=--experimental-wasm-return_call,--no-liftoff,--wasm-"
+  my_argv[4] = "--v8-flags=--experimental-wasm-return_call,--liftoff-only,--wasm-"
                "lazy-compilation,--wasm-lazy-validation";
   my_argv[5] = WASM_RUN;
   for (int i = 1; i <= argc; ++i) {
