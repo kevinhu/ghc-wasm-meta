@@ -1,5 +1,5 @@
 variables:
-  DOCKER_REV: afba24f3b3826c616b4d6236582152b43e6a51e6
+  DOCKER_REV: 572353e0644044fe3a5465bba4342a9a0b0eb60e
   GIT_DEPTH: 1
   GIT_STRATEGY: clone
 
@@ -44,7 +44,7 @@ x86_64-linux-ubuntu:
   before_script:
     - |
       mkdir -p ~/.local
-      curl -f -L --retry 5 https://nodejs.org/dist/v19.4.0/node-v19.4.0-linux-x64.tar.xz | tar xJ --strip-components=1 -C ~/.local
+      curl -f -L --retry 5 https://nodejs.org/dist/v19.5.0/node-v19.5.0-linux-x64.tar.xz | tar xJ --strip-components=1 -C ~/.local
       export PATH=~/.local/bin:$PATH
     - sudo chown ghc:ghc -R .
   script:
@@ -63,7 +63,7 @@ x86_64-linux-ubuntu:
 x86_64-linux-nix:
   tags:
     - x86_64-linux
-  image: nixos/nix:2.13.1
+  image: nixos/nix:2.13.2
   before_script:
     - echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
   script:
