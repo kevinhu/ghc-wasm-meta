@@ -123,51 +123,87 @@ least these runtimes:
   implementation)
 - [`node`](https://nodejs.org)
 
-## Running in browsers
+## Compiling to WASI reactor module with user-specified exports
 
-According to the [Roadmap](https://webassembly.org/roadmap), recent
-versions of Firefox/Chrome/Safari also support them, as long as you
-have corresponding JavaScript code to supply the wasi imports. Known
-examples include
-[`ormolu`](https://twitter.com/tweagio/status/1598618914761719808) and
-[`pointfree`](https://www.reddit.com/r/haskell/comments/zc8o75/try_the_wasm_port_of_pointfree).
-We don't have an official recommendation about which JavaScript
-library to use for wasi logic yet, hopefully some time later we'll
-have one which is tested in headless browsers.
+If you want to embed the compiled wasm module into a host language,
+like in JavaScript for running in a browser, then it's highly likely
+you want to compile Haskell to a WASI reactor module.
 
-Important points to keep in mind when running in browsers:
+### What is a WASI reactor module?
 
-- Create a fresh `WebAssembly.Instance` for each run. Because
-  `wasm32-wasi-ghc` defaults to outputting wasi
-  [command](https://github.com/WebAssembly/WASI/blob/main/legacy/application-abi.md)
-  modules for now, and wasi commands are supposed to be only run once,
-  afterwards the instance state is undefined. To preserve the same
-  instance across different invocations, read the next section.
-- Avoid recompiling the module multiple times; the same
-  `WebAssembly.Module` can be reused many times.
-- For now, the recommended workflow is using
-  [`WebAssembly.compileStreaming`](https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/compileStreaming)
-  to get a `WebAssembly.Module`, then use
-  [`WebAssembly.instantiate`](https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/instantiate)
-  to get the `WebAssembly.Instance` for each run.
+The WASI spec includes certain
+[syscalls](https://github.com/WebAssembly/WASI/blob/main/phases/snapshot/docs.md)
+that are provided as the `wasi_snapshot_preview1` wasm imports.
+Additionally, the current WASI
+[ABI](https://github.com/WebAssembly/WASI/blob/main/legacy/application-abi.md)
+specifies two different kinds of WASI modules: commands and reactors.
 
-## Compiling to WASI reactor module with user-defined exports
+A WASI command module is what you get by default when using
+`wasm32-wasi-ghc` to compile & link a Haskell program. It's called
+"command" as in a conventional command-line program, with similar
+usage and lifecycle: run it with something like `wasmtime`, optionally
+passing some arguments and environment variables, it'll run to
+completion and probably causing some side effects using whatever
+capabilities granted. After it runs to completion, the program state
+is finalized.
 
-It's possible to compile Haskell to a WASI reactor module instead of a
-WASI command module. A WASI reactor module exports an `_initialize`
-function that must be called exactly once after the module is
-instantiated, and after that, you can call other exported functions as
-you wish, preserving the heap state.
+A WASI reactor module is produced by special link-time flags. It's
+called "reactor" since it reacts to external calls of its exported
+functions. Once a reactor module is initialized, the program state is
+persisted, so if calling an export changes internal state (e.g. sets a
+global variable), subsequent calls will observe that change.
+
+### Why the distinction and why should you care?
+
+When linking a program for almost any platform out there, the linker
+needs to handle ctors(constructors) & dtors(destructors). ctors and
+dtors are special functions that need to be invoked to correctly
+initialize/finalize certain runtime state. Even if the user program
+doesn't use ctors/dtors, as long as the program links to libc,
+ctors/dtors will need to be handled.
+
+The wasm spec does include a [start
+function](https://webassembly.github.io/spec/core/syntax/modules.html#syntax-start).
+However, due to technical
+[reasons](https://github.com/WebAssembly/design/issues/1160), what a
+start function can do is rather limited, and may not be sufficient to
+support ctors/dtors in libc and other places. So the WASI spec needs
+to address this fact, and the command/reactor distinction arises:
+
+- A WASI command module must export a `_start` function. You can see
+  how `_start` is defined in `wasi-libc`
+  [here](https://gitlab.haskell.org/ghc/wasi-libc/-/blob/main/libc-bottom-half/crt/crt1-command.c).
+  It'll call the ctors, then call the main function in user code, and
+  finally call the dtors. Since the dtors are called, the program
+  state is finalized, so attempting to call any export after this
+  point is undefined behavior!
+- A WASI reactor module may export an `_initialize` function, if it
+  exists, it must be called exactly once before any other exports are
+  called. See its definition
+  [here](https://gitlab.haskell.org/ghc/wasi-libc/-/blob/main/libc-bottom-half/crt/crt1-reactor.c),
+  it merely calls the ctors. So after `_initialize`, you can call the
+  exports freely, reusing the instance state. If you want to
+  "finalize", you're in charge of exporting and calling
+  `__wasm_call_dtors` yourself.
+
+The command module works well for wasm modules that are intended to be
+used like a conventional CLI app. On the otherhand, for more advanced
+use cases like running in a browser, you almost always want to create
+a reactor module instead.
+
+### Creating a WASI reactor module from `wasm32-wasi-ghc`
 
 Suppose there's a `Hello.hs` that has a `fib :: Int -> Int`. To invoke
-it from the JavaScript host, first you need to create a `foreign
+it from the JavaScript host, first you need to write down a `foreign
 export` for it:
 
 ```haskell
 foreign export ccall fib :: Int -> Int
 ```
 
-Now you need to compile and link it with special flags:
+GHC will create a C function `HsInt fib(HsInt)` that calls into the
+actual `fib` Haskell function. Now you need to compile and link it
+with special flags:
 
 ```sh
 $ wasm32-wasi-ghc Hello.hs -o Hello.wasm -no-hs-main -optl-mexec-model=reactor -optl-Wl,--export=hs_init,--export=myMain
@@ -178,12 +214,11 @@ Some explainers:
 - `-no-hs-main`, since we only care about manually exported functions
   and don't have a default `main :: IO ()`
 - `-optl-mexec-model=reactor` passes `-mexec-model=reactor` to `clang`
-  when linking, so it creates a WASI reactor instead of a WASI
-  command.
-- `-optl-Wl,--export=hs_init,--export=fib` passes the linker flags
-  to export `hs_init` and `fib`.
+  when linking, so it creates a WASI reactor instead of a WASI command
+- `-optl-Wl,--export=hs_init,--export=fib` passes the linker flags to
+  export `hs_init` and `fib`
 - `-o Hello.wasm` is necessary, otherwise the output name defaults to
-  `a.out` which can be confusing.
+  `a.out` which can be confusing
 
 The flags above also work in the `ghc-options` field of a cabal
 executable component, see
@@ -205,7 +240,7 @@ const instance = (
 
 // The initialize() method will call the module's _initialize export
 // under the hood. This is only true for the wasi implementation used
-// in this example; if you're using another wasi implementation, do
+// in this example! If you're using another wasi implementation, do
 // read its source code to figure out whether you need to manually
 // call the module's _initialize export!
 context.initialize(instance);
@@ -220,7 +255,7 @@ console.log(instance.exports.fib(10));
 For simplicity, we call `hs_init` with `argc` set to `0` and `argv`
 set to `NULL`, assuming we don't use things like
 `getArgs`/`getProgName` in the program. Now, we can call `fib`, or any
-function with `foreign export` and the correct `--export=` flag!
+function with `foreign export` and the correct `--export=` flag.
 
 Before we add first-class JavaScript interop feature, it's only
 possible to use the `ccall` calling convention for foreign exports.
