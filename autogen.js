@@ -220,7 +220,7 @@ const _wizer = fetchGitHubArtifact(
   "bins-x86_64-linux"
 );
 const _cabal = fetchurl(
-  "https://downloads.haskell.org/cabal/cabal-install-3.8.1.0/cabal-install-3.8.1.0-x86_64-linux-alpine.tar.xz"
+  "https://downloads.haskell.org/cabal/cabal-install-3.9.0.0/cabal-install-3.9-x86_64-linux-alpine.tar.xz"
 );
 const _proot = fetchGitLabArtifact(
   "builtins.fetchurl",
