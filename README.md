@@ -304,6 +304,105 @@ Further reading:
   GHC](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/ffi.html#using-the-ffi-with-ghc)
 - [WebAssembly lld port](https://lld.llvm.org/WebAssembly.html)
 
+### Custom imports
+
+TODO
+
+### Using `wizer` to pre-initialize a WASI reactor module
+
+[`wizer`](https://github.com/bytecodealliance/wizer) is a tool that
+takes a wasm module, runs a user-specified initialization function,
+then snapshots the wasm instance state into a new wasm module. Since
+`wizer` is based on `wasmtime`, it supports WASI modules out of the
+box.
+
+I recommend using `wizer` to pre-initialize your WASI reactor module
+compiled from Haskell. It's not just about avoiding the overhead of
+`_initialize`; the initialization function run by `wizer` is capable
+of much more tasks, including but not limited to:
+
+- Set up custom RTS flags and other command line arguments
+- Perform arbitrary Haskell computation
+- Perform Haskell garbage collection to re-arrange the heap in an
+  optimal way
+
+It requires a bit of knowledge about GHC's RTS API to write this
+initialization function, here's an example:
+
+```c
+// Including this since we need access to GHC's RTS API. And it
+// transitively includes pretty much all of libc headers that we need.
+#include <Rts.h>
+
+// When GHC compiles the Test module with foreign export, it'll
+// generate Test_stub.h that declares the prototypes for C functions
+// that wrap the corresponding Haskell functions.
+#include "Test_stub.h"
+
+// The prototype of hs_init_with_rtsopts is "void
+// hs_init_with_rtsopts(int *argc, char **argv[])" which is a bit
+// cumbersome to work with, hence this convenience wrapper.
+STATIC_INLINE void hs_init_with_rtsopts_(char *argv[]) {
+  int argc;
+  for (argc = 0; argv[argc] != NULL; ++argc) {
+  }
+  hs_init_with_rtsopts(&argc, &argv);
+}
+
+// Export this function as "wizer.initialize". wizer also accepts
+// "--init-func <init-func>" if you dislike this export name, or
+// prefer to pass -Wl,--export=my_init at link-time.
+//
+// By the time this function is called, the WASI reactor _initialize
+// has already been called by wizer. The export entries of this
+// function and _initialize will both be stripped by wizer.
+__attribute__((export_name("wizer.initialize"))) void __wizer_initialize(void) {
+  // The first argument is what you get in getProgName.
+  //
+  // --nonmoving-gc is recommended when compiling to WASI reactors,
+  // since you're likely more concerned about GC pause time than the
+  // overall throughput.
+  //
+  // -H64m sets the "suggested heap size" to 64MB and reserves so much
+  // memory when doing GC for the first time. It's not a hard limit,
+  // the RTS is perfectly capable of growing the heap beyond it, but
+  // it's still recommended to reserve a reasonably sized heap in the
+  // beginning. And it doesn't add 64MB to the wizer output, most of
+  // the grown memory will be zero anyway!
+  char *argv[] = {"test.wasm", "+RTS", "--nonmoving-gc", "-H64m", "-RTS", NULL};
+
+  // The WASI reactor _initialize function only takes care of
+  // initializing the libc state. The GHC RTS needs to be initialized
+  // using one of hs_init* functions before doing any Haskell
+  // computation.
+  hs_init_with_rtsopts_(argv);
+
+  // Not interesting, I know. The point is you can perform any Haskell
+  // computation here! Or C/C++, whatever.
+  fib(10);
+
+  // Perform a major GC to clean up the heap.
+  hs_perform_gc();
+}
+```
+
+Then you can compile & link the C code above with a regular Haskell
+module, and pre-initialize using `wizer`:
+
+```sh
+wasm32-wasi-ghc test.hs test_c.c -o test.wasm -no-hs-main -optl-mexec-model=reactor -optl-Wl,--export=fib
+wizer --allow-wasi --wasm-bulk-memory true test.wasm -o test.wizer.wasm
+```
+
+Note that `test.wizer.wasm` will be slightly larger than `test.wasm`,
+which is expected behavior here, given some computation has already
+been run and the linear memory captures more runtime data.
+
+If you run `wasm-opt` to minimize the `wasm` module, it's recommend to
+only run it for the `wizer` output. `wasm-opt` will be able to strip
+away some unused initialization functions that are no longer reachable
+via wasm exports or function table.
+
 ## Accessing the host file system in non-browsers
 
 By default, only stdin/stdout/stderr is supported. To access the host
