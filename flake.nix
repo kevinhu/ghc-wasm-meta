@@ -26,6 +26,7 @@
             binaryen
             wabt
             wasmtime
+            iwasm
             wasmedge
             toywasm
             wasm3
@@ -48,6 +49,7 @@
         binaryen = pkgs.callPackage ./pkgs/binaryen.nix { };
         wabt = pkgs.callPackage ./pkgs/wabt.nix { };
         wasmtime = pkgs.callPackage ./pkgs/wasmtime.nix { };
+        iwasm = pkgs.callPackage ./pkgs/iwasm.nix { };
         wasmedge = pkgs.callPackage ./pkgs/wasmedge.nix { };
         toywasm = pkgs.callPackage ./pkgs/toywasm.nix { };
         wasm3 = pkgs.callPackage ./pkgs/wasm3.nix { };

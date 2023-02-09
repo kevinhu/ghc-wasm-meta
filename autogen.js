@@ -200,6 +200,12 @@ const _wasmtime = fetchGitHubLatestRelease(
   "wasmtime",
   "x86_64-linux.tar.xz"
 );
+const _iwasm = fetchGitHubLatestRelease(
+  "builtins.fetchTarball",
+  "bytecodealliance",
+  "wasm-micro-runtime",
+  "x86_64-ubuntu-22.04.tar.gz"
+);
 const _wasmedge = fetchGitHubLatestRelease(
   "builtins.fetchTarball",
   "WasmEdge",
@@ -257,6 +263,7 @@ await Deno.writeTextFile(
       binaryen: await _binaryen,
       wabt: await _wabt,
       wasmtime: await _wasmtime,
+      iwasm: await _iwasm,
       wasmedge: await _wasmedge,
       toywasm: await _toywasm,
       wasm3: await _wasm3,

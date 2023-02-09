@@ -36,6 +36,9 @@ curl -f -L --retry 5 "$(jq -r .wabt.url "$REPO"/autogen.json)" | tar xz -C "$PRE
 mkdir -p "$PREFIX/wasmtime/bin"
 curl -f -L --retry 5 "$(jq -r .wasmtime.url "$REPO"/autogen.json)" | tar xJ -C "$PREFIX/wasmtime/bin" --strip-components=1 --wildcards '*/wasmtime'
 
+mkdir -p "$PREFIX/iwasm/bin"
+curl -f -L --retry 5 "$(jq -r .iwasm.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/iwasm/bin"
+
 mkdir -p "$PREFIX/wasmedge"
 curl -f -L --retry 5 "$(jq -r .wasmedge.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wasmedge" --strip-components=1
 
@@ -80,6 +83,7 @@ for p in \
   "$PREFIX/wasm3/bin" \
   "$PREFIX/toywasm/bin" \
   "$PREFIX/wasmedge/bin" \
+  "$PREFIX/iwasm/bin" \
   "$PREFIX/wasmtime/bin" \
   "$PREFIX/wabt/bin" \
   "$PREFIX/binaryen/bin" \
