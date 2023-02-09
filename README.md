@@ -110,18 +110,41 @@ on:
 
 ## What runtimes support those `.wasm` files?
 
-The output `.wasm` modules are known to run on latest versions of at
-least these runtimes:
+The output `.wasm` modules are known to run on these runtimes:
+
+### Non-browser non-JavaScript runtimes
+
+These tools are all packaged in this repo, available in both the nix
+flake & `setup.sh` installation. The recommended default runtime is
+`wasmtime`, other ones are included for testing purposes.
 
 - [`wasmtime`](https://wasmtime.dev)
+- `iwasm` from [WAMR](https://bytecodealliance.github.io/wamr.dev)
 - [`wasmedge`](https://wasmedge.org)
+- [`toywasm`](https://github.com/yamt/toywasm)
+- [`wasm3`](https://github.com/wasm3/wasm3)
 - [`wasmer`](https://wasmer.io)
-- [`wasm3`](https://github.com/wasm3/wasm3) (needs latest `main`
-  revision)
-- [`deno`](https://deno.land) (using
-  [`wasi`](https://deno.land/std/wasi/snapshot_preview1.ts) as WASI
-  implementation)
-- [`node`](https://nodejs.org)
+
+### Non-browser JavaScript runtimes
+
+- [`deno`](https://deno.land), using
+  https://deno.land/std/wasi/snapshot_preview1.ts as WASI
+  implementation
+- [`node`](https://nodejs.org), using the builtin
+  [`wasi`](https://nodejs.org/api/wasi.html) module to provide WASI
+  implementation
+- [`bun`](https://bun.sh), using the builtin WASI
+  [implementation](https://github.com/oven-sh/bun/blob/main/src/bun.js/wasi.exports.js)
+
+### Browsers
+
+Latest releases of Chrome/Firefox/Safari. A JavaScript library is
+needed to provide the WASI implementation, the following are known to
+work:
+
+- [`wasi-js`](https://github.com/sagemathinc/cowasm/tree/main/core/wasi-js)
+- [`browser_wasi_shim`](https://github.com/bjorn3/browser_wasi_shim)
+- [`wasmer-js`](https://github.com/wasmerio/wasmer-js)
 
 ## Compiling to WASI reactor module with user-specified exports
 
