@@ -478,6 +478,9 @@ only run it for the `wizer` output. `wasm-opt` will be able to strip
 away some unused initialization functions that are no longer reachable
 via wasm exports or function table.
 
+TODO: add `rts_zeroMemory()` after
+https://gitlab.haskell.org/ghc/ghc/-/merge_requests/9931 lands.
+
 ## Accessing the host file system in non-browsers
 
 By default, only stdin/stdout/stderr is supported. To access the host
