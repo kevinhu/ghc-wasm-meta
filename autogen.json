@@ -43,6 +43,10 @@
     "url": "https://github.com/yamt/toywasm/releases/download/v0.0.13/toywasm-ubuntu-20.04-amd64.tgz",
     "sha256": "09gix1ff1xgjdia2hnxj4ica2aq8c0dbific6abxkc5qbxppbws6"
   },
+  "wasm3": {
+    "url": "https://nightly.link/type-dance/wasm3/actions/artifacts/548970772.zip",
+    "sha256": "03gjlvvrdg3nzdznnh2wwh1gq37v20379yv37hvjfmn0d30qk9f0"
+  },
   "wasmer": {
     "url": "https://github.com/wasmerio/wasmer/releases/download/v3.1.1/wasmer-linux-musl-amd64.tar.gz",
     "sha256": "169gwwkqyhm0xjk0s70scf0vnrv6va825f7gnbfy08cc4x44gnza"

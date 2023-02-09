@@ -42,6 +42,12 @@ curl -f -L --retry 5 "$(jq -r .wasmedge.url "$REPO"/autogen.json)" | tar xz -C "
 mkdir -p "$PREFIX/toywasm"
 curl -f -L --retry 5 "$(jq -r .toywasm.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/toywasm"
 
+curl -f -L --retry 5 "$(jq -r .wasm3.url "$REPO"/autogen.json)" -o wasm3.zip
+unzip wasm3.zip
+mkdir -p "$PREFIX/wasm3/bin"
+cp wasm3 "$PREFIX/wasm3/bin/wasm3"
+chmod 755 "$PREFIX/wasm3/bin/wasm3"
+
 mkdir -p "$PREFIX/wasmer"
 curl -f -L --retry 5 "$(jq -r .wasmer.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wasmer"
 
@@ -71,6 +77,7 @@ for p in \
   "$PREFIX/cabal/bin" \
   "$PREFIX/wizer/bin" \
   "$PREFIX/wasmer/bin" \
+  "$PREFIX/wasm3/bin" \
   "$PREFIX/toywasm/bin" \
   "$PREFIX/wasmedge/bin" \
   "$PREFIX/wasmtime/bin" \

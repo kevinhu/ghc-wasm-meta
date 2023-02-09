@@ -28,6 +28,7 @@
             wasmtime
             wasmedge
             toywasm
+            wasm3
             wasmer
             wizer
             cabal
@@ -49,6 +50,7 @@
         wasmtime = pkgs.callPackage ./pkgs/wasmtime.nix { };
         wasmedge = pkgs.callPackage ./pkgs/wasmedge.nix { };
         toywasm = pkgs.callPackage ./pkgs/toywasm.nix { };
+        wasm3 = pkgs.callPackage ./pkgs/wasm3.nix { };
         wasmer = pkgs.callPackage ./pkgs/wasmer.nix { };
         wizer = pkgs.callPackage ./pkgs/wizer.nix { };
         cabal = pkgs.callPackage ./pkgs/cabal.nix { };
