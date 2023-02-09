@@ -1,19 +1,19 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1358311/artifacts/ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "0psnynv4fyxdbj3wzls1zff2050cpyxfkk63zwxbsbyxgs9g2nl2"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1362201/artifacts/ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "1g8pwhr7nvxn5afmpnm2h7d14by3n4xay6p1v81kckn4v3d01h62"
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1358312/artifacts/ghc-x86_64-linux-alpine3_12-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "19c8qddra1csgw10nd7yx7bl7gp595ccyk2c5da73cw88z3m30y1"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1362202/artifacts/ghc-x86_64-linux-alpine3_12-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "05j5v6zkpgwkzffz6fz0wcfcrchb3w7d5fsm4c0di376mqwysz3c"
   },
   "wasm32-wasi-ghc-unreg": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1358314/artifacts/ghc-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "0f2d8n4c4xfkzac7k4g3bm7nh8ap2p17lmcznkd231s5g2m7s8mq"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1362204/artifacts/ghc-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "1h82ib0s5y6l7smrksa9r1jxnbf7l7fqy7k06rz23g5m9m2dw801"
   },
   "wasi-sdk": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1322126/artifacts/dist/wasi-sdk-16-linux.tar.gz",
-    "sha256": "1bkn6v2gq87k0b0crd0nna92d8q2jwinnvjp1ckndmn66d6wj2mj"
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1361962/artifacts/dist/wasi-sdk-16-linux.tar.gz",
+    "sha256": "1hk83rn35w7g18w52v56k2j1cqiyn18rhiknxcjmdqd2i4yxyjjv"
   },
   "libffi-wasm": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3214/jobs/1227903/artifacts",

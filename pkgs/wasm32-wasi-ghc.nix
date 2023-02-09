@@ -24,8 +24,8 @@ stdenvNoCC.mkDerivation {
       SIZE=${wasi-sdk}/bin/llvm-size
       STRINGS=${wasi-sdk}/bin/llvm-strings
       STRIP=${wasi-sdk}/bin/llvm-strip
-      CONF_CC_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
-      CONF_CXX_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
+      CONF_CC_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Wno-implicit-function-declaration -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
+      CONF_CXX_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Wno-implicit-function-declaration -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
       CONF_GCC_LINKER_OPTS_STAGE2="-Wl,--compress-relocations,--error-limit=0,--growable-table,--stack-first,--strip-debug -Wno-unused-command-line-argument"
       --host=x86_64-linux
       --target=wasm32-wasi
