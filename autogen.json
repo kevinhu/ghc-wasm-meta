@@ -39,9 +39,13 @@
     "url": "https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz",
     "sha256": "12529cz889vp2lrvwzga94qa0b6ff4fhi4j25ivym7m22g7yad6q"
   },
+  "toywasm": {
+    "url": "https://github.com/yamt/toywasm/releases/download/v0.0.13/toywasm-ubuntu-20.04-amd64.tgz",
+    "sha256": "09gix1ff1xgjdia2hnxj4ica2aq8c0dbific6abxkc5qbxppbws6"
+  },
   "wasmer": {
-    "url": "https://github.com/wasmerio/wasmer/releases/download/v3.1.1/wasmer-linux-amd64.tar.gz",
-    "sha256": "1i7j7dwg9nwcxvfqqxli6m3yy7cwylkdq4835yx1mjdjfhlnvd1x"
+    "url": "https://github.com/wasmerio/wasmer/releases/download/v3.1.1/wasmer-linux-musl-amd64.tar.gz",
+    "sha256": "169gwwkqyhm0xjk0s70scf0vnrv6va825f7gnbfy08cc4x44gnza"
   },
   "wizer": {
     "url": "https://nightly.link/bytecodealliance/wizer/actions/artifacts/496747003.zip",

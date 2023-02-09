@@ -206,11 +206,17 @@ const _wasmedge = fetchGitHubLatestRelease(
   "WasmEdge",
   "ubuntu20.04_x86_64.tar.gz"
 );
+const _toywasm = await fetchGitHubLatestRelease(
+  "builtins.fetchurl",
+  "yamt",
+  "toywasm",
+  "amd64.tgz"
+);
 const _wasmer = fetchGitHubLatestRelease(
   "builtins.fetchurl",
   "wasmerio",
   "wasmer",
-  "linux-amd64.tar.gz"
+  "linux-musl-amd64.tar.gz"
 );
 const _wizer = fetchGitHubArtifact(
   "bytecodealliance",
@@ -245,6 +251,7 @@ await Deno.writeTextFile(
       wabt: await _wabt,
       wasmtime: await _wasmtime,
       wasmedge: await _wasmedge,
+      toywasm: await _toywasm,
       wasmer: await _wasmer,
       wizer: await _wizer,
       cabal: await _cabal,

@@ -8,7 +8,7 @@ stdenvNoCC.mkDerivation {
   dontUnpack = true;
   installPhase = ''
     mkdir -p $out/bin
-    tar xJf ${src} -C $out/bin 'cabal'
+    tar xJf ${src} -C $out/bin
   '';
   doInstallCheck = true;
   installCheckPhase = ''
