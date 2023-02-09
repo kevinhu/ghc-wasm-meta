@@ -200,17 +200,36 @@ const _wasmtime = fetchGitHubLatestRelease(
   "wasmtime",
   "x86_64-linux.tar.xz"
 );
+const _iwasm = fetchGitHubLatestRelease(
+  "builtins.fetchTarball",
+  "bytecodealliance",
+  "wasm-micro-runtime",
+  "x86_64-ubuntu-22.04.tar.gz"
+);
 const _wasmedge = fetchGitHubLatestRelease(
   "builtins.fetchTarball",
   "WasmEdge",
   "WasmEdge",
   "ubuntu20.04_x86_64.tar.gz"
 );
+const _toywasm = fetchGitHubLatestRelease(
+  "builtins.fetchurl",
+  "yamt",
+  "toywasm",
+  "amd64.tgz"
+);
+const _wasm3 = fetchGitHubArtifact(
+  "type-dance",
+  "wasm3",
+  "main",
+  "release",
+  "wasm3"
+);
 const _wasmer = fetchGitHubLatestRelease(
   "builtins.fetchurl",
   "wasmerio",
   "wasmer",
-  "linux-amd64.tar.gz"
+  "linux-musl-amd64.tar.gz"
 );
 const _wizer = fetchGitHubArtifact(
   "bytecodealliance",
@@ -220,7 +239,7 @@ const _wizer = fetchGitHubArtifact(
   "bins-x86_64-linux"
 );
 const _cabal = fetchurl(
-  "https://downloads.haskell.org/cabal/cabal-install-3.8.1.0/cabal-install-3.8.1.0-x86_64-linux-alpine.tar.xz"
+  "https://downloads.haskell.org/cabal/cabal-install-3.9.0.0/cabal-install-3.9-x86_64-linux-alpine.tar.xz"
 );
 const _proot = fetchGitLabArtifact(
   "builtins.fetchurl",
@@ -244,7 +263,10 @@ await Deno.writeTextFile(
       binaryen: await _binaryen,
       wabt: await _wabt,
       wasmtime: await _wasmtime,
+      iwasm: await _iwasm,
       wasmedge: await _wasmedge,
+      toywasm: await _toywasm,
+      wasm3: await _wasm3,
       wasmer: await _wasmer,
       wizer: await _wizer,
       cabal: await _cabal,

@@ -76,5 +76,5 @@ x86_64-linux-nix:
       curl -f -L --retry 5 https://github.com/tweag/ormolu/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
       cd ormolu-live
       echo "allow-newer: template-haskell" > cabal.project.local
-      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && ./build-wasm.sh"
+      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && wasm32-wasi-cabal build exe:ormolu-live && wasm32-wasi-cabal list-bin exe:ormolu-live"
       popd

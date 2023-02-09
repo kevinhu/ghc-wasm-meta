@@ -1,7 +1,8 @@
 # `ghc-wasm-meta`
 
 This repo provides convenient methods of using x86_64-linux binary
-artifacts of GHC's wasm backend.
+artifacts of GHC's wasm backend. It's also a staging area for the GHC
+wasm backend documentation.
 
 ## Getting started as a nix flake
 
@@ -19,13 +20,13 @@ hello world
 ```
 
 First start will download a bunch of stuff, but won't take too long
-since it just patches the binaries and performs little real
-compilation. There is no need to set up a binary cache.
+since it just patches the binaries and performs no compilation. There
+is no need to set up a binary cache.
 
 ## Getting started without nix
 
-For Ubuntu 20.04 and similar glibc-based distros, this repo provides a
-`setup.sh` script that installs the provided tools to `~/.ghc-wasm`:
+This repo also provides a `setup.sh` script that installs the provided
+tools to `~/.ghc-wasm`:
 
 ```sh
 $ ./setup.sh
@@ -34,14 +35,15 @@ Everything set up in /home/username/.ghc-wasm.
 Run 'source /home/username/.ghc-wasm/env' to add tools to your PATH.
 ```
 
-After installing, `~/.ghc-wasm` will contain:
+After installing, `~/.ghc-wasm` will contain all the installed tools,
+plus:
 
-  - `env` which can be sourced into the current shell to add the tools
-    to `PATH`, plus all the environment variables needed to build
-    `wasm32-wasi-ghc`
-  - `add_to_github_path.sh` which can be run in GitHub actions, so
-    later steps in the same job can access the same environment
-    variables set by `env`
+  - `~/.ghc-wasm/env` which can be sourced into the current shell to
+    add the tools to `PATH`, plus all the environment variables needed
+    to build `wasm32-wasi-ghc`
+  - `~/.ghc-wasm/add_to_github_path.sh` which can be run in GitHub
+    actions, so later steps in the same job can access the same
+    environment variables set by `env`
 
 `setup.sh` can be configured via these environment variables:
 
@@ -73,8 +75,9 @@ enabled globally in our
 GHC configure time, and the wasm NCG may make use of the features. The
 rationale of post-MVP wasm feature inclusion:
 
-- Supported by default in latest versions of major wasm runtimes
-(check wasm [roadmap](https://webassembly.org/roadmap) for details)
+- Supported by default in latest versions of
+Chrome/Firefox/Safari/wasmtime (check wasm
+[roadmap](https://webassembly.org/roadmap) for details)
 - LLVM support has been stable enough (doesn't get into our way when
 enabled globally)
 
@@ -104,70 +107,130 @@ on:
   Call](https://github.com/WebAssembly/tail-call/blob/main/proposals/tail-call/Overview.md),
   blocked by
   [wasmtime](https://github.com/bytecodealliance/wasmtime/issues/1065)
-  and a few other engines
+  and a few other engines. Note that we already support wasm tail
+  calls, but it's an opt-in feature for now.
 - [Multi-value](https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md),
   blocked by [LLVM](https://github.com/llvm/llvm-project/issues/59095)
 
 ## What runtimes support those `.wasm` files?
 
-The output `.wasm` modules are known to run on latest versions of at
-least these runtimes:
+The output `.wasm` modules are known to run on these runtimes:
+
+### Non-browser non-JavaScript runtimes
+
+These tools are all packaged in this repo, available in both the nix
+flake & `setup.sh` installation. The recommended default runtime is
+`wasmtime`, other ones are included for testing purposes.
 
 - [`wasmtime`](https://wasmtime.dev)
+- `iwasm` from [WAMR](https://bytecodealliance.github.io/wamr.dev)
 - [`wasmedge`](https://wasmedge.org)
+- [`toywasm`](https://github.com/yamt/toywasm)
+- [`wasm3`](https://github.com/wasm3/wasm3)
 - [`wasmer`](https://wasmer.io)
-- [`wasm3`](https://github.com/wasm3/wasm3) (needs latest `main`
-  revision)
-- [`deno`](https://deno.land) (using
-  [`wasi`](https://deno.land/std/wasi/snapshot_preview1.ts) as WASI
-  implementation)
-- [`node`](https://nodejs.org)
 
-## Running in browsers
+### Non-browser JavaScript runtimes
 
-According to the [Roadmap](https://webassembly.org/roadmap), recent
-versions of Firefox/Chrome/Safari also support them, as long as you
-have corresponding JavaScript code to supply the wasi imports. Known
-examples include
-[`ormolu`](https://twitter.com/tweagio/status/1598618914761719808) and
-[`pointfree`](https://www.reddit.com/r/haskell/comments/zc8o75/try_the_wasm_port_of_pointfree).
-We don't have an official recommendation about which JavaScript
-library to use for wasi logic yet, hopefully some time later we'll
-have one which is tested in headless browsers.
+- [`deno`](https://deno.land), using
+  https://deno.land/std/wasi/snapshot_preview1.ts as WASI
+  implementation
+- [`node`](https://nodejs.org), using the builtin
+  [`wasi`](https://nodejs.org/api/wasi.html) module to provide WASI
+  implementation
+- [`bun`](https://bun.sh), using the builtin WASI
+  [implementation](https://github.com/oven-sh/bun/blob/main/src/bun.js/wasi.exports.js)
 
-Important points to keep in mind when running in browsers:
+### Browsers
 
-- Create a fresh `WebAssembly.Instance` for each run. Because
-  `wasm32-wasi-ghc` defaults to outputting wasi
-  [command](https://github.com/WebAssembly/WASI/blob/main/legacy/application-abi.md)
-  modules for now, and wasi commands are supposed to be only run once,
-  afterwards the instance state is undefined. To preserve the same
-  instance across different invocations, read the next section.
-- Avoid recompiling the module multiple times; the same
-  `WebAssembly.Module` can be reused many times.
-- For now, the recommended workflow is using
-  [`WebAssembly.compileStreaming`](https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/compileStreaming)
-  to get a `WebAssembly.Module`, then use
-  [`WebAssembly.instantiate`](https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/instantiate)
-  to get the `WebAssembly.Instance` for each run.
+Latest releases of Chrome/Firefox/Safari. A JavaScript library is
+needed to provide the WASI implementation, the following are known to
+work:
 
-## Compiling to WASI reactor module with user-defined exports
+- [`wasi-js`](https://github.com/sagemathinc/cowasm/tree/main/core/wasi-js)
+- [`browser_wasi_shim`](https://github.com/bjorn3/browser_wasi_shim)
+- [`wasmer-js`](https://github.com/wasmerio/wasmer-js)
 
-It's possible to compile Haskell to a WASI reactor module instead of a
-WASI command module. A WASI reactor module exports an `_initialize`
-function that must be called exactly once after the module is
-instantiated, and after that, you can call other exported functions as
-you wish, preserving the heap state.
+## Compiling to WASI reactor module with user-specified exports
+
+If you want to embed the compiled wasm module into a host language,
+like in JavaScript for running in a browser, then it's highly likely
+you want to compile Haskell to a WASI reactor module.
+
+### What is a WASI reactor module?
+
+The WASI spec includes certain
+[syscalls](https://github.com/WebAssembly/WASI/blob/main/phases/snapshot/docs.md)
+that are provided as the `wasi_snapshot_preview1` wasm imports.
+Additionally, the current WASI
+[ABI](https://github.com/WebAssembly/WASI/blob/main/legacy/application-abi.md)
+specifies two different kinds of WASI modules: commands and reactors.
+
+A WASI command module is what you get by default when using
+`wasm32-wasi-ghc` to compile & link a Haskell program. It's called
+"command" as in a conventional command-line program, with similar
+usage and lifecycle: run it with something like `wasmtime`, optionally
+passing some arguments and environment variables, it'll run to
+completion and probably causing some side effects using whatever
+capabilities granted. After it runs to completion, the program state
+is finalized.
+
+A WASI reactor module is produced by special link-time flags. It's
+called "reactor" since it reacts to external calls of its exported
+functions. Once a reactor module is initialized, the program state is
+persisted, so if calling an export changes internal state (e.g. sets a
+global variable), subsequent calls will observe that change.
+
+### Why the distinction and why should you care?
+
+When linking a program for almost any platform out there, the linker
+needs to handle ctors(constructors) & dtors(destructors). ctors and
+dtors are special functions that need to be invoked to correctly
+initialize/finalize certain runtime state. Even if the user program
+doesn't use ctors/dtors, as long as the program links to libc,
+ctors/dtors will need to be handled.
+
+The wasm spec does include a [start
+function](https://webassembly.github.io/spec/core/syntax/modules.html#syntax-start).
+However, due to technical
+[reasons](https://github.com/WebAssembly/design/issues/1160), what a
+start function can do is rather limited, and may not be sufficient to
+support ctors/dtors in libc and other places. So the WASI spec needs
+to address this fact, and the command/reactor distinction arises:
+
+- A WASI command module must export a `_start` function. You can see
+  how `_start` is defined in `wasi-libc`
+  [here](https://gitlab.haskell.org/ghc/wasi-libc/-/blob/main/libc-bottom-half/crt/crt1-command.c).
+  It'll call the ctors, then call the main function in user code, and
+  finally call the dtors. Since the dtors are called, the program
+  state is finalized, so attempting to call any export after this
+  point is undefined behavior!
+- A WASI reactor module may export an `_initialize` function, if it
+  exists, it must be called exactly once before any other exports are
+  called. See its definition
+  [here](https://gitlab.haskell.org/ghc/wasi-libc/-/blob/main/libc-bottom-half/crt/crt1-reactor.c),
+  it merely calls the ctors. So after `_initialize`, you can call the
+  exports freely, reusing the instance state. If you want to
+  "finalize", you're in charge of exporting and calling
+  `__wasm_call_dtors` yourself.
+
+The command module works well for wasm modules that are intended to be
+used like a conventional CLI app. On the otherhand, for more advanced
+use cases like running in a browser, you almost always want to create
+a reactor module instead.
+
+### Creating a WASI reactor module from `wasm32-wasi-ghc`
 
 Suppose there's a `Hello.hs` that has a `fib :: Int -> Int`. To invoke
-it from the JavaScript host, first you need to create a `foreign
+it from the JavaScript host, first you need to write down a `foreign
 export` for it:
 
 ```haskell
 foreign export ccall fib :: Int -> Int
 ```
 
-Now you need to compile and link it with special flags:
+GHC will create a C function `HsInt fib(HsInt)` that calls into the
+actual `fib` Haskell function. Now you need to compile and link it
+with special flags:
 
 ```sh
 $ wasm32-wasi-ghc Hello.hs -o Hello.wasm -no-hs-main -optl-mexec-model=reactor -optl-Wl,--export=hs_init,--export=myMain
@@ -178,12 +241,11 @@ Some explainers:
 - `-no-hs-main`, since we only care about manually exported functions
   and don't have a default `main :: IO ()`
 - `-optl-mexec-model=reactor` passes `-mexec-model=reactor` to `clang`
-  when linking, so it creates a WASI reactor instead of a WASI
-  command.
-- `-optl-Wl,--export=hs_init,--export=fib` passes the linker flags
-  to export `hs_init` and `fib`.
+  when linking, so it creates a WASI reactor instead of a WASI command
+- `-optl-Wl,--export=hs_init,--export=fib` passes the linker flags to
+  export `hs_init` and `fib`
 - `-o Hello.wasm` is necessary, otherwise the output name defaults to
-  `a.out` which can be confusing.
+  `a.out` which can be confusing
 
 The flags above also work in the `ghc-options` field of a cabal
 executable component, see
@@ -205,7 +267,7 @@ const instance = (
 
 // The initialize() method will call the module's _initialize export
 // under the hood. This is only true for the wasi implementation used
-// in this example; if you're using another wasi implementation, do
+// in this example! If you're using another wasi implementation, do
 // read its source code to figure out whether you need to manually
 // call the module's _initialize export!
 context.initialize(instance);
@@ -220,7 +282,7 @@ console.log(instance.exports.fib(10));
 For simplicity, we call `hs_init` with `argc` set to `0` and `argv`
 set to `NULL`, assuming we don't use things like
 `getArgs`/`getProgName` in the program. Now, we can call `fib`, or any
-function with `foreign export` and the correct `--export=` flag!
+function with `foreign export` and the correct `--export=` flag.
 
 Before we add first-class JavaScript interop feature, it's only
 possible to use the `ccall` calling convention for foreign exports.
@@ -268,6 +330,156 @@ Further reading:
 - [Using the FFI with
   GHC](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/ffi.html#using-the-ffi-with-ghc)
 - [WebAssembly lld port](https://lld.llvm.org/WebAssembly.html)
+
+### Custom imports
+
+In addition to the standard `wasi_snapshot_preview1` import module,
+you can add other import modules to import host JavaScript functions
+which can be called in C/Haskell. Of course, the resulting wasm module
+is not completely compliant to the WASI spec, and cannot be run in
+non-browser runtimes that only supports WASI (like `wasmtime`), but
+it's not an issue if it's only intended to be run in browsers.
+
+Here's an example:
+
+```
+# The fill symbol is hidden, so it's not exported by default, but can
+# still be used by other objects.
+.hidden fill
+
+# The fill symbol is global, so it's visible to other objects.
+.globl fill
+
+# The fill function is imported as env.foo.
+.import_module fill, env
+.import_name fill, foo
+
+# The fill function has this type.
+.functype fill (i32, i32) -> ()
+```
+
+The above assembly source file can be saved as `fill.s`, and
+compiled/linked with other C/Haskell sources. The `fill` function can
+be called in C as long as you write down its prototype; it can also be
+called in Haskell just like any other normal C function.
+
+Now, when creating the instance, in addition to providing the
+`wasi_snapshot_preview1` import module, you also need to provide the
+`env` import module which has a `foo` function. Whatever `foo` can do
+is up to you, reader. It may take a buffer's pointer/length and fill
+in something interesting. Since the WASI module has a `memory` export,
+`foo` has access to the instance memory and can do whatever it want.
+
+Custom imports is a powerful feature and provides more than one way to
+do things. For instance, if your Haskell program needs to read a large
+blob, you may either put that blob in a memfs and read it as if
+reading a file; or you can just feed that blob via a custom import. In
+this case, a custom import may be simpler, and it further lowers the
+requirement on the WASI implementation, since not even a virtual memfs
+implementation will be needed at run-time.
+
+It's even possible for the imported function to invoke Haskell
+computation by calling exported Haskell functions! This kind of RTS
+re-entrance is permitted in GHC RTS, as long as the custom import is
+marked with `foreign import ccall safe`.
+
+### Using `wizer` to pre-initialize a WASI reactor module
+
+[`wizer`](https://github.com/bytecodealliance/wizer) is a tool that
+takes a wasm module, runs a user-specified initialization function,
+then snapshots the wasm instance state into a new wasm module. Since
+`wizer` is based on `wasmtime`, it supports WASI modules out of the
+box.
+
+I recommend using `wizer` to pre-initialize your WASI reactor module
+compiled from Haskell. It's not just about avoiding the overhead of
+`_initialize`; the initialization function run by `wizer` is capable
+of much more tasks, including but not limited to:
+
+- Set up custom RTS flags and other command line arguments
+- Perform arbitrary Haskell computation
+- Perform Haskell garbage collection to re-arrange the heap in an
+  optimal way
+
+It requires a bit of knowledge about GHC's RTS API to write this
+initialization function, here's an example:
+
+```c
+// Including this since we need access to GHC's RTS API. And it
+// transitively includes pretty much all of libc headers that we need.
+#include <Rts.h>
+
+// When GHC compiles the Test module with foreign export, it'll
+// generate Test_stub.h that declares the prototypes for C functions
+// that wrap the corresponding Haskell functions.
+#include "Test_stub.h"
+
+// The prototype of hs_init_with_rtsopts is "void
+// hs_init_with_rtsopts(int *argc, char **argv[])" which is a bit
+// cumbersome to work with, hence this convenience wrapper.
+STATIC_INLINE void hs_init_with_rtsopts_(char *argv[]) {
+  int argc;
+  for (argc = 0; argv[argc] != NULL; ++argc) {
+  }
+  hs_init_with_rtsopts(&argc, &argv);
+}
+
+// Export this function as "wizer.initialize". wizer also accepts
+// "--init-func <init-func>" if you dislike this export name, or
+// prefer to pass -Wl,--export=my_init at link-time.
+//
+// By the time this function is called, the WASI reactor _initialize
+// has already been called by wizer. The export entries of this
+// function and _initialize will both be stripped by wizer.
+__attribute__((export_name("wizer.initialize"))) void __wizer_initialize(void) {
+  // The first argument is what you get in getProgName.
+  //
+  // --nonmoving-gc is recommended when compiling to WASI reactors,
+  // since you're likely more concerned about GC pause time than the
+  // overall throughput.
+  //
+  // -H64m sets the "suggested heap size" to 64MB and reserves so much
+  // memory when doing GC for the first time. It's not a hard limit,
+  // the RTS is perfectly capable of growing the heap beyond it, but
+  // it's still recommended to reserve a reasonably sized heap in the
+  // beginning. And it doesn't add 64MB to the wizer output, most of
+  // the grown memory will be zero anyway!
+  char *argv[] = {"test.wasm", "+RTS", "--nonmoving-gc", "-H64m", "-RTS", NULL};
+
+  // The WASI reactor _initialize function only takes care of
+  // initializing the libc state. The GHC RTS needs to be initialized
+  // using one of hs_init* functions before doing any Haskell
+  // computation.
+  hs_init_with_rtsopts_(argv);
+
+  // Not interesting, I know. The point is you can perform any Haskell
+  // computation here! Or C/C++, whatever.
+  fib(10);
+
+  // Perform a major GC to clean up the heap.
+  hs_perform_gc();
+}
+```
+
+Then you can compile & link the C code above with a regular Haskell
+module, and pre-initialize using `wizer`:
+
+```sh
+wasm32-wasi-ghc test.hs test_c.c -o test.wasm -no-hs-main -optl-mexec-model=reactor -optl-Wl,--export=fib
+wizer --allow-wasi --wasm-bulk-memory true test.wasm -o test.wizer.wasm
+```
+
+Note that `test.wizer.wasm` will be slightly larger than `test.wasm`,
+which is expected behavior here, given some computation has already
+been run and the linear memory captures more runtime data.
+
+If you run `wasm-opt` to minimize the `wasm` module, it's recommend to
+only run it for the `wizer` output. `wasm-opt` will be able to strip
+away some unused initialization functions that are no longer reachable
+via wasm exports or function table.
+
+TODO: add `rts_zeroMemory()` after
+https://gitlab.haskell.org/ghc/ghc/-/merge_requests/9931 lands.
 
 ## Accessing the host file system in non-browsers
 
@@ -339,8 +551,8 @@ export RANLIB=~/.ghc-wasm/wasi-sdk/bin/llvm-ranlib
 export SIZE=~/.ghc-wasm/wasi-sdk/bin/llvm-size
 export STRINGS=~/.ghc-wasm/wasi-sdk/bin/llvm-strings
 export STRIP=~/.ghc-wasm/wasi-sdk/bin/llvm-strip
-export CONF_CC_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
-export CONF_CXX_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
+export CONF_CC_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Wno-implicit-function-declaration -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
+export CONF_CXX_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Wno-implicit-function-declaration -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
 export CONF_GCC_LINKER_OPTS_STAGE2="-Wl,--compress-relocations,--error-limit=0,--growable-table,--stack-first,--strip-debug -Wno-unused-command-line-argument"
 export CONFIGURE_ARGS="--target=wasm32-wasi --with-intree-gmp --with-system-libffi"
 ```

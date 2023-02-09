@@ -1,18 +1,18 @@
 { stdenvNoCC }:
 let
-  src = builtins.fetchurl
-    ((builtins.fromJSON (builtins.readFile ../autogen.json)).cabal);
+  src = builtins.fetchTarball
+    ((builtins.fromJSON (builtins.readFile ../autogen.json)).wasm3);
 in
 stdenvNoCC.mkDerivation {
-  name = "cabal";
+  name = "wasm3";
   dontUnpack = true;
   installPhase = ''
     mkdir -p $out/bin
-    tar xJf ${src} -C $out/bin
+    install -Dm755 ${src} $out/bin/wasm3
   '';
   doInstallCheck = true;
   installCheckPhase = ''
-    $out/bin/cabal --version
+    $out/bin/wasm3 --version
   '';
   allowedReferences = [ ];
 }

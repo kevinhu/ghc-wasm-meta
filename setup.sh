@@ -36,8 +36,20 @@ curl -f -L --retry 5 "$(jq -r .wabt.url "$REPO"/autogen.json)" | tar xz -C "$PRE
 mkdir -p "$PREFIX/wasmtime/bin"
 curl -f -L --retry 5 "$(jq -r .wasmtime.url "$REPO"/autogen.json)" | tar xJ -C "$PREFIX/wasmtime/bin" --strip-components=1 --wildcards '*/wasmtime'
 
+mkdir -p "$PREFIX/iwasm/bin"
+curl -f -L --retry 5 "$(jq -r .iwasm.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/iwasm/bin"
+
 mkdir -p "$PREFIX/wasmedge"
 curl -f -L --retry 5 "$(jq -r .wasmedge.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wasmedge" --strip-components=1
+
+mkdir -p "$PREFIX/toywasm"
+curl -f -L --retry 5 "$(jq -r .toywasm.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/toywasm"
+
+curl -f -L --retry 5 "$(jq -r .wasm3.url "$REPO"/autogen.json)" -o wasm3.zip
+unzip wasm3.zip
+mkdir -p "$PREFIX/wasm3/bin"
+cp wasm3 "$PREFIX/wasm3/bin/wasm3"
+chmod 755 "$PREFIX/wasm3/bin/wasm3"
 
 mkdir -p "$PREFIX/wasmer"
 curl -f -L --retry 5 "$(jq -r .wasmer.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wasmer"
@@ -68,7 +80,10 @@ for p in \
   "$PREFIX/cabal/bin" \
   "$PREFIX/wizer/bin" \
   "$PREFIX/wasmer/bin" \
+  "$PREFIX/wasm3/bin" \
+  "$PREFIX/toywasm/bin" \
   "$PREFIX/wasmedge/bin" \
+  "$PREFIX/iwasm/bin" \
   "$PREFIX/wasmtime/bin" \
   "$PREFIX/wabt/bin" \
   "$PREFIX/binaryen/bin" \
@@ -101,11 +116,11 @@ do
 done
 
 for e in \
-  'CONF_CC_OPTS_STAGE2=${CONF_CC_OPTS_STAGE2:-"-Wno-int-conversion -Wno-strict-prototypes -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
-  'CONF_CXX_OPTS_STAGE2=${CONF_CXX_OPTS_STAGE2:-"-Wno-int-conversion -Wno-strict-prototypes -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
+  'CONF_CC_OPTS_STAGE2=${CONF_CC_OPTS_STAGE2:-"-Wno-int-conversion -Wno-strict-prototypes -Wno-implicit-function-declaration -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
+  'CONF_CXX_OPTS_STAGE2=${CONF_CXX_OPTS_STAGE2:-"-Wno-int-conversion -Wno-strict-prototypes -Wno-implicit-function-declaration -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
   'CONF_GCC_LINKER_OPTS_STAGE2=${CONF_GCC_LINKER_OPTS_STAGE2:-"-Wl,--compress-relocations,--error-limit=0,--growable-table,--stack-first,--strip-debug -Wno-unused-command-line-argument"}' \
-  'CONF_CC_OPTS_STAGE1=${CONF_CC_OPTS_STAGE1:-"-Wno-int-conversion -Wno-strict-prototypes -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
-  'CONF_CXX_OPTS_STAGE1=${CONF_CXX_OPTS_STAGE1:-"-Wno-int-conversion -Wno-strict-prototypes -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
+  'CONF_CC_OPTS_STAGE1=${CONF_CC_OPTS_STAGE1:-"-Wno-int-conversion -Wno-strict-prototypes -Wno-implicit-function-declaration -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
+  'CONF_CXX_OPTS_STAGE1=${CONF_CXX_OPTS_STAGE1:-"-Wno-int-conversion -Wno-strict-prototypes -Wno-implicit-function-declaration -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"}' \
   'CONF_GCC_LINKER_OPTS_STAGE1=${CONF_GCC_LINKER_OPTS_STAGE1:-"-Wl,--compress-relocations,--error-limit=0,--growable-table,--stack-first,--strip-debug -Wno-unused-command-line-argument"}' \
   'CONFIGURE_ARGS=${CONFIGURE_ARGS:-"--host=x86_64-linux --target=wasm32-wasi --with-intree-gmp --with-system-libffi"}' \
   'CROSS_EMULATOR=${CROSS_EMULATOR:-"'"$PREFIX/wasm-run/bin/wasmtime.sh"'"}'
