@@ -1,7 +1,8 @@
 # `ghc-wasm-meta`
 
 This repo provides convenient methods of using x86_64-linux binary
-artifacts of GHC's wasm backend.
+artifacts of GHC's wasm backend. It's also a staging area for the GHC
+wasm backend documentation.
 
 ## Getting started as a nix flake
 
@@ -19,13 +20,13 @@ hello world
 ```
 
 First start will download a bunch of stuff, but won't take too long
-since it just patches the binaries and performs little real
-compilation. There is no need to set up a binary cache.
+since it just patches the binaries and performs no compilation. There
+is no need to set up a binary cache.
 
 ## Getting started without nix
 
-For Ubuntu 20.04 and similar glibc-based distros, this repo provides a
-`setup.sh` script that installs the provided tools to `~/.ghc-wasm`:
+This repo also provides a `setup.sh` script that installs the provided
+tools to `~/.ghc-wasm`:
 
 ```sh
 $ ./setup.sh
@@ -34,14 +35,15 @@ Everything set up in /home/username/.ghc-wasm.
 Run 'source /home/username/.ghc-wasm/env' to add tools to your PATH.
 ```
 
-After installing, `~/.ghc-wasm` will contain:
+After installing, `~/.ghc-wasm` will contain all the installed tools,
+plus:
 
-  - `env` which can be sourced into the current shell to add the tools
-    to `PATH`, plus all the environment variables needed to build
-    `wasm32-wasi-ghc`
-  - `add_to_github_path.sh` which can be run in GitHub actions, so
-    later steps in the same job can access the same environment
-    variables set by `env`
+  - `~/.ghc-wasm/env` which can be sourced into the current shell to
+    add the tools to `PATH`, plus all the environment variables needed
+    to build `wasm32-wasi-ghc`
+  - `~/.ghc-wasm/add_to_github_path.sh` which can be run in GitHub
+    actions, so later steps in the same job can access the same
+    environment variables set by `env`
 
 `setup.sh` can be configured via these environment variables:
 
@@ -73,8 +75,9 @@ enabled globally in our
 GHC configure time, and the wasm NCG may make use of the features. The
 rationale of post-MVP wasm feature inclusion:
 
-- Supported by default in latest versions of major wasm runtimes
-(check wasm [roadmap](https://webassembly.org/roadmap) for details)
+- Supported by default in latest versions of
+Chrome/Firefox/Safari/wasmtime (check wasm
+[roadmap](https://webassembly.org/roadmap) for details)
 - LLVM support has been stable enough (doesn't get into our way when
 enabled globally)
 
@@ -104,7 +107,8 @@ on:
   Call](https://github.com/WebAssembly/tail-call/blob/main/proposals/tail-call/Overview.md),
   blocked by
   [wasmtime](https://github.com/bytecodealliance/wasmtime/issues/1065)
-  and a few other engines
+  and a few other engines. Note that we already support wasm tail
+  calls, but it's an opt-in feature for now.
 - [Multi-value](https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md),
   blocked by [LLVM](https://github.com/llvm/llvm-project/issues/59095)
 
