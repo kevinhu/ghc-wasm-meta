@@ -580,7 +580,46 @@ After the build completes, you can compile stuff to wasm using
 
 Happy hacking!
 
-## Reporting issues
+## When something goes wrong
 
-For reporting issues, please use the GHC issue tracker instead. Issues
-with the `wasm` tag will be sent to the GHC wasm backend maintainer.
+### Reporting issues
+
+If you suspect there's something wrong that needs fixing in the wasm
+backend (e.g. runtime crashes), you're more than welcome to open a
+ticket in the GHC issue tracker! The `wasm` tag will be added to the
+ticket by one of the triagers, which ensures it ends up in my inbox.
+
+It would be very nice to have a self-contained Haskell source file to
+reproduce the bug, but it's not a strict necessity to report the bug.
+It's fine as long as the project source code and build instruction is
+available.
+
+Do include the following info in the ticket:
+
+- Which `ghc-wasm-meta` revision is used to install `wasm32-wasi-ghc`?
+  Or if you're building it yourself, which GHC revision are you using?
+
+### Getting more insight on the bug
+
+To get some more insight on the bug, there are a few things worth
+checking, importance ranked from high to low:
+
+- Try a different runtime environment. If it is a WASI command module
+  (self-contained `.wasm` file), does it work in `wasmtime` or some
+  other runtime? If it is meant for the browser, try switching to a
+  different WASI implementation, does the same bug still occur? It's
+  known that all current JavaScript implementations of WASI are not
+  100% feature complete and may have bugs.
+- Try a different optimization level in GHC. If it's a cabal project,
+  you can configure the
+  [`optimization:`](https://cabal.readthedocs.io/en/latest/cabal-project.html#cfg-field-optimization)
+  field in `cabal.project`. In case of a code generation bug, it may
+  be the case that one of the passes during GHC optimization resulted
+  in buggy code.
+- Try enabling `-dlint` at compile-time to check consistency.
+- If it crashes, make it crash as early/verbose as possible. Use the
+  GHC `-debug` flag at link time to link with the debug RTS that
+  enables certain internal checks. On top of that, pass RTS flags to
+  enable certain checks, e.g. `+RTS -DS` for sanity checks, see
+  [here](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/runtime_control.html#rts-options-for-hackers-debuggers-and-over-interested-souls)
+  for details.
