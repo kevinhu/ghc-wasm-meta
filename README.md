@@ -299,8 +299,10 @@ JavaScript:
   `mallocBytes` in Haskell can be passed to JavaScript and be freed by
   the exported `free`, and vice versa.
 
-Now you can create and manage C buffers, you can create and pass the
-correct `argc`/`argv` if you want `getArgs`/`getProgName` to work.
+If you pass a buffer `malloc`ed in JavaScript into Haskell, before
+`free`ing that buffer after the exported Haskell function returns,
+look into the Haskell code and double check if that buffer is indeed
+fully consumed in Haskell! Otherwise, use-after-free bugs await.
 
 Which functions can be exported via the `--export` flag?
 
