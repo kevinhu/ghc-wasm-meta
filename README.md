@@ -456,8 +456,18 @@ __attribute__((export_name("wizer.initialize"))) void __wizer_initialize(void) {
   // computation here! Or C/C++, whatever.
   fib(10);
 
-  // Perform a major GC to clean up the heap.
+  // Perform a major GC to clean up the heap. When using the nonmoving
+  // garbage collector, it's necessary to call it twice to actually
+  // free the unused segments.
   hs_perform_gc();
+  hs_perform_gc();
+
+  // Finally, zero out the unused RTS memory, to prevent the garbage
+  // bytes from being snapshotted into the final wasm module.
+  // Otherwise it wouldn't affect correctness, but the wasm module
+  // size would bloat significantly. It's only safe to call this after
+  // hs_perform_gc() has returned.
+  rts_clearMemory();
 }
 ```
 
