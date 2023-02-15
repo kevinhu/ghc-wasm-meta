@@ -1,20 +1,11 @@
 {
-  inputs = {
-    haskell-nix = {
-      type = "github";
-      owner = "input-output-hk";
-      repo = "haskell.nix";
-    };
-  };
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+  inputs.flake-utils.url = "github:numtide/flake-utils";
 
-  outputs = { self, haskell-nix, }:
-    haskell-nix.inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
+  outputs = { self, nixpkgs, flake-utils, }:
+    flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
-        pkgs = import haskell-nix.inputs.nixpkgs-unstable {
-          inherit system;
-          config = haskell-nix.config;
-          overlays = [ haskell-nix.overlay ];
-        };
+        pkgs = import nixpkgs { inherit system; };
         default = pkgs.symlinkJoin {
           name = "ghc-wasm";
           paths = [
