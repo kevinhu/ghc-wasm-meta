@@ -1,15 +1,15 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1362201/artifacts/ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "1g8pwhr7nvxn5afmpnm2h7d14by3n4xay6p1v81kckn4v3d01h62"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1378821/artifacts/ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "03kdg4lwhl2flvciyq2rkwcza28l4g4qfxslmz3g7v5mw7h2g1rm"
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1362202/artifacts/ghc-x86_64-linux-alpine3_12-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "05j5v6zkpgwkzffz6fz0wcfcrchb3w7d5fsm4c0di376mqwysz3c"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1378822/artifacts/ghc-x86_64-linux-alpine3_12-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "1vnx33sszq2ijis7rjpm312wj3cr54hynw86hv4izrn710zfdpxw"
   },
   "wasm32-wasi-ghc-unreg": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1362204/artifacts/ghc-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "1h82ib0s5y6l7smrksa9r1jxnbf7l7fqy7k06rz23g5m9m2dw801"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1378824/artifacts/ghc-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "0qqyih1f69ry86yl7fmyzabd45xg77jlwks3x5vbhrjykffa45sn"
   },
   "wasi-sdk": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1361962/artifacts/dist/wasi-sdk-16-linux.tar.gz",
@@ -24,8 +24,8 @@
     "sha256": "1icxvbc9k5g2mby782qlipqvs52zslylzxcbqhx3idxay4g56zsf"
   },
   "binaryen": {
-    "url": "https://github.com/WebAssembly/binaryen/releases/download/version_111/binaryen-version_111-x86_64-linux.tar.gz",
-    "sha256": "1177mvidh1w9822a96zjswpz6pbpx36fpa2xx968089623avpn6m"
+    "url": "https://github.com/WebAssembly/binaryen/releases/download/version_112/binaryen-version_112-x86_64-linux.tar.gz",
+    "sha256": "0fq1cy4r7rsdjkcl68xrfsws01c73vvr2ys9zz21ii4nx4g03rjy"
   },
   "wabt": {
     "url": "https://github.com/WebAssembly/wabt/releases/download/1.0.32/wabt-1.0.32-ubuntu.tar.gz",
