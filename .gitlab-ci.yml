@@ -1,13 +1,22 @@
 variables:
-  DOCKER_REV: 572353e0644044fe3a5465bba4342a9a0b0eb60e
+  DOCKER_REV: 6fc51b534f2e955b5e5f8e48eefe5d5c2cd84c05
   GIT_DEPTH: 1
   GIT_STRATEGY: clone
 
 .x86_64-linux-alpine:
   tags:
     - x86_64-linux
-  image: registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-alpine3_12:$DOCKER_REV
+  image: registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-alpine3_17:$DOCKER_REV
   before_script:
+    - |
+      pushd "$(mktemp -d)"
+      sudo curl -f -L --retry 5 https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub
+      sudo curl -f -L --retry 5 https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.34-r0/glibc-2.34-r0.apk -O
+      sudo curl -f -L --retry 5 https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.34-r0/glibc-bin-2.34-r0.apk -O
+      sudo apk add --force-overwrite glibc-2.34-r0.apk
+      sudo apk add --force-overwrite glibc-bin-2.34-r0.apk
+      sudo apk fix --force-overwrite alpine-baselayout-data
+      popd
     - sudo chown ghc:ghc -R .
   script:
     - |
@@ -44,7 +53,7 @@ x86_64-linux-ubuntu:
   before_script:
     - |
       mkdir -p ~/.local
-      curl -f -L --retry 5 https://nodejs.org/dist/v19.5.0/node-v19.5.0-linux-x64.tar.xz | tar xJ --strip-components=1 -C ~/.local
+      curl -f -L --retry 5 https://unofficial-builds.nodejs.org/download/release/v19.7.0/node-v19.7.0-linux-x64-pointer-compression.tar.xz | tar xJ --strip-components=1 -C ~/.local
       export PATH=~/.local/bin:$PATH
     - sudo chown ghc:ghc -R .
   script:
@@ -63,18 +72,15 @@ x86_64-linux-ubuntu:
 x86_64-linux-nix:
   tags:
     - x86_64-linux
-  image: nixos/nix:2.13.2
+  image: nixos/nix:2.14.1
   before_script:
     - echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
   script:
     - |
-      nix build --json --no-link .
-      nix build --json --no-link .#wasm32-wasi-ghc-native
-      nix build --json --no-link .#wasm32-wasi-ghc-unreg
+      nix build --json --no-link . .#wasm32-wasi-ghc-native .#wasm32-wasi-ghc-unreg
     - |
       pushd "$(mktemp -d)"
       curl -f -L --retry 5 https://github.com/tweag/ormolu/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
       cd ormolu-live
-      echo "allow-newer: template-haskell" > cabal.project.local
-      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && wasm32-wasi-cabal build exe:ormolu-live && wasm32-wasi-cabal list-bin exe:ormolu-live"
+      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && exec ./build-wasm.sh"
       popd

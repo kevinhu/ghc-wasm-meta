@@ -123,11 +123,7 @@ flake & `setup.sh` installation. The recommended default runtime is
 `wasmtime`, other ones are included for testing purposes.
 
 - [`wasmtime`](https://wasmtime.dev)
-- `iwasm` from [WAMR](https://bytecodealliance.github.io/wamr.dev)
 - [`wasmedge`](https://wasmedge.org)
-- [`toywasm`](https://github.com/yamt/toywasm)
-- [`wasm3`](https://github.com/wasm3/wasm3)
-- [`wasmer`](https://wasmer.io)
 
 ### Non-browser JavaScript runtimes
 
@@ -148,7 +144,6 @@ work:
 
 - [`wasi-js`](https://github.com/sagemathinc/cowasm/tree/main/core/wasi-js)
 - [`browser_wasi_shim`](https://github.com/bjorn3/browser_wasi_shim)
-- [`wasmer-js`](https://github.com/wasmerio/wasmer-js)
 
 ## Compiling to WASI reactor module with user-specified exports
 
@@ -490,9 +485,6 @@ only run it for the `wizer` output. `wasm-opt` will be able to strip
 away some unused initialization functions that are no longer reachable
 via wasm exports or function table.
 
-TODO: add `rts_zeroMemory()` after
-https://gitlab.haskell.org/ghc/ghc/-/merge_requests/9931 lands.
-
 ## Accessing the host file system in non-browsers
 
 By default, only stdin/stdout/stderr is supported. To access the host
@@ -563,8 +555,8 @@ export RANLIB=~/.ghc-wasm/wasi-sdk/bin/llvm-ranlib
 export SIZE=~/.ghc-wasm/wasi-sdk/bin/llvm-size
 export STRINGS=~/.ghc-wasm/wasi-sdk/bin/llvm-strings
 export STRIP=~/.ghc-wasm/wasi-sdk/bin/llvm-strip
-export CONF_CC_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Wno-implicit-function-declaration -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
-export CONF_CXX_OPTS_STAGE2="-Wno-int-conversion -Wno-strict-prototypes -Wno-implicit-function-declaration -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
+export CONF_CC_OPTS_STAGE2="-Wno-error=int-conversion -Wno-error=strict-prototypes -Wno-error=implicit-function-declaration -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
+export CONF_CXX_OPTS_STAGE2="-Wno-error=int-conversion -Wno-error=strict-prototypes -Wno-error=implicit-function-declaration -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
 export CONF_GCC_LINKER_OPTS_STAGE2="-Wl,--compress-relocations,--error-limit=0,--growable-table,--stack-first,--strip-debug -Wno-unused-command-line-argument"
 export CONFIGURE_ARGS="--target=wasm32-wasi --with-intree-gmp --with-system-libffi"
 ```
