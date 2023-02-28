@@ -3,7 +3,7 @@
 set -euo pipefail
 
 readonly FLAVOUR="${FLAVOUR:-gmp}"
-readonly PREFIX="${PREFIX:-$HOME/.ghc-wasm}"
+readonly PREFIX="$(realpath "${PREFIX:-$HOME/.ghc-wasm}")"
 readonly REPO=$PWD
 readonly SKIP_GHC="${SKIP_GHC:-}"
 
