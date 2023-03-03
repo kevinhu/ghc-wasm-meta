@@ -159,7 +159,7 @@ you want to compile Haskell to a WASI reactor module.
 ### What is a WASI reactor module?
 
 The WASI spec includes certain
-[syscalls](https://github.com/WebAssembly/WASI/blob/main/phases/snapshot/docs.md)
+[syscalls](https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md)
 that are provided as the `wasi_snapshot_preview1` wasm imports.
 Additionally, the current WASI
 [ABI](https://github.com/WebAssembly/WASI/blob/main/legacy/application-abi.md)
