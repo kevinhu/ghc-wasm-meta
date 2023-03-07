@@ -1,5 +1,5 @@
 {
-  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, flake-utils, }:
@@ -14,14 +14,12 @@
             wasm32-wasi-ghc-gmp
             wasi-sdk
             deno
+            nodejs
+            bun
             binaryen
             wabt
             wasmtime
-            iwasm
             wasmedge
-            toywasm
-            wasm3
-            wasmer
             wizer
             cabal
             wasm32-wasi-cabal
@@ -37,14 +35,12 @@
           pkgs.callPackage ./pkgs/wasm32-wasi-ghc.nix { flavour = "unreg"; };
         wasi-sdk = pkgs.callPackage ./pkgs/wasi-sdk.nix { };
         deno = pkgs.callPackage ./pkgs/deno.nix { };
+        nodejs = pkgs.callPackage ./pkgs/nodejs.nix { };
+        bun = pkgs.callPackage ./pkgs/bun.nix { };
         binaryen = pkgs.callPackage ./pkgs/binaryen.nix { };
         wabt = pkgs.callPackage ./pkgs/wabt.nix { };
         wasmtime = pkgs.callPackage ./pkgs/wasmtime.nix { };
-        iwasm = pkgs.callPackage ./pkgs/iwasm.nix { };
         wasmedge = pkgs.callPackage ./pkgs/wasmedge.nix { };
-        toywasm = pkgs.callPackage ./pkgs/toywasm.nix { };
-        wasm3 = pkgs.callPackage ./pkgs/wasm3.nix { };
-        wasmer = pkgs.callPackage ./pkgs/wasmer.nix { };
         wizer = pkgs.callPackage ./pkgs/wizer.nix { };
         cabal = pkgs.callPackage ./pkgs/cabal.nix { };
         wasm32-wasi-cabal =
@@ -55,8 +51,8 @@
       {
         packages = {
           inherit default wasm32-wasi-ghc-gmp wasm32-wasi-ghc-native
-            wasm32-wasi-ghc-unreg wasi-sdk deno binaryen wabt wasmtime wasmedge
-            wasmer wizer cabal wasm32-wasi-cabal proot wasm-run;
+            wasm32-wasi-ghc-unreg wasi-sdk deno nodejs bun binaryen wabt
+            wasmtime wasmedge wizer cabal wasm32-wasi-cabal proot wasm-run;
         };
       });
 }

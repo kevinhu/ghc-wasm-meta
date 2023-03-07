@@ -1,19 +1,19 @@
-{ autoPatchelfHook, stdenvNoCC }:
+{ autoPatchelfHook, stdenvNoCC, }:
 let
   src = builtins.fetchTarball
-    ((builtins.fromJSON (builtins.readFile ../autogen.json)).iwasm);
+    ((builtins.fromJSON (builtins.readFile ../autogen.json)).bun);
 in
 stdenvNoCC.mkDerivation {
-  name = "iwasm";
+  name = "bun";
   dontUnpack = true;
   nativeBuildInputs = [ autoPatchelfHook ];
   installPhase = ''
     mkdir -p $out/bin
-    install -Dm755 ${src} $out/bin/iwasm
+    install -Dm755 ${src}/bun $out/bin
   '';
   doInstallCheck = true;
   installCheckPhase = ''
-    $out/bin/iwasm --version
+    $out/bin/bun --version
   '';
   strictDeps = true;
 }
