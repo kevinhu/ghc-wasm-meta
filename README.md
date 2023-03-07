@@ -339,23 +339,20 @@ it's not an issue if it's only intended to be run in browsers.
 
 Here's an example:
 
-```
-# The fill symbol is hidden, so it's not exported by default, but can
-# still be used by other objects.
-.hidden fill
+```c
+#include <stdint.h>
 
-# The fill symbol is global, so it's visible to other objects.
-.globl fill
+void _fill(void *buf, uint32_t len) __attribute__((
+  __import_module__("env"),
+  __import_name__("foo")
+));
 
-# The fill function is imported as env.foo.
-.import_module fill, env
-.import_name fill, foo
-
-# The fill function has this type.
-.functype fill (i32, i32) -> ()
+void fill(void *buf, uint32_t len) {
+  _fill(buf, len);
+}
 ```
 
-The above assembly source file can be saved as `fill.s`, and
+The above assembly source file can be saved as `fill.c`, and
 compiled/linked with other C/Haskell sources. The `fill` function can
 be called in C as long as you write down its prototype; it can also be
 called in Haskell just like any other normal C function.
