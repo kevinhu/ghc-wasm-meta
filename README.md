@@ -23,6 +23,11 @@ First start will download a bunch of stuff, but won't take too long
 since it just patches the binaries and performs no compilation. There
 is no need to set up a binary cache.
 
+Note that there are different GHC flavours available. The default
+flake output uses the `gmp` flavour, though you can also use the
+`all_native`, `all_unreg` and `all_9_6` flake outputs to get different
+flavours. See the next subsection for explanations of these flavours.
+
 ## Getting started without nix
 
 This repo also provides a `setup.sh` script that installs the provided
@@ -63,7 +68,16 @@ plus:
       compile-time performance is noticeably worse. May be useful for
       debugging the native codegen, since there are less GHC test
       suite failures in the unregisterised codegen at the moment.
+    - The `9.6` flavour tracks the `ghc-9.6` release branch instead of
+      the `master` branch. It uses the `gmp` bignum backend and the
+      wasm native codegen.
   - `SKIP_GHC`: set this to skip installing `cabal` and `ghc`
+
+Note that if you use the `9.6` flavour, the `wasm32-wasi-cabal`
+wrapper won't automatically set up `head.hackage` in the global config
+file. In the early days of `ghc-9.6`, this may result in more packages
+being rejected at compile time. This is true for both nix/non-nix
+installation methods.
 
 `setup.sh` requires `cc`, `curl`, `jq`, `unzip` to run.
 

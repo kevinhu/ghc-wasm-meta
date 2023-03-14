@@ -35,8 +35,10 @@ unzip bun.zip
 mkdir -p "$PREFIX/bun/bin"
 install -Dm755 bun-linux-x64/bun "$PREFIX/bun/bin"
 
-mkdir -p "$PREFIX/binaryen"
-curl -f -L --retry 5 "$(jq -r .binaryen.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/binaryen" --strip-components=1
+curl -f -L --retry 5 "$(jq -r .binaryen.url "$REPO"/autogen.json)" -o binaryen.zip
+unzip binaryen.zip
+mkdir -p "$PREFIX/binaryen/bin"
+install -Dm755 bin/* "$PREFIX/binaryen/bin"
 
 mkdir -p "$PREFIX/wabt"
 curl -f -L --retry 5 "$(jq -r .wabt.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wabt" --strip-components=1
@@ -62,6 +64,7 @@ cc -DWASM_RUN="\"$PREFIX/wasm-run/bin/wasm-run.js\"" -Wall -O3 "$REPO/wasm-run/q
 echo "#!/bin/sh" >> "$PREFIX/wasm-run/bin/wasm-run"
 echo "exec $PREFIX/proot/bin/proot -q $PREFIX/wasm-run/bin/qemu-system-wasm32" '${1+"$@"}' >> "$PREFIX/wasm-run/bin/wasm-run"
 chmod +x "$PREFIX/wasm-run/bin/wasm-run"
+sed -i "s@wasmtime@$PREFIX/wasmtime/bin/wasmtime@" "$PREFIX/wasm-run/bin/wasmtime.sh"
 
 echo "#!/bin/sh" >> "$PREFIX/add_to_github_path.sh"
 chmod 755 "$PREFIX/add_to_github_path.sh"
@@ -147,7 +150,10 @@ echo \
 chmod +x "$PREFIX/wasm32-wasi-cabal/bin/wasm32-wasi-cabal"
 
 mkdir "$PREFIX/.cabal"
-cp "$REPO/cabal.config" "$PREFIX/.cabal/config"
+if [ "$FLAVOUR" != 9.6 ]
+then
+  cp "$REPO/cabal.config" "$PREFIX/.cabal/config"
+fi
 "$PREFIX/wasm32-wasi-cabal/bin/wasm32-wasi-cabal" update
 
 popd

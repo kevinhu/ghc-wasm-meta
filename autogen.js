@@ -164,6 +164,14 @@ const _wasm32_wasi_ghc_unreg = fetchGitLabArtifact(
   "ghc-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
   "&source=schedule"
 );
+const _wasm32_wasi_ghc_9_6 = fetchGitLabArtifact(
+  "builtins.fetchTarball",
+  "gitlab.haskell.org",
+  3223,
+  "ghc-9.6",
+  "x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static",
+  "ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz"
+);
 const _wasi_sdk = fetchGitLabArtifact(
   "builtins.fetchTarball",
   "gitlab.haskell.org",
@@ -196,11 +204,12 @@ const _bun = fetchGitHubLatestRelease(
   "bun",
   "linux-x64.zip"
 );
-const _binaryen = fetchGitHubLatestRelease(
-  "builtins.fetchTarball",
-  "WebAssembly",
+const _binaryen = fetchGitHubArtifact(
+  "type-dance",
   "binaryen",
-  "x86_64-linux.tar.gz"
+  "main",
+  "release",
+  "release-ubuntu-latest"
 );
 const _wabt = fetchGitHubLatestRelease(
   "builtins.fetchTarball",
@@ -228,7 +237,7 @@ const _wizer = fetchGitHubArtifact(
   "bins-x86_64-linux"
 );
 const _cabal = fetchurl(
-  "https://downloads.haskell.org/cabal/cabal-install-3.9.0.0/cabal-install-3.9-x86_64-linux-alpine.tar.xz"
+  "https://downloads.haskell.org/cabal/cabal-install-3.10.1.0/cabal-install-3.10.1.0-x86_64-linux-alpine.tar.xz"
 );
 const _proot = fetchGitLabArtifact(
   "builtins.fetchurl",
@@ -246,6 +255,7 @@ await Deno.writeTextFile(
       "wasm32-wasi-ghc-gmp": await _wasm32_wasi_ghc_gmp,
       "wasm32-wasi-ghc-native": await _wasm32_wasi_ghc_native,
       "wasm32-wasi-ghc-unreg": await _wasm32_wasi_ghc_unreg,
+      "wasm32-wasi-ghc-9.6": await _wasm32_wasi_ghc_9_6,
       "wasi-sdk": await _wasi_sdk,
       "libffi-wasm": await _libffi_wasm,
       deno: await _deno,
