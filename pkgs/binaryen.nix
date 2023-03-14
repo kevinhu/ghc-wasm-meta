@@ -1,4 +1,4 @@
-{ autoPatchelfHook, stdenvNoCC, }:
+{ stdenvNoCC }:
 let
   src = builtins.fetchTarball
     ((builtins.fromJSON (builtins.readFile ../autogen.json)).binaryen);
@@ -6,14 +6,13 @@ in
 stdenvNoCC.mkDerivation {
   name = "binaryen";
   dontUnpack = true;
-  nativeBuildInputs = [ autoPatchelfHook ];
   installPhase = ''
     mkdir -p $out/bin
-    install -Dm755 ${src}/bin/* $out/bin
+    install -Dm755 ${src}/* $out/bin
   '';
   doInstallCheck = true;
   installCheckPhase = ''
-    $out/bin/wasm-opt --version
+    MIMALLOC_VERBOSE=1 $out/bin/wasm-opt --version
   '';
-  strictDeps = true;
+  allowedReferences = [ ];
 }

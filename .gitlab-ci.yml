@@ -46,6 +46,11 @@ x86_64-linux-alpine-unreg:
   variables:
     FLAVOUR: unreg
 
+x86_64-linux-alpine-9.6:
+  extends: .x86_64-linux-alpine
+  variables:
+    FLAVOUR: "9.6"
+
 x86_64-linux-ubuntu:
   tags:
     - x86_64-linux
@@ -77,10 +82,10 @@ x86_64-linux-nix:
     - echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
   script:
     - |
-      nix build --json --no-link . .#wasm32-wasi-ghc-native .#wasm32-wasi-ghc-unreg
+      nix build --json --no-link . .#all_native .#all_unreg .#all_9_6
     - |
       pushd "$(mktemp -d)"
       curl -f -L --retry 5 https://github.com/tweag/ormolu/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
       cd ormolu-live
-      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && exec ./build-wasm.sh"
+      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && exec ./build-wasm.sh -Oz"
       popd

@@ -1,27 +1,31 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1395963/artifacts/ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "11pkhfjbjx18ahcnzr385lm1nn162hahq2y7xlzh8343s96azqhd"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1403955/artifacts/ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "1w3ym93m98zn03d34a31nx8ybgs8aswxy9qxps457njcvpqkkc8v"
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1395964/artifacts/ghc-x86_64-linux-alpine3_12-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "0siilr8p0avfk9bbl38gk3prizyhc3vwnr63rnd9420zwij7f7gf"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1403956/artifacts/ghc-x86_64-linux-alpine3_12-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "1zxqvfi9xhki2a01mg088n0zxqlkzmn6m5n57z6hqhwslcajn15r"
   },
   "wasm32-wasi-ghc-unreg": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1395966/artifacts/ghc-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "195p3a5ihrrim9hdn6ky6bc6y0lzfv2lz80xk0cl83mwvlx7fd6g"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1403958/artifacts/ghc-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "1xskn9msdbhqr2zxjm3mgi67fsfdd6piznzwmdydv5cdzmmfk898"
+  },
+  "wasm32-wasi-ghc-9.6": {
+    "url": "https://gitlab.haskell.org/api/v4/projects/3223/jobs/1404407/artifacts/ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "1688qsafn668akslplyif746z3j1aw43kxbs6x77pj3qqv840qr9"
   },
   "wasi-sdk": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1395528/artifacts/dist/wasi-sdk-16-linux.tar.gz",
-    "sha256": "0fv6blmqxygbx6mjxk03ci2imri35m1qxla5fg3kkfkhpvinyqx2"
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1402484/artifacts/dist/wasi-sdk-16-linux.tar.gz",
+    "sha256": "0kjpn24c4qjcr587gyyaxnryy2al8jy1a4w0kj5q4v2sd2rrwwfz"
   },
   "libffi-wasm": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3214/jobs/1227903/artifacts",
     "sha256": "1rj03kdjn1ppkymcbixwa96gcgyw7gg49vmib861q6wvsm721ia0"
   },
   "deno": {
-    "url": "https://github.com/denoland/deno/releases/download/v1.31.1/deno-x86_64-unknown-linux-gnu.zip",
-    "sha256": "1n853627q08xydsqh5ljhivnxhbinwjm4nry8p220r1q7rbnm5k4"
+    "url": "https://github.com/denoland/deno/releases/download/v1.31.2/deno-x86_64-unknown-linux-gnu.zip",
+    "sha256": "0qssx5x4a48pya4shq6f4n8130qyyx1ilypc1fqnxxqiscjfbrb4"
   },
   "nodejs": {
     "url": "https://unofficial-builds.nodejs.org/download/release/v19.7.0/node-v19.7.0-linux-x64-pointer-compression.tar.xz",
@@ -32,16 +36,16 @@
     "sha256": "1z2gmhgaadn9mm85b7j3jyp6fn8v3sjig9mai1q8k61fz9ic3sq5"
   },
   "binaryen": {
-    "url": "https://github.com/WebAssembly/binaryen/releases/download/version_112/binaryen-version_112-x86_64-linux.tar.gz",
-    "sha256": "0fq1cy4r7rsdjkcl68xrfsws01c73vvr2ys9zz21ii4nx4g03rjy"
+    "url": "https://nightly.link/type-dance/binaryen/actions/artifacts/594971458.zip",
+    "sha256": "0zvi02fhqllp37b720k12x953bksaslq2cm13a6wiyynvsnja2jh"
   },
   "wabt": {
     "url": "https://github.com/WebAssembly/wabt/releases/download/1.0.32/wabt-1.0.32-ubuntu.tar.gz",
     "sha256": "1x1qw0sc4bqwll65srnz58mvqw6psrqw5npc3vn23zv2ffdvq8d9"
   },
   "wasmtime": {
-    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v6.0.0/wasmtime-v6.0.0-x86_64-linux.tar.xz",
-    "sha256": "1yffcsfm895ddccpkjaxa0mpmsvi9rhzrhp0ly6mfnfnpj5a5lvj"
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v6.0.1/wasmtime-v6.0.1-x86_64-linux.tar.xz",
+    "sha256": "1v85qfc4r2yhhlci8jl9rxn8pzgmhx346227k7jzzpr0aq57cnih"
   },
   "wasmedge": {
     "url": "https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz",
@@ -52,8 +56,8 @@
     "sha256": "08pm7al8sbyfrv6rj1gnj87svi791d5j5j8vxwrwikf2n0x4pr91"
   },
   "cabal": {
-    "url": "https://downloads.haskell.org/cabal/cabal-install-3.9.0.0/cabal-install-3.9-x86_64-linux-alpine.tar.xz",
-    "sha256": "075cl6hin3mbp2a0mbrqrwgchg9svlzxhf7cp4gmw99zqdnp2x03"
+    "url": "https://downloads.haskell.org/cabal/cabal-install-3.10.1.0/cabal-install-3.10.1.0-x86_64-linux-alpine.tar.xz",
+    "sha256": "16fx3hg5fz2lx5adz25b0jkqhilf3jd4c7hjx9x69n4vwvba6zqq"
   },
   "proot": {
     "url": "https://gitlab.com/api/v4/projects/9799675/jobs/2370229665/artifacts/dist/proot",
