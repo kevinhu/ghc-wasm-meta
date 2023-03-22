@@ -196,7 +196,7 @@ const _deno = fetchGitHubLatestRelease(
   "unknown-linux-gnu.zip"
 );
 const _nodejs = fetchTarball(
-  "https://unofficial-builds.nodejs.org/download/release/v19.7.0/node-v19.7.0-linux-x64-pointer-compression.tar.xz"
+  "https://unofficial-builds.nodejs.org/download/release/v19.8.1/node-v19.8.1-linux-x64-pointer-compression.tar.xz"
 );
 const _bun = fetchGitHubLatestRelease(
   "builtins.fetchTarball",

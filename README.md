@@ -105,6 +105,7 @@ List of wasm extensions that we use:
   Operations](https://github.com/WebAssembly/spec/blob/master/proposals/bulk-memory-operations/Overview.md)
 - [Import/Export mutable
   globals](https://github.com/WebAssembly/mutable-global/blob/master/proposals/mutable-global/Overview.md)
+- [Multi-value](https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md)
 - [Reference
   Types](https://github.com/WebAssembly/spec/blob/master/proposals/reference-types/Overview.md)
 
@@ -123,8 +124,6 @@ on:
   [wasmtime](https://github.com/bytecodealliance/wasmtime/issues/1065)
   and a few other engines. Note that we already support wasm tail
   calls, but it's an opt-in feature for now.
-- [Multi-value](https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md),
-  blocked by [LLVM](https://github.com/llvm/llvm-project/issues/59095)
 
 ## What runtimes support those `.wasm` files?
 
@@ -566,8 +565,8 @@ export RANLIB=~/.ghc-wasm/wasi-sdk/bin/llvm-ranlib
 export SIZE=~/.ghc-wasm/wasi-sdk/bin/llvm-size
 export STRINGS=~/.ghc-wasm/wasi-sdk/bin/llvm-strings
 export STRIP=~/.ghc-wasm/wasi-sdk/bin/llvm-strip
-export CONF_CC_OPTS_STAGE2="-Wno-error=int-conversion -Wno-error=strict-prototypes -Wno-error=implicit-function-declaration -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
-export CONF_CXX_OPTS_STAGE2="-Wno-error=int-conversion -Wno-error=strict-prototypes -Wno-error=implicit-function-declaration -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mreference-types"
+export CONF_CC_OPTS_STAGE2="-Wno-error=int-conversion -Wno-error=strict-prototypes -Wno-error=implicit-function-declaration -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mmultivalue -mreference-types"
+export CONF_CXX_OPTS_STAGE2="-Wno-error=int-conversion -Wno-error=strict-prototypes -Wno-error=implicit-function-declaration -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mmultivalue -mreference-types"
 export CONF_GCC_LINKER_OPTS_STAGE2="-Wl,--compress-relocations,--error-limit=0,--growable-table,--stack-first,--strip-debug -Wno-unused-command-line-argument"
 export CONFIGURE_ARGS="--target=wasm32-wasi --with-intree-gmp --with-system-libffi"
 ```
