@@ -97,6 +97,8 @@ enabled globally)
 
 List of wasm extensions that we use:
 
+- [128-bit packed
+  SIMD](https://github.com/WebAssembly/spec/blob/master/proposals/simd/SIMD.md)
 - [Non-trapping Float-to-int
   Conversions](https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md)
 - [Sign-extension
@@ -115,9 +117,6 @@ used in `wasi-libc`.
 List of wasm extensions that we don't use yet but are keeping an eye
 on:
 
-- [128-bit packed
-  SIMD](https://github.com/WebAssembly/spec/blob/master/proposals/simd/SIMD.md),
-  blocked by [WebKit](https://bugs.webkit.org/show_bug.cgi?id=222382)
 - [Tail
   Call](https://github.com/WebAssembly/tail-call/blob/main/proposals/tail-call/Overview.md),
   blocked by
@@ -565,8 +564,8 @@ export RANLIB=~/.ghc-wasm/wasi-sdk/bin/llvm-ranlib
 export SIZE=~/.ghc-wasm/wasi-sdk/bin/llvm-size
 export STRINGS=~/.ghc-wasm/wasi-sdk/bin/llvm-strings
 export STRIP=~/.ghc-wasm/wasi-sdk/bin/llvm-strip
-export CONF_CC_OPTS_STAGE2="-Wno-error=int-conversion -Wno-error=strict-prototypes -Wno-error=implicit-function-declaration -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mmultivalue -mreference-types"
-export CONF_CXX_OPTS_STAGE2="-Wno-error=int-conversion -Wno-error=strict-prototypes -Wno-error=implicit-function-declaration -fno-exceptions -Oz -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mmultivalue -mreference-types"
+export CONF_CC_OPTS_STAGE2="-Wno-error=int-conversion -Wno-error=strict-prototypes -Wno-error=implicit-function-declaration -Oz -msimd128 -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mmultivalue -mreference-types"
+export CONF_CXX_OPTS_STAGE2="-Wno-error=int-conversion -Wno-error=strict-prototypes -Wno-error=implicit-function-declaration -fno-exceptions -Oz -msimd128 -mnontrapping-fptoint -msign-ext -mbulk-memory -mmutable-globals -mmultivalue -mreference-types"
 export CONF_GCC_LINKER_OPTS_STAGE2="-Wl,--compress-relocations,--error-limit=0,--growable-table,--stack-first,--strip-debug -Wno-unused-command-line-argument"
 export CONFIGURE_ARGS="--target=wasm32-wasi --with-intree-gmp --with-system-libffi"
 ```

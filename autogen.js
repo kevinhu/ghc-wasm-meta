@@ -34,11 +34,12 @@ async function fetchGitHubArtifactURL(
   repo,
   branch,
   workflow_name,
-  artifact_name
+  artifact_name,
+  event
 ) {
   const run_id = (
     await fetchJSON(
-      `https://api.github.com/repos/${owner}/${repo}/actions/runs?branch=${branch}&event=push`
+      `https://api.github.com/repos/${owner}/${repo}/actions/runs?branch=${branch}&event=${event}`
     )
   ).workflow_runs.find((e) => e.name && e.name === workflow_name).id;
   const artifact_id = (
@@ -108,14 +109,16 @@ async function fetchGitHubArtifact(
   repo,
   branch,
   workflow_name,
-  artifact_name
+  artifact_name,
+  event
 ) {
   const url = await fetchGitHubArtifactURL(
     owner,
     repo,
     branch,
     workflow_name,
-    artifact_name
+    artifact_name,
+    event
   );
   const sha256 = await fetchHash("builtins.fetchTarball", { url, sha256: "" });
   return { url, sha256 };
@@ -209,7 +212,8 @@ const _binaryen = fetchGitHubArtifact(
   "binaryen",
   "main",
   "release",
-  "release-ubuntu-latest"
+  "release-ubuntu-latest",
+  "push"
 );
 const _wabt = fetchGitHubLatestRelease(
   "builtins.fetchTarball",
@@ -232,9 +236,10 @@ const _wasmedge = fetchGitHubLatestRelease(
 const _wizer = fetchGitHubArtifact(
   "bytecodealliance",
   "wizer",
-  "main",
+  "simd-enable",
   "Release",
-  "bins-x86_64-linux"
+  "bins-x86_64-linux",
+  "pull_request"
 );
 const _cabal = fetchurl(
   "https://downloads.haskell.org/cabal/cabal-install-3.10.1.0/cabal-install-3.10.1.0-x86_64-linux-alpine.tar.xz"
