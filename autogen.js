@@ -145,8 +145,8 @@ const _wasm32_wasi_ghc_gmp = fetchGitLabArtifact(
   "gitlab.haskell.org",
   1,
   "master",
-  "nightly-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static",
-  "ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
+  "nightly-x86_64-linux-alpine3_17-wasm-cross_wasm32-wasi-release+fully_static",
+  "ghc-x86_64-linux-alpine3_17-wasm-cross_wasm32-wasi-release+fully_static.tar.xz",
   "&source=schedule"
 );
 const _wasm32_wasi_ghc_native = fetchGitLabArtifact(
@@ -154,8 +154,8 @@ const _wasm32_wasi_ghc_native = fetchGitLabArtifact(
   "gitlab.haskell.org",
   1,
   "master",
-  "nightly-x86_64-linux-alpine3_12-int_native-cross_wasm32-wasi-release+fully_static",
-  "ghc-x86_64-linux-alpine3_12-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
+  "nightly-x86_64-linux-alpine3_17-wasm-int_native-cross_wasm32-wasi-release+fully_static",
+  "ghc-x86_64-linux-alpine3_17-wasm-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
   "&source=schedule"
 );
 const _wasm32_wasi_ghc_unreg = fetchGitLabArtifact(
@@ -163,8 +163,8 @@ const _wasm32_wasi_ghc_unreg = fetchGitLabArtifact(
   "gitlab.haskell.org",
   1,
   "master",
-  "nightly-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static",
-  "ghc-x86_64-linux-alpine3_12-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
+  "nightly-x86_64-linux-alpine3_17-wasm-unreg-cross_wasm32-wasi-release+fully_static",
+  "ghc-x86_64-linux-alpine3_17-wasm-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
   "&source=schedule"
 );
 const _wasm32_wasi_ghc_9_6 = fetchGitLabArtifact(
