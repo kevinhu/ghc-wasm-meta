@@ -181,7 +181,7 @@ const _wasi_sdk = fetchGitLabArtifact(
   3212,
   "main",
   "x86_64-linux",
-  "dist/wasi-sdk-16-linux.tar.gz",
+  "dist/wasi-sdk-17-linux.tar.gz",
   "&status=success"
 );
 const _libffi_wasm = fetchGitLabArtifact(
