@@ -58,13 +58,25 @@ x86_64-linux-ubuntu:
   before_script:
     - |
       mkdir -p ~/.local
-      curl -f -L --retry 5 https://unofficial-builds.nodejs.org/download/release/v19.8.1/node-v19.8.1-linux-x64-pointer-compression.tar.xz | tar xJ --strip-components=1 -C ~/.local
+      curl -f -L --retry 5 https://unofficial-builds.nodejs.org/download/release/v19.9.0/node-v19.9.0-linux-x64-pointer-compression.tar.xz | tar xJ --strip-components=1 -C ~/.local
       export PATH=~/.local/bin:$PATH
     - sudo chown ghc:ghc -R .
   script:
     - |
       PREFIX=/tmp/.ghc-wasm ./setup.sh
       . /tmp/.ghc-wasm/env
+    - |
+      pushd "$(mktemp -d)"
+      curl -f -L --retry 5 https://github.com/haskell/time/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
+      sed -i '/tasty/d' time.cabal
+      echo "package QuickCheck" >> cabal.project.local
+      echo "  flags: -templatehaskell" >> cabal.project.local
+      autoreconf -i
+      wasm32-wasi-cabal build test:ShowDefaultTZAbbreviations
+      wasmtime run $(wasm32-wasi-cabal list-bin test:ShowDefaultTZAbbreviations)
+      wasm32-wasi-cabal build test:ShowTime
+      wasmtime run $(wasm32-wasi-cabal list-bin test:ShowTime)
+      popd
     - |
       pushd "$(mktemp -d)"
       curl -f -L --retry 5 https://github.com/haskell/unix/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
@@ -77,7 +89,7 @@ x86_64-linux-ubuntu:
 x86_64-linux-nix:
   tags:
     - x86_64-linux
-  image: nixos/nix:2.14.1
+  image: nixos/nix:2.15.0
   before_script:
     - echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
   script:
@@ -89,3 +101,4 @@ x86_64-linux-nix:
       cd ormolu-live
       nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && exec ./build-wasm.sh -Oz"
       popd
+  retry: 2
