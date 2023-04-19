@@ -11,6 +11,7 @@ function parseArgv(args) {
 const argv = parseArgv(process.argv.slice(2));
 
 const wasi = new WASI({
+  version: "preview1",
   args: argv,
   env: { PATH: "", PWD: process.cwd() },
   preopens: { "/": "/" },
