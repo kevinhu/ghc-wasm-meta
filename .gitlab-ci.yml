@@ -58,7 +58,7 @@ x86_64-linux-ubuntu:
   before_script:
     - |
       mkdir -p ~/.local
-      curl -f -L --retry 5 https://unofficial-builds.nodejs.org/download/release/v19.9.0/node-v19.9.0-linux-x64-pointer-compression.tar.xz | tar xJ --strip-components=1 -C ~/.local
+      curl -f -L --retry 5 https://unofficial-builds.nodejs.org/download/release/v20.0.0/node-v20.0.0-linux-x64-pointer-compression.tar.xz | tar xJ --strip-components=1 -C ~/.local
       export PATH=~/.local/bin:$PATH
     - sudo chown ghc:ghc -R .
   script:
@@ -99,6 +99,11 @@ x86_64-linux-nix:
       pushd "$(mktemp -d)"
       curl -f -L --retry 5 https://github.com/tweag/ormolu/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
       cd ormolu-live
-      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && exec ./build-wasm.sh -Oz"
+      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && exec ./build-wasm.sh"
+      popd
+    - |
+      pushd "$(mktemp -d)"
+      curl -f -L --retry 5 https://github.com/fourmolu/fourmolu/archive/refs/heads/main.tar.gz | tar xz --strip-components=1
+      nix shell $CI_PROJECT_DIR -c sh -c "cd web/fourmolu-wasm && exec ./build.sh"
       popd
   retry: 2
