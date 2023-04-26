@@ -80,6 +80,7 @@ async function fetchHash(fetcher, fetcher_opts) {
   });
   const msg = new TextDecoder().decode(await proc.stderrOutput());
   const hash = parseActualHash(msg);
+  await proc.status();
   return hash;
 }
 
@@ -233,6 +234,12 @@ const _wasmedge = fetchGitHubLatestRelease(
   "WasmEdge",
   "ubuntu20.04_x86_64.tar.gz"
 );
+const _wazero = fetchGitHubLatestRelease(
+  "builtins.fetchTarball",
+  "tetratelabs",
+  "wazero",
+  "linux_amd64.tar.gz"
+);
 const _wizer = fetchGitHubArtifact(
   "bytecodealliance",
   "wizer",
@@ -270,6 +277,7 @@ await Deno.writeTextFile(
       wabt: await _wabt,
       wasmtime: await _wasmtime,
       wasmedge: await _wasmedge,
+      wazero: await _wazero,
       wizer: await _wizer,
       cabal: await _cabal,
       proot: await _proot,
