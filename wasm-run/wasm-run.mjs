@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --no-warnings --experimental-wasi-unstable-preview1 --experimental-wasm-return_call --liftoff-only --no-wasm-bounds-checks --no-wasm-stack-checks --no-wasm-opt --wasm-lazy-compilation --wasm-lazy-validation
+#!/usr/bin/env -S node --no-warnings --experimental-wasi-unstable-preview1 --liftoff-only --no-wasm-bounds-checks --no-wasm-stack-checks --no-wasm-opt --wasm-lazy-compilation --wasm-lazy-validation
 
 import fs from "node:fs/promises";
 import { WASI } from "node:wasi";

@@ -1,15 +1,15 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1450652/artifacts/ghc-x86_64-linux-alpine3_17-wasm-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "0q5bwkh0ji8abpdj42kyhy38gj073bchgfsvmvzlwfwc5l7z1nq5"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1458473/artifacts/ghc-x86_64-linux-alpine3_17-wasm-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "05ajsl3j27g8zi569m0pavdkr7170gql9mhh51cb124hvzpz0pm7"
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1450653/artifacts/ghc-x86_64-linux-alpine3_17-wasm-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "06jfpj1dj3c9dqrjvk92l4j13ngxd10inn4smrc1sqx30i9ba1br"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1458474/artifacts/ghc-x86_64-linux-alpine3_17-wasm-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "03jkkrkifwq39nscl5058g8r8pd9m5pm8a1h0mwh2fxklvqdj24i"
   },
   "wasm32-wasi-ghc-unreg": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1450654/artifacts/ghc-x86_64-linux-alpine3_17-wasm-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "0vsbdngmq29wb8kyq80c426x1l0fhj9bj2iw2z0av0d7xh9pxaa6"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1458475/artifacts/ghc-x86_64-linux-alpine3_17-wasm-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "0y0hyl0r6zqjb8p8hgyrgpbp8qhwlar0ia6di2qzgc0xvi9phr4k"
   },
   "wasm32-wasi-ghc-9.6": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3223/jobs/1404407/artifacts/ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
@@ -44,16 +44,20 @@
     "sha256": "1x1qw0sc4bqwll65srnz58mvqw6psrqw5npc3vn23zv2ffdvq8d9"
   },
   "wasmtime": {
-    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v7.0.0/wasmtime-v7.0.0-x86_64-linux.tar.xz",
-    "sha256": "0f3q4crpn048fy9zz7j3ifpwfl853zmj345j90fm4m43dnvgr8sz"
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v8.0.0/wasmtime-v8.0.0-x86_64-linux.tar.xz",
+    "sha256": "1mgmin0pfchgigyzj1wwpqkq4qmahf338wbidbb3z7wypa6pjaml"
   },
   "wasmedge": {
-    "url": "https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz",
-    "sha256": "12529cz889vp2lrvwzga94qa0b6ff4fhi4j25ivym7m22g7yad6q"
+    "url": "https://github.com/WasmEdge/WasmEdge/releases/download/0.12.0/WasmEdge-0.12.0-ubuntu20.04_x86_64.tar.gz",
+    "sha256": "1ricxb8sn194rb4gxd5k6fi3kh2xrbmn6j6c909q66jc7qrglpzz"
+  },
+  "wazero": {
+    "url": "https://github.com/tetratelabs/wazero/releases/download/v1.0.3/wazero_1.0.3_linux_amd64.tar.gz",
+    "sha256": "01lbg300d2rq2n3hjmv82nfxbwh9cdl0ham2wf916c3gmj6cqs2h"
   },
   "wizer": {
-    "url": "https://nightly.link/bytecodealliance/wizer/actions/artifacts/648433949.zip",
-    "sha256": "0gjc9g3rkghs42mc71l77m5pbdj6c09ci5mj46i7pw61689nk5ww"
+    "url": "https://nightly.link/bytecodealliance/wizer/actions/artifacts/664996841.zip",
+    "sha256": "0z2j3qj6qiww3q4m1a1srk387lsh2ygqgy91gd1759877dzqjdvl"
   },
   "cabal": {
     "url": "https://downloads.haskell.org/cabal/cabal-install-3.10.1.0/cabal-install-3.10.1.0-x86_64-linux-alpine.tar.xz",

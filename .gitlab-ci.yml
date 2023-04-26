@@ -85,6 +85,26 @@ x86_64-linux-ubuntu:
       wasm32-wasi-cabal --project-file=cabal.project.wasm32-wasi build
       ./test-wasm32-wasi.mjs
       popd
+    - |
+      pushd "$(mktemp -d)"
+      curl -f -L --retry 5 https://github.com/UnkindPartition/tasty/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
+      wasm32-wasi-cabal build all
+
+      readonly TEST_WRAPPERS="$(mktemp -d -p /tmp)"
+      export PATH=$TEST_WRAPPERS:$PATH
+      wasm32-wasi-cabal install ./core-tests
+      for test in tasty-core-tests exit-status-test resource-release-test failing-pattern-test; do
+        echo '#!/usr/bin/env bash' > "$TEST_WRAPPERS/$test"
+        echo "wasmtime run --mapdir /::/ --env PWD=\"\$PWD\" -- /tmp/.ghc-wasm/.cabal/bin/$test.wasm \"\$@\"" \
+          >> "$TEST_WRAPPERS/$test"
+        chmod +x "$TEST_WRAPPERS/$test"
+      done
+
+      (cd core-tests && tasty-core-tests)
+      core-tests/exit-status-tests.sh
+      core-tests/failing-pattern-test.sh
+
+      popd
 
 x86_64-linux-nix:
   tags:

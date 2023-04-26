@@ -136,6 +136,7 @@ flake & `setup.sh` installation. The recommended default runtime is
 
 - [`wasmtime`](https://wasmtime.dev)
 - [`wasmedge`](https://wasmedge.org)
+- [`wazero`](https://wazero.io)
 
 ### Non-browser JavaScript runtimes
 

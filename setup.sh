@@ -49,6 +49,9 @@ curl -f -L --retry 5 "$(jq -r .wasmtime.url "$REPO"/autogen.json)" | tar xJ -C "
 mkdir -p "$PREFIX/wasmedge"
 curl -f -L --retry 5 "$(jq -r .wasmedge.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wasmedge" --strip-components=1
 
+mkdir -p "$PREFIX/wazero/bin"
+curl -f -L --retry 5 "$(jq -r .wazero.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wazero/bin"
+
 curl -f -L --retry 5 "$(jq -r .wizer.url "$REPO"/autogen.json)" -o wizer.zip
 unzip wizer.zip
 mkdir -p "$PREFIX/wizer/bin"
@@ -75,6 +78,7 @@ for p in \
   "$PREFIX/wasm32-wasi-cabal/bin" \
   "$PREFIX/cabal/bin" \
   "$PREFIX/wizer/bin" \
+  "$PREFIX/wazero/bin" \
   "$PREFIX/wasmedge/bin" \
   "$PREFIX/wasmtime/bin" \
   "$PREFIX/wabt/bin" \
