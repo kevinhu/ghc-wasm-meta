@@ -1,4 +1,4 @@
-{ autoPatchelfHook, stdenv, stdenvNoCC, }:
+{ autoPatchelfHook, openssl, stdenv, stdenvNoCC, }:
 let
   src = builtins.fetchTarball
     ((builtins.fromJSON (builtins.readFile ../autogen.json)).wabt);
@@ -6,7 +6,7 @@ in
 stdenvNoCC.mkDerivation {
   name = "wabt";
   dontUnpack = true;
-  buildInputs = [ stdenv.cc.cc.lib ];
+  buildInputs = [ openssl stdenv.cc.cc.lib ];
   nativeBuildInputs = [ autoPatchelfHook ];
   installPhase = ''
     mkdir -p $out/bin
