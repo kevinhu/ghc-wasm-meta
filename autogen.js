@@ -200,7 +200,7 @@ const _deno = fetchGitHubLatestRelease(
   "unknown-linux-gnu.zip"
 );
 const _nodejs = fetchTarball(
-  "https://unofficial-builds.nodejs.org/download/release/v20.0.0/node-v20.0.0-linux-x64-pointer-compression.tar.xz"
+  "https://unofficial-builds.nodejs.org/download/release/v20.2.0/node-v20.2.0-linux-x64-pointer-compression.tar.xz"
 );
 const _bun = fetchGitHubLatestRelease(
   "builtins.fetchTarball",
@@ -223,10 +223,10 @@ const _wabt = fetchGitHubLatestRelease(
   "ubuntu.tar.gz"
 );
 const _wasmtime = fetchGitHubLatestRelease(
-  "builtins.fetchTarball",
-  "bytecodealliance",
+  "builtins.fetchurl",
+  "type-dance",
   "wasmtime",
-  "x86_64-linux.tar.xz"
+  "x86_64-linux-musl"
 );
 const _wasmedge = fetchGitHubLatestRelease(
   "builtins.fetchTarball",

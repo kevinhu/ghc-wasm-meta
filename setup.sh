@@ -44,7 +44,8 @@ mkdir -p "$PREFIX/wabt"
 curl -f -L --retry 5 "$(jq -r .wabt.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wabt" --strip-components=1
 
 mkdir -p "$PREFIX/wasmtime/bin"
-curl -f -L --retry 5 "$(jq -r .wasmtime.url "$REPO"/autogen.json)" | tar xJ -C "$PREFIX/wasmtime/bin" --strip-components=1 --wildcards '*/wasmtime'
+curl -f -L --retry 5 "$(jq -r .wasmtime.url "$REPO"/autogen.json)" -o "$PREFIX/wasmtime/bin/wasmtime"
+chmod 755 "$PREFIX/wasmtime/bin/wasmtime"
 
 mkdir -p "$PREFIX/wasmedge"
 curl -f -L --retry 5 "$(jq -r .wasmedge.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wasmedge" --strip-components=1
@@ -66,7 +67,7 @@ cp -a "$REPO"/wasm-run/*.js "$REPO"/wasm-run/*.mjs "$REPO"/wasm-run/*.sh "$PREFI
 cc -DWASM_RUN="\"$PREFIX/wasm-run/bin/wasm-run.js\"" -Wall -O3 "$REPO/wasm-run/qemu-system-wasm32.c" -o "$PREFIX/wasm-run/bin/qemu-system-wasm32"
 echo "#!/bin/sh" >> "$PREFIX/wasm-run/bin/wasm-run"
 echo "exec $PREFIX/proot/bin/proot -q $PREFIX/wasm-run/bin/qemu-system-wasm32" '${1+"$@"}' >> "$PREFIX/wasm-run/bin/wasm-run"
-chmod +x "$PREFIX/wasm-run/bin/wasm-run"
+chmod 755 "$PREFIX/wasm-run/bin/wasm-run"
 sed -i "s@wasmtime@$PREFIX/wasmtime/bin/wasmtime@" "$PREFIX/wasm-run/bin/wasmtime.sh"
 
 echo "#!/bin/sh" >> "$PREFIX/add_to_github_path.sh"
@@ -151,7 +152,7 @@ echo \
   "--with-hc-pkg=$PREFIX/wasm32-wasi-ghc/bin/wasm32-wasi-ghc-pkg" \
   "--with-hsc2hs=$PREFIX/wasm32-wasi-ghc/bin/wasm32-wasi-hsc2hs" \
   '${1+"$@"}' >> "$PREFIX/wasm32-wasi-cabal/bin/wasm32-wasi-cabal"
-chmod +x "$PREFIX/wasm32-wasi-cabal/bin/wasm32-wasi-cabal"
+chmod 755 "$PREFIX/wasm32-wasi-cabal/bin/wasm32-wasi-cabal"
 
 mkdir "$PREFIX/.cabal"
 if [ "$FLAVOUR" != 9.6 ]

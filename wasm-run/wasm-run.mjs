@@ -15,6 +15,7 @@ const wasi = new WASI({
   args: argv,
   env: { PATH: "", PWD: process.cwd() },
   preopens: { "/": "/" },
+  returnOnExit: false,
 });
 
 const instance = (
