@@ -9,6 +9,8 @@ stdenvNoCC.mkDerivation {
 
   inherit src;
 
+  buildInputs = [ runtimeShellPackage ];
+
   preConfigure = ''
     patchShebangs .
 

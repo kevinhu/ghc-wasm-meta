@@ -14,6 +14,7 @@ in
 stdenvNoCC.mkDerivation {
   name = "wasi-sdk";
   dontUnpack = true;
+  buildInputs = [ runtimeShellPackage ];
   installPhase = ''
     cp -a ${wasi-sdk-src} $out
     chmod -R u+w $out

@@ -1,4 +1,11 @@
-{ autoPatchelfHook, hostPlatform, lib, stdenv, stdenvNoCC, }:
+{ autoPatchelfHook
+, hostPlatform
+, lib
+, runtimeShellPackage
+, stdenv
+, stdenvNoCC
+,
+}:
 let
   wasmtime-key =
     if hostPlatform.isDarwin then
@@ -16,11 +23,16 @@ in
 stdenvNoCC.mkDerivation {
   name = "wasmtime";
   dontUnpack = true;
-  buildInputs = lib.optionals hostPlatform.isLinux [ stdenv.cc.cc.lib ];
+  buildInputs = [ runtimeShellPackage ]
+    ++ lib.optionals hostPlatform.isLinux [ stdenv.cc.cc.lib ];
   nativeBuildInputs = lib.optionals hostPlatform.isLinux [ autoPatchelfHook ];
   installPhase = ''
     mkdir -p $out/bin
     install -Dm755 ${src}/wasmtime $out/bin/wasmtime
+    install -Dm755 ${../wasm-run/wasmtime.sh} $out/bin/wasmtime.sh
+    patchShebangs $out
+    substituteInPlace $out/bin/wasmtime.sh \
+      --replace wasmtime "$out/bin/wasmtime"
   '';
   doInstallCheck = true;
   installCheckPhase = ''
