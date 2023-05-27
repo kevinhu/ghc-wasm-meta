@@ -44,8 +44,7 @@ mkdir -p "$PREFIX/wabt"
 curl -f -L --retry 5 "$(jq -r .wabt.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wabt" --strip-components=1
 
 mkdir -p "$PREFIX/wasmtime/bin"
-curl -f -L --retry 5 "$(jq -r .wasmtime.url "$REPO"/autogen.json)" -o "$PREFIX/wasmtime/bin/wasmtime"
-chmod 755 "$PREFIX/wasmtime/bin/wasmtime"
+curl -f -L --retry 5 "$(jq -r .wasmtime.url "$REPO"/autogen.json)" | tar xJ -C "$PREFIX/wasmtime/bin" --strip-components=1 --wildcards '*/wasmtime'
 
 mkdir -p "$PREFIX/wasmedge"
 curl -f -L --retry 5 "$(jq -r .wasmedge.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wasmedge" --strip-components=1

@@ -1,7 +1,14 @@
-{ runtimeShellPackage, stdenvNoCC }:
+{ hostPlatform, runtimeShellPackage, stdenvNoCC, }:
 let
   common-src = builtins.fromJSON (builtins.readFile ../autogen.json);
-  wasi-sdk-src = builtins.fetchTarball common-src.wasi-sdk;
+  wasi-sdk-key =
+    if hostPlatform.isDarwin then
+      "wasi-sdk_darwin"
+    else if hostPlatform.isAarch64 then
+      "wasi-sdk_aarch64_linux"
+    else
+      "wasi-sdk";
+  wasi-sdk-src = builtins.fetchTarball common-src."${wasi-sdk-key}";
   libffi-wasm-src = builtins.fetchTarball common-src.libffi-wasm;
 in
 stdenvNoCC.mkDerivation {

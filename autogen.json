@@ -19,6 +19,14 @@
     "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1531384/artifacts/dist/wasi-sdk-17-linux.tar.gz",
     "sha256": "00qb4mq1623gpfjdghiigd8xi47v4y0xmhrib23k8qh30rr1np8y"
   },
+  "wasi-sdk_darwin": {
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1531386/artifacts/dist/wasi-sdk-17-macos.tar.gz",
+    "sha256": "069qca3pa2aah6yywn3dpbj8x9116jhwfyq32d2lbz7x60726p1s"
+  },
+  "wasi-sdk_aarch64_linux": {
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1531385/artifacts/dist/wasi-sdk-17-linux.tar.gz",
+    "sha256": "0wnws21pszzfrqi9kcdayw67id4z2bhic04v6svnyddrj5nfg0v2"
+  },
   "libffi-wasm": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3214/jobs/1227903/artifacts",
     "sha256": "1rj03kdjn1ppkymcbixwa96gcgyw7gg49vmib861q6wvsm721ia0"
@@ -44,8 +52,20 @@
     "sha256": "0w8m7acb1rpizg86hmq6q215vmpc75ixdbh29bf3asigsxv4p1p0"
   },
   "wasmtime": {
-    "url": "https://github.com/type-dance/wasmtime/releases/download/v9.0.1/wasmtime-v9.0.1-x86_64-linux-musl",
-    "sha256": "0is0hnqay3hq8pmbm90j4p40rpb479r5hihdxhqbb9ycya32alfd"
+    "url": "https://github.com/type-dance/wasmtime/releases/download/v9.0.2/wasmtime-v9.0.2-x86_64-linux-musl.tar.xz",
+    "sha256": "18dffmcdaw81bpnmfx8xfz8rkkq9y6ffy1k8gh5nbjxqhzpbmwqw"
+  },
+  "wasmtime_aarch64_linux": {
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v9.0.2/wasmtime-v9.0.2-aarch64-linux.tar.xz",
+    "sha256": "1x7wvbk2zi5128vdwb31cpzkw5viasqh3g155a44777i0l7ymywp"
+  },
+  "wasmtime_aarch64_darwin": {
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v9.0.2/wasmtime-v9.0.2-aarch64-macos.tar.xz",
+    "sha256": "14mpj9vgc6qa5qfz2x3acrpx28z7p14mblrvcly5xy5dc0zad9d9"
+  },
+  "wasmtime_x86_64_darwin": {
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v9.0.2/wasmtime-v9.0.2-x86_64-macos.tar.xz",
+    "sha256": "10hwl5ha4fyrbwgq5w7v5xh1fkh51bwqy47nx38s1plmmyw1r5ha"
   },
   "wasmedge": {
     "url": "https://github.com/WasmEdge/WasmEdge/releases/download/0.12.1/WasmEdge-0.12.1-ubuntu20.04_x86_64.tar.gz",
