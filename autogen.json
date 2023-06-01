@@ -1,47 +1,47 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1531406/artifacts/ghc-x86_64-linux-alpine3_17-wasm-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "12gksx2a999rhh9skph5pjzhggd6njnqvk6xl5k3ihnvd40590lb"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1538151/artifacts/ghc-x86_64-linux-alpine3_17-wasm-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "0qa7lzpw1brl9lk0rp0rjxksls5lw6zy7b6qzn75m0glgm7la7ld"
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1531407/artifacts/ghc-x86_64-linux-alpine3_17-wasm-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "1bc2sc85w7dgcp2czg4y5696q6lbsqir5a0y9sv4i1g8dsn81a1c"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1538152/artifacts/ghc-x86_64-linux-alpine3_17-wasm-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "12w96xs4cwkv2rmkl6y92yvdzff64pqnp5xxpc1f7clm97qmwlrd"
   },
   "wasm32-wasi-ghc-unreg": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1531408/artifacts/ghc-x86_64-linux-alpine3_17-wasm-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
-    "sha256": "05wm6fllwqcpqczcnasggyf8sni157fxjya54i0fabgka8zjdz8c"
+    "url": "https://gitlab.haskell.org/api/v4/projects/1/jobs/1538153/artifacts/ghc-x86_64-linux-alpine3_17-wasm-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
+    "sha256": "15ry47ba8bw3sd8j6ymc53nc2pgg5l0vfzk15x5453523zzs05i4"
   },
   "wasm32-wasi-ghc-9.6": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3223/jobs/1530829/artifacts/ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
     "sha256": "01bpgs4y2a8j40clk7pmb22ig0hdcwy1j4pq721jl7py1ampggnr"
   },
   "wasi-sdk": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1531384/artifacts/dist/wasi-sdk-17-linux.tar.gz",
-    "sha256": "00qb4mq1623gpfjdghiigd8xi47v4y0xmhrib23k8qh30rr1np8y"
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1538098/artifacts/dist/wasi-sdk-17-linux.tar.gz",
+    "sha256": "15kg1cdkcrz0hxwcqfa05vr3vjanv8isbrhnfnsdrs2ccf39hkjz"
   },
   "wasi-sdk_darwin": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1531386/artifacts/dist/wasi-sdk-17-macos.tar.gz",
-    "sha256": "069qca3pa2aah6yywn3dpbj8x9116jhwfyq32d2lbz7x60726p1s"
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1538100/artifacts/dist/wasi-sdk-17-macos.tar.gz",
+    "sha256": "1s79n51k9ym2g2ljifdm2y3px6zrmxgbwrgvdvklsrixyx7rwkmj"
   },
   "wasi-sdk_aarch64_linux": {
-    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1531385/artifacts/dist/wasi-sdk-17-linux.tar.gz",
-    "sha256": "0wnws21pszzfrqi9kcdayw67id4z2bhic04v6svnyddrj5nfg0v2"
+    "url": "https://gitlab.haskell.org/api/v4/projects/3212/jobs/1538099/artifacts/dist/wasi-sdk-17-linux.tar.gz",
+    "sha256": "1lbn0qf13xmbk470pra82r5nalndfxwm04rw0r8d58m07gwgcp42"
   },
   "libffi-wasm": {
     "url": "https://gitlab.haskell.org/api/v4/projects/3214/jobs/1227903/artifacts",
     "sha256": "1rj03kdjn1ppkymcbixwa96gcgyw7gg49vmib861q6wvsm721ia0"
   },
   "deno": {
-    "url": "https://github.com/denoland/deno/releases/download/v1.34.0/deno-x86_64-unknown-linux-gnu.zip",
-    "sha256": "16qx87x47wzc5lpgh1asc12xj7g6rbqn096m1wqcd03pgv997sm0"
+    "url": "https://github.com/denoland/deno/releases/download/v1.34.1/deno-x86_64-unknown-linux-gnu.zip",
+    "sha256": "1pgb9d3gn2m76h6s1yz7vwkzzj56p30rrf7v5v6qyh0yzjnyfhav"
   },
   "nodejs": {
     "url": "https://unofficial-builds.nodejs.org/download/release/v20.2.0/node-v20.2.0-linux-x64-pointer-compression.tar.xz",
     "sha256": "0ixg6343mzks3i43bq666a90mvl8hw9iav8bqbgv0b3qaqfrid6k"
   },
   "bun": {
-    "url": "https://github.com/oven-sh/bun/releases/download/bun-v0.6.3/bun-linux-x64.zip",
-    "sha256": "0snv5k6ih6rhq14j3bk52ry6l0gav4w4fxdlypriqfnfykpynnif"
+    "url": "https://github.com/oven-sh/bun/releases/download/bun-v0.6.6/bun-linux-x64.zip",
+    "sha256": "1vnwcp1wx82cyadg3yw0sr5lsiisx50chfmxv0fy18ky6hn04sm9"
   },
   "binaryen": {
     "url": "https://nightly.link/type-dance/binaryen/actions/artifacts/705553138.zip",
@@ -52,20 +52,20 @@
     "sha256": "0w8m7acb1rpizg86hmq6q215vmpc75ixdbh29bf3asigsxv4p1p0"
   },
   "wasmtime": {
-    "url": "https://github.com/type-dance/wasmtime/releases/download/v9.0.2/wasmtime-v9.0.2-x86_64-linux-musl.tar.xz",
-    "sha256": "18dffmcdaw81bpnmfx8xfz8rkkq9y6ffy1k8gh5nbjxqhzpbmwqw"
+    "url": "https://github.com/type-dance/wasmtime/releases/download/v9.0.3/wasmtime-v9.0.3-x86_64-linux-musl.tar.xz",
+    "sha256": "1hsww62z4vpykd8ciwh0l1j3vm9ivipg98p4kw87n0dqlmlqnycj"
   },
   "wasmtime_aarch64_linux": {
-    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v9.0.2/wasmtime-v9.0.2-aarch64-linux.tar.xz",
-    "sha256": "1x7wvbk2zi5128vdwb31cpzkw5viasqh3g155a44777i0l7ymywp"
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v9.0.3/wasmtime-v9.0.3-aarch64-linux.tar.xz",
+    "sha256": "1h9c4wqxvyk5b6b4m216dawh2mcrjw1kjaj3hd1cpyjdxlnd6wai"
   },
   "wasmtime_aarch64_darwin": {
-    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v9.0.2/wasmtime-v9.0.2-aarch64-macos.tar.xz",
-    "sha256": "14mpj9vgc6qa5qfz2x3acrpx28z7p14mblrvcly5xy5dc0zad9d9"
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v9.0.3/wasmtime-v9.0.3-aarch64-macos.tar.xz",
+    "sha256": "0fyz523s2p1s4rqbkgmc41xr7hgqqqb1gvxfa0hn6j6sxggd017g"
   },
   "wasmtime_x86_64_darwin": {
-    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v9.0.2/wasmtime-v9.0.2-x86_64-macos.tar.xz",
-    "sha256": "10hwl5ha4fyrbwgq5w7v5xh1fkh51bwqy47nx38s1plmmyw1r5ha"
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v9.0.3/wasmtime-v9.0.3-x86_64-macos.tar.xz",
+    "sha256": "1d7yjpr02i88b2w56gn3h05f1kxf38pkwk86si9vis6ly53ixjd6"
   },
   "wasmedge": {
     "url": "https://github.com/WasmEdge/WasmEdge/releases/download/0.12.1/WasmEdge-0.12.1-ubuntu20.04_x86_64.tar.gz",
@@ -76,8 +76,8 @@
     "sha256": "1l3syswrznp29f2anxcijgadrkq68jk22dwd2p202ddhx3axivmv"
   },
   "wizer": {
-    "url": "https://nightly.link/bytecodealliance/wizer/actions/artifacts/715423777.zip",
-    "sha256": "12g5bf9x48kn3sa96lk741gc86y158gvsgprqd237rl2w3z1qyxg"
+    "url": "https://nightly.link/bytecodealliance/wizer/actions/artifacts/724385263.zip",
+    "sha256": "1qjd3c3m13mhqrmqz88n5l5pb89vgd88skn7hn3shxlj9r7scdzh"
   },
   "cabal": {
     "url": "https://downloads.haskell.org/cabal/cabal-install-3.10.1.0/cabal-install-3.10.1.0-x86_64-linux-alpine.tar.xz",

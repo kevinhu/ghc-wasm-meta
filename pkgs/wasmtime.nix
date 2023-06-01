@@ -4,6 +4,7 @@
 , runtimeShellPackage
 , stdenv
 , stdenvNoCC
+, writeText
 ,
 }:
 let
@@ -22,10 +23,13 @@ let
 in
 stdenvNoCC.mkDerivation {
   name = "wasmtime";
+
   dontUnpack = true;
+
   buildInputs = [ runtimeShellPackage ]
     ++ lib.optionals hostPlatform.isLinux [ stdenv.cc.cc.lib ];
   nativeBuildInputs = lib.optionals hostPlatform.isLinux [ autoPatchelfHook ];
+
   installPhase = ''
     mkdir -p $out/bin
     install -Dm755 ${src}/wasmtime $out/bin/wasmtime
@@ -34,9 +38,19 @@ stdenvNoCC.mkDerivation {
     substituteInPlace $out/bin/wasmtime.sh \
       --replace wasmtime "$out/bin/wasmtime"
   '';
+
+  setupHook = writeText "wasmtime-setup-hook" ''
+    addWasmtimeHook() {
+      export CROSS_EMULATOR=@out@/bin/wasmtime.sh
+    }
+
+    addEnvHooks "$hostOffset" addWasmtimeHook
+  '';
+
   doInstallCheck = true;
   installCheckPhase = ''
     $out/bin/wasmtime --version
   '';
+
   strictDeps = true;
 }
