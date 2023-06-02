@@ -148,7 +148,7 @@ const _wasm32_wasi_ghc_gmp = fetchGitLabArtifact(
   "master",
   "nightly-x86_64-linux-alpine3_17-wasm-cross_wasm32-wasi-release+fully_static",
   "ghc-x86_64-linux-alpine3_17-wasm-cross_wasm32-wasi-release+fully_static.tar.xz",
-  "&source=schedule"
+  "&source=schedule&scope=finished"
 );
 const _wasm32_wasi_ghc_native = fetchGitLabArtifact(
   "builtins.fetchTarball",
@@ -157,7 +157,7 @@ const _wasm32_wasi_ghc_native = fetchGitLabArtifact(
   "master",
   "nightly-x86_64-linux-alpine3_17-wasm-int_native-cross_wasm32-wasi-release+fully_static",
   "ghc-x86_64-linux-alpine3_17-wasm-int_native-cross_wasm32-wasi-release+fully_static.tar.xz",
-  "&source=schedule"
+  "&source=schedule&scope=finished"
 );
 const _wasm32_wasi_ghc_unreg = fetchGitLabArtifact(
   "builtins.fetchTarball",
@@ -166,7 +166,7 @@ const _wasm32_wasi_ghc_unreg = fetchGitLabArtifact(
   "master",
   "nightly-x86_64-linux-alpine3_17-wasm-unreg-cross_wasm32-wasi-release+fully_static",
   "ghc-x86_64-linux-alpine3_17-wasm-unreg-cross_wasm32-wasi-release+fully_static.tar.xz",
-  "&source=schedule"
+  "&source=schedule&scope=finished"
 );
 const _wasm32_wasi_ghc_9_6 = fetchGitLabArtifact(
   "builtins.fetchTarball",
@@ -182,6 +182,24 @@ const _wasi_sdk = fetchGitLabArtifact(
   3212,
   "main",
   "x86_64-linux",
+  "dist/wasi-sdk-17-linux.tar.gz",
+  "&status=success"
+);
+const _wasi_sdk_darwin = fetchGitLabArtifact(
+  "builtins.fetchTarball",
+  "gitlab.haskell.org",
+  3212,
+  "main",
+  "darwin",
+  "dist/wasi-sdk-17-macos.tar.gz",
+  "&status=success"
+);
+const _wasi_sdk_aarch64_linux = fetchGitLabArtifact(
+  "builtins.fetchTarball",
+  "gitlab.haskell.org",
+  3212,
+  "main",
+  "aarch64-linux",
   "dist/wasi-sdk-17-linux.tar.gz",
   "&status=success"
 );
@@ -223,10 +241,28 @@ const _wabt = fetchGitHubLatestRelease(
   "ubuntu.tar.gz"
 );
 const _wasmtime = fetchGitHubLatestRelease(
-  "builtins.fetchurl",
+  "builtins.fetchTarball",
   "type-dance",
   "wasmtime",
-  "x86_64-linux-musl"
+  "x86_64-linux-musl.tar.xz"
+);
+const _wasmtime_aarch64_linux = fetchGitHubLatestRelease(
+  "builtins.fetchTarball",
+  "bytecodealliance",
+  "wasmtime",
+  "aarch64-linux.tar.xz"
+);
+const _wasmtime_aarch64_darwin = fetchGitHubLatestRelease(
+  "builtins.fetchTarball",
+  "bytecodealliance",
+  "wasmtime",
+  "aarch64-macos.tar.xz"
+);
+const _wasmtime_x86_64_darwin = fetchGitHubLatestRelease(
+  "builtins.fetchTarball",
+  "bytecodealliance",
+  "wasmtime",
+  "x86_64-macos.tar.xz"
 );
 const _wasmedge = fetchGitHubLatestRelease(
   "builtins.fetchTarball",
@@ -269,6 +305,8 @@ await Deno.writeTextFile(
       "wasm32-wasi-ghc-unreg": await _wasm32_wasi_ghc_unreg,
       "wasm32-wasi-ghc-9.6": await _wasm32_wasi_ghc_9_6,
       "wasi-sdk": await _wasi_sdk,
+      "wasi-sdk_darwin": await _wasi_sdk_darwin,
+      "wasi-sdk_aarch64_linux": await _wasi_sdk_aarch64_linux,
       "libffi-wasm": await _libffi_wasm,
       deno: await _deno,
       nodejs: await _nodejs,
@@ -276,6 +314,9 @@ await Deno.writeTextFile(
       binaryen: await _binaryen,
       wabt: await _wabt,
       wasmtime: await _wasmtime,
+      wasmtime_aarch64_linux: await _wasmtime_aarch64_linux,
+      wasmtime_aarch64_darwin: await _wasmtime_aarch64_darwin,
+      wasmtime_x86_64_darwin: await _wasmtime_x86_64_darwin,
       wasmedge: await _wasmedge,
       wazero: await _wazero,
       wizer: await _wizer,
