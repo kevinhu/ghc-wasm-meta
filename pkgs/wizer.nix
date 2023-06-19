@@ -1,16 +1,17 @@
-{ autoPatchelfHook, stdenv, stdenvNoCC, }:
+{ autoPatchelfHook, fetchurl, stdenv, stdenvNoCC, unzip, }:
 let
-  src = builtins.fetchTarball
+  src = fetchurl
     ((builtins.fromJSON (builtins.readFile ../autogen.json)).wizer);
 in
 stdenvNoCC.mkDerivation {
   name = "wizer";
-  dontUnpack = true;
+  inherit src;
+  sourceRoot = ".";
   buildInputs = [ stdenv.cc.cc.lib ];
-  nativeBuildInputs = [ autoPatchelfHook ];
+  nativeBuildInputs = [ autoPatchelfHook unzip ];
   installPhase = ''
     mkdir -p $out/bin
-    tar -xJf ${src} -C $out/bin --strip-components=1 --wildcards '*/wizer'
+    tar -xJf wizer-* -C $out/bin --strip-components=1 --wildcards '*/wizer'
   '';
   doInstallCheck = true;
   installCheckPhase = ''
