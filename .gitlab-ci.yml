@@ -124,7 +124,8 @@ x86_64-linux-nix:
     - |
       pushd "$(mktemp -d)"
       curl -f -L --retry 5 https://github.com/fourmolu/fourmolu/archive/refs/heads/main.tar.gz | tar xz --strip-components=1
-      # TODO: fixme
-      nix shell $CI_PROJECT_DIR -c sh -c "cd web/fourmolu-wasm && exec ./build.sh" || true
+      nix shell nixpkgs#gnused -c sed -i '/^active-repositories/d' web/fourmolu-wasm/cabal.project
+      nix shell nixpkgs#gnused -c sed -i 's/^index-state.*/index-state: 2023-06-25T00:00:00Z/' web/fourmolu-wasm/cabal.project
+      nix shell $CI_PROJECT_DIR -c sh -c "cd web/fourmolu-wasm && exec ./build.sh"
       popd
   retry: 2
