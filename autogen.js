@@ -174,7 +174,8 @@ const _wasm32_wasi_ghc_9_6 = fetchGitLabArtifact(
   3223,
   "ghc-9.6",
   "x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static",
-  "ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz"
+  "ghc-x86_64-linux-alpine3_12-cross_wasm32-wasi-release+fully_static.tar.xz",
+  "&status=success"
 );
 const _wasi_sdk = fetchGitLabArtifact(
   "builtins.fetchTarball",
@@ -218,7 +219,7 @@ const _deno = fetchGitHubLatestRelease(
   "unknown-linux-gnu.zip"
 );
 const _nodejs = fetchTarball(
-  "https://unofficial-builds.nodejs.org/download/release/v20.2.0/node-v20.2.0-linux-x64-pointer-compression.tar.xz"
+  "https://unofficial-builds.nodejs.org/download/release/v20.3.1/node-v20.3.1-linux-x64-pointer-compression.tar.xz"
 );
 const _bun = fetchGitHubLatestRelease(
   "builtins.fetchTarball",
