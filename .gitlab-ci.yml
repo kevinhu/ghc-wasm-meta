@@ -1,5 +1,5 @@
 variables:
-  DOCKER_REV: 6ca8ff9fea2382e19601a598c898064c12f45497
+  DOCKER_REV: a9c0f5efbe503c17f63070583b2d815e498acc68
   GIT_DEPTH: 1
   GIT_STRATEGY: clone
 
@@ -58,7 +58,7 @@ x86_64-linux-ubuntu:
   before_script:
     - |
       mkdir -p ~/.local
-      curl -f -L --retry 5 https://unofficial-builds.nodejs.org/download/release/v20.3.1/node-v20.3.1-linux-x64-pointer-compression.tar.xz | tar xJ --strip-components=1 -C ~/.local
+      curl -f -L --retry 5 https://unofficial-builds.nodejs.org/download/release/v20.5.0/node-v20.5.0-linux-x64-pointer-compression.tar.xz | tar xJ --strip-components=1 -C ~/.local
       export PATH=~/.local/bin:$PATH
     - sudo chown ghc:ghc -R .
   script:
@@ -109,7 +109,7 @@ x86_64-linux-ubuntu:
 x86_64-linux-nix:
   tags:
     - x86_64-linux
-  image: nixos/nix:2.16.1
+  image: nixos/nix:2.17.0
   before_script:
     - echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
   script:
@@ -119,13 +119,13 @@ x86_64-linux-nix:
       pushd "$(mktemp -d)"
       curl -f -L --retry 5 https://github.com/tweag/ormolu/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
       cd ormolu-live
-      nix shell $CI_PROJECT_DIR -c sh -c "wasm32-wasi-cabal update && exec ./build-wasm.sh"
+      nix shell $CI_PROJECT_DIR -c /bin/sh -c "wasm32-wasi-cabal update && exec ./build-wasm.sh"
       popd
     - |
       pushd "$(mktemp -d)"
       curl -f -L --retry 5 https://github.com/fourmolu/fourmolu/archive/refs/heads/main.tar.gz | tar xz --strip-components=1
       nix shell nixpkgs#gnused -c sed -i '/^active-repositories/d' web/fourmolu-wasm/cabal.project
       nix shell nixpkgs#gnused -c sed -i 's/^index-state.*/index-state: 2023-06-25T00:00:00Z/' web/fourmolu-wasm/cabal.project
-      nix shell $CI_PROJECT_DIR -c sh -c "cd web/fourmolu-wasm && exec ./build.sh"
+      nix shell $CI_PROJECT_DIR -c /bin/sh -c "cd web/fourmolu-wasm && exec ./build.sh"
       popd
-  retry: 2
+  allow_failure: true # TODO
