@@ -1,7 +1,7 @@
-{ callPackage, flavour, runtimeShellPackage, stdenvNoCC, }:
+{ callPackage, fetchurl, flavour, runtimeShellPackage, stdenvNoCC, }:
 let
   common-src = builtins.fromJSON (builtins.readFile ../autogen.json);
-  src = builtins.fetchTarball common-src."wasm32-wasi-ghc-${flavour}";
+  src = fetchurl common-src."wasm32-wasi-ghc-${flavour}";
   wasi-sdk = callPackage ./wasi-sdk.nix { };
 in
 stdenvNoCC.mkDerivation {

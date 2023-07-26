@@ -1,4 +1,4 @@
-{ hostPlatform, runtimeShellPackage, stdenv, stdenvNoCC, }:
+{ fetchurl, hostPlatform, runtimeShellPackage, stdenv, stdenvNoCC, unzip, }:
 let
   common-src = builtins.fromJSON (builtins.readFile ../autogen.json);
   wasi-sdk-key =
@@ -8,14 +8,16 @@ let
       "wasi-sdk_aarch64_linux"
     else
       "wasi-sdk";
-  wasi-sdk-src = builtins.fetchTarball common-src."${wasi-sdk-key}";
-  libffi-wasm-src = builtins.fetchTarball common-src.libffi-wasm;
+  wasi-sdk-src = fetchurl common-src."${wasi-sdk-key}";
+  libffi-wasm-src = fetchurl (common-src.libffi-wasm // { name = "libffi-wasm.zip"; });
 in
 stdenvNoCC.mkDerivation {
   name = "wasi-sdk";
 
-  dontUnpack = true;
+  srcs = [ wasi-sdk-src libffi-wasm-src ];
+  setSourceRoot = "sourceRoot=$(echo wasi-sdk-*)";
 
+  nativeBuildInputs = [ unzip ];
   buildInputs = [ runtimeShellPackage ];
 
   cc_for_build = "${stdenv.cc}/bin/cc";
@@ -23,7 +25,7 @@ stdenvNoCC.mkDerivation {
   installPhase = ''
     runHook preInstall
 
-    cp -a ${wasi-sdk-src} $out
+    cp -a . $out
     chmod -R u+w $out
 
     mkdir $out/nix-support
@@ -31,8 +33,8 @@ stdenvNoCC.mkDerivation {
 
     patchShebangs $out
 
-    cp -a ${libffi-wasm-src}/libffi-wasm/include/. $out/share/wasi-sysroot/include
-    cp -a ${libffi-wasm-src}/libffi-wasm/lib/. $out/share/wasi-sysroot/lib/wasm32-wasi
+    cp -a ../out/libffi-wasm/include/. $out/share/wasi-sysroot/include
+    cp -a ../out/libffi-wasm/lib/. $out/share/wasi-sysroot/lib/wasm32-wasi
 
     runHook postInstall
   '';
