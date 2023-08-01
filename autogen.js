@@ -6,11 +6,13 @@ async function fetchJSON(url) {
   return r.json();
 }
 
-const _stableBindists = fetchJSON("https://raw.githubusercontent.com/amesgen/ghc-wasm-bindists/main/meta.json");
+const _stableBindists = fetchJSON(
+  "https://raw.githubusercontent.com/amesgen/ghc-wasm-bindists/main/meta.json"
+);
 
 async function fetchStableBindist(id) {
-    const dist = (await _stableBindists)[id];
-    return { url: dist.mirrorUrl, hash: dist.sriHash };
+  const dist = (await _stableBindists)[id];
+  return { url: dist.mirrorUrl, hash: dist.sriHash };
 }
 
 async function fetchGitHubLatestReleaseURL(owner, repo, suffix) {
@@ -78,7 +80,7 @@ const _deno = fetchGitHubLatestRelease(
   "unknown-linux-gnu.zip"
 );
 const _nodejs = fetchTarball(
-  "https://unofficial-builds.nodejs.org/download/release/v20.3.1/node-v20.3.1-linux-x64-pointer-compression.tar.xz"
+  "https://unofficial-builds.nodejs.org/download/release/v20.5.0/node-v20.5.0-linux-x64-pointer-compression.tar.xz"
 );
 const _bun = fetchGitHubLatestRelease(
   "builtins.fetchTarball",
@@ -86,7 +88,12 @@ const _bun = fetchGitHubLatestRelease(
   "bun",
   "linux-x64.zip"
 );
-const _binaryen = fetchStableBindist("binaryen");
+const _binaryen = fetchGitHubLatestRelease(
+  "builtins.fetchTarball",
+  "type-dance",
+  "binaryen",
+  "x86_64-linux-musl.tar.xz"
+);
 const _wabt = fetchGitHubLatestRelease(
   "builtins.fetchTarball",
   "WebAssembly",

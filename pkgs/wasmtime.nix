@@ -49,7 +49,7 @@ stdenvNoCC.mkDerivation {
 
   doInstallCheck = true;
   installCheckPhase = ''
-    $out/bin/wasmtime --version
+    MIMALLOC_VERBOSE=1 $out/bin/wasmtime --version
   '';
 
   strictDeps = true;

@@ -35,10 +35,8 @@ unzip bun.zip
 mkdir -p "$PREFIX/bun/bin"
 install -Dm755 bun-linux-x64/bun "$PREFIX/bun/bin"
 
-curl -f -L --retry 5 "$(jq -r .binaryen.url "$REPO"/autogen.json)" -o binaryen.zip
-unzip binaryen.zip
-mkdir -p "$PREFIX/binaryen/bin"
-install -Dm755 bin/* "$PREFIX/binaryen/bin"
+mkdir -p "$PREFIX/binaryen"
+curl -f -L --retry 5 "$(jq -r .binaryen.url "$REPO"/autogen.json)" | tar xJ -C "$PREFIX/binaryen" --strip-components=1
 
 mkdir -p "$PREFIX/wabt"
 curl -f -L --retry 5 "$(jq -r .wabt.url "$REPO"/autogen.json)" | tar xz -C "$PREFIX/wabt" --strip-components=1
