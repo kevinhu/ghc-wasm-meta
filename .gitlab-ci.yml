@@ -71,6 +71,7 @@ x86_64-linux-ubuntu:
       sed -i '/tasty/d' time.cabal
       echo "package QuickCheck" >> cabal.project.local
       echo "  flags: -templatehaskell" >> cabal.project.local
+      echo "allow-newer: all:base, all:deepseq" >> cabal.project.local
       autoreconf -i
       wasm32-wasi-cabal build test:ShowDefaultTZAbbreviations
       wasmtime run $(wasm32-wasi-cabal list-bin test:ShowDefaultTZAbbreviations)
@@ -87,7 +88,13 @@ x86_64-linux-ubuntu:
       popd
     - |
       pushd "$(mktemp -d)"
+      curl -f -L --retry 5 https://github.com/corsis/clock/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
+      wasm32-wasi-cabal build
+      popd
+    - |
+      pushd "$(mktemp -d)"
       curl -f -L --retry 5 https://github.com/UnkindPartition/tasty/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
+      echo "allow-newer: all:base, all:deepseq, all:template-haskell" >> cabal.project.local
       wasm32-wasi-cabal build all
 
       readonly TEST_WRAPPERS="$(mktemp -d -p /tmp)"
