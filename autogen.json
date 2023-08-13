@@ -1,19 +1,23 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230806T201448/wasm32-wasi-ghc-gmp.tar.xz",
-    "hash": "sha256-u5kKhF6ufN4Ob1k3BXXZL6ls7jyeEU7XJbZxlL3ZcRA="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wasm32-wasi-ghc-gmp.tar.xz",
+    "hash": "sha256-8DF5kEHPGkeFMelzgNNHOVWIHqWNRcfSwbGXNd1lsN8="
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230806T201448/wasm32-wasi-ghc-native.tar.xz",
-    "hash": "sha256-FbMVyfBGymkqfhHUM59F1aHn2bP3G6xUlKmlTzkJAYI="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wasm32-wasi-ghc-native.tar.xz",
+    "hash": "sha256-TXa/EqgpnUkOCR45Ouq5Gn4bwg+UT9pLL5gO/XFnCu0="
   },
   "wasm32-wasi-ghc-unreg": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230806T201448/wasm32-wasi-ghc-unreg.tar.xz",
-    "hash": "sha256-LlrTUiJrnDIYRbKhsVZutSWdha2zoxnShipI1uItjqU="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wasm32-wasi-ghc-unreg.tar.xz",
+    "hash": "sha256-PF232UXmegaIMfR+y+WxFc1AQnNNw+ycjjI80THRN68="
   },
   "wasm32-wasi-ghc-9.6": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230806T201448/wasm32-wasi-ghc-9.6.tar.xz",
-    "hash": "sha256-F91ja7ZhGb+jgvEi6Y/R6nYGNFJrfoWy1TuKWEZGOS0="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wasm32-wasi-ghc-9.6.tar.xz",
+    "hash": "sha256-SF1RrsJLni+E7mL+Gh83M991AqbEx8/OtgR8CV7YXgM="
+  },
+  "wasm32-wasi-ghc-9.8": {
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wasm32-wasi-ghc-9.8.tar.xz",
+    "hash": "sha256-KV7r96fUFCvjWzLAZsVTmlaRXO1048vfMAbnUvpQ7ZY="
   },
   "wasi-sdk": {
     "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230723T201525/wasi-sdk.tar.gz",
@@ -32,8 +36,8 @@
     "hash": "sha256-Qqm8abz+05JXqeBxG6V6oBJix46esIKvAiYgkERmt78="
   },
   "deno": {
-    "url": "https://github.com/denoland/deno/releases/download/v1.36.0/deno-x86_64-unknown-linux-gnu.zip",
-    "sha256": "14mfbyl74gjgss8gd3qxcy44h4knfwyv18dgrk4yb5ck4n061pmx"
+    "url": "https://github.com/denoland/deno/releases/download/v1.36.1/deno-x86_64-unknown-linux-gnu.zip",
+    "sha256": "0j3avj8z1fplzrhrjx7vzyr683g13zlz4c61a9v3gflnws6ibwsm"
   },
   "nodejs": {
     "url": "https://unofficial-builds.nodejs.org/download/release/v20.5.0/node-v20.5.0-linux-x64-pointer-compression.tar.xz",
@@ -72,12 +76,12 @@
     "sha256": "1sx6qv79bsckch320ahk64d6sfwd09n05ncp07b4d0687424m2pp"
   },
   "wazero": {
-    "url": "https://github.com/tetratelabs/wazero/releases/download/v1.3.1/wazero_1.3.1_linux_amd64.tar.gz",
-    "sha256": "11qkndnx077djdip9slvfgsvjbvq9aga9ywaryyl7am0q0sdksnl"
+    "url": "https://github.com/tetratelabs/wazero/releases/download/v1.4.0/wazero_1.4.0_linux_amd64.tar.gz",
+    "sha256": "0k8irx7vkfmb15z2xixjx9rx2g7drjl3lvpvbzcg60q26fh4mw5m"
   },
   "wizer": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230723T201525/wizer.zip",
-    "hash": "sha256-1YPWQ9fd2vyDYF99GSvCukBl4xiJF1AqLpMW+xsSL2g="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wizer.zip",
+    "hash": "sha256-YLVDb5ALeGg2fxt9Eka8Nw6Ws5/MFKdzjs/v45pJyvo="
   },
   "cabal": {
     "url": "https://downloads.haskell.org/cabal/cabal-install-3.10.1.0/cabal-install-3.10.1.0-x86_64-linux-alpine.tar.xz",
