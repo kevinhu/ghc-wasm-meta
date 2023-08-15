@@ -51,6 +51,11 @@ x86_64-linux-alpine-9.6:
   variables:
     FLAVOUR: "9.6"
 
+x86_64-linux-alpine-9.8:
+  extends: .x86_64-linux-alpine
+  variables:
+    FLAVOUR: "9.8"
+
 x86_64-linux-ubuntu:
   tags:
     - x86_64-linux
@@ -121,7 +126,7 @@ x86_64-linux-nix:
     - echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
   script:
     - |
-      nix build --json --no-link . .#all_native .#all_unreg .#all_9_6
+      nix build --json --no-link . .#all_native .#all_unreg .#all_9_6 .#all_9_8
     - |
       pushd "$(mktemp -d)"
       curl -f -L --retry 5 https://github.com/tweag/ormolu/archive/refs/heads/master.tar.gz | tar xz --strip-components=1

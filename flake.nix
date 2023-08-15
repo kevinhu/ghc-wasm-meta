@@ -44,6 +44,8 @@
             pkgs.callPackage ./pkgs/wasm32-wasi-ghc.nix { flavour = "unreg"; };
           wasm32-wasi-ghc-9_6 =
             pkgs.callPackage ./pkgs/wasm32-wasi-ghc.nix { flavour = "9.6"; };
+          wasm32-wasi-ghc-9_8 =
+            pkgs.callPackage ./pkgs/wasm32-wasi-ghc.nix { flavour = "9.8"; };
           wasm32-wasi-cabal-gmp =
             pkgs.callPackage ./pkgs/wasm32-wasi-cabal.nix { flavour = "gmp"; };
           wasm32-wasi-cabal-native =
@@ -52,6 +54,8 @@
             pkgs.callPackage ./pkgs/wasm32-wasi-cabal.nix { flavour = "unreg"; };
           wasm32-wasi-cabal-9_6 =
             pkgs.callPackage ./pkgs/wasm32-wasi-cabal.nix { flavour = "9.6"; };
+          wasm32-wasi-cabal-9_8 =
+            pkgs.callPackage ./pkgs/wasm32-wasi-cabal.nix { flavour = "9.8"; };
           wasi-sdk = pkgs.callPackage ./pkgs/wasi-sdk.nix { };
           deno = pkgs.callPackage ./pkgs/deno.nix { };
           nodejs = pkgs.callPackage ./pkgs/nodejs.nix { };
@@ -69,15 +73,17 @@
         {
           packages = {
             inherit all wasm32-wasi-ghc-gmp wasm32-wasi-ghc-native
-              wasm32-wasi-ghc-unreg wasm32-wasi-ghc-9_6 wasm32-wasi-cabal-gmp
-              wasm32-wasi-cabal-native wasm32-wasi-cabal-unreg
-              wasm32-wasi-cabal-9_6 wasi-sdk deno nodejs bun binaryen wabt
+              wasm32-wasi-ghc-unreg wasm32-wasi-ghc-9_6 wasm32-wasi-ghc-9_8
+              wasm32-wasi-cabal-gmp wasm32-wasi-cabal-native
+              wasm32-wasi-cabal-unreg wasm32-wasi-cabal-9_6
+              wasm32-wasi-cabal-9_8 wasi-sdk deno nodejs bun binaryen wabt
               wasmtime wasmedge wazero wizer cabal proot wasm-run;
             default = all "gmp";
             all_gmp = all "gmp";
             all_native = all "native";
             all_unreg = all "unreg";
             all_9_6 = all "9.6";
+            all_9_8 = all "9.8";
           };
         });
 }
