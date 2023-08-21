@@ -1,19 +1,19 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wasm32-wasi-ghc-gmp.tar.xz",
-    "hash": "sha256-8DF5kEHPGkeFMelzgNNHOVWIHqWNRcfSwbGXNd1lsN8="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230820T201433/wasm32-wasi-ghc-gmp.tar.xz",
+    "hash": "sha256-QSDN/rl0jhO8LsULclAsGTax2MpIQ9cHoBcM4jE4TVI="
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wasm32-wasi-ghc-native.tar.xz",
-    "hash": "sha256-TXa/EqgpnUkOCR45Ouq5Gn4bwg+UT9pLL5gO/XFnCu0="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230820T201433/wasm32-wasi-ghc-native.tar.xz",
+    "hash": "sha256-O2NrM2Vqep1+uQNbk3bWhvUeyInUYiy5iVzCc5tIJbg="
   },
   "wasm32-wasi-ghc-unreg": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wasm32-wasi-ghc-unreg.tar.xz",
-    "hash": "sha256-PF232UXmegaIMfR+y+WxFc1AQnNNw+ycjjI80THRN68="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230820T201433/wasm32-wasi-ghc-unreg.tar.xz",
+    "hash": "sha256-YYMbnH3mDMlv4fiZWidVHodhyB6jCIGDQYOCT5YHqVU="
   },
   "wasm32-wasi-ghc-9.6": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wasm32-wasi-ghc-9.6.tar.xz",
-    "hash": "sha256-SF1RrsJLni+E7mL+Gh83M991AqbEx8/OtgR8CV7YXgM="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230820T201433/wasm32-wasi-ghc-9.6.tar.xz",
+    "hash": "sha256-LwuqjXFUS0/X2g43yRdSnVBGMJjX6Xma7PlzasjRTiE="
   },
   "wasm32-wasi-ghc-9.8": {
     "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20230813T215507/wasm32-wasi-ghc-9.8.tar.xz",
@@ -40,8 +40,8 @@
     "sha256": "0j3avj8z1fplzrhrjx7vzyr683g13zlz4c61a9v3gflnws6ibwsm"
   },
   "nodejs": {
-    "url": "https://unofficial-builds.nodejs.org/download/release/v20.5.0/node-v20.5.0-linux-x64-pointer-compression.tar.xz",
-    "sha256": "09dfv648d02mvam00lkiq0d3aqyza5bigjmc682mik9kw0mjcy57"
+    "url": "https://unofficial-builds.nodejs.org/download/release/v20.5.1/node-v20.5.1-linux-x64-pointer-compression.tar.xz",
+    "sha256": "18nqrsbnr6y1l41rb7a9k2mxyyrb4lmv60fx18jf4qwhq4pr2r9c"
   },
   "bun": {
     "url": "https://github.com/oven-sh/bun/releases/download/bun-v0.7.3/bun-linux-x64.zip",
