@@ -39,6 +39,8 @@ stdenvNoCC.mkDerivation {
       --replace wasmtime "$out/bin/wasmtime"
   '';
 
+  dontStrip = true;
+
   setupHook = writeText "wasmtime-setup-hook" ''
     addWasmtimeHook() {
       export CROSS_EMULATOR=@out@/bin/wasmtime.sh
