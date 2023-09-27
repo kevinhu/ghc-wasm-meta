@@ -375,7 +375,7 @@ Now, when creating the instance, in addition to providing the
 `env` import module which has a `foo` function. Whatever `foo` can do
 is up to you, reader. It may take a buffer's pointer/length and fill
 in something interesting. Since the WASI module has a `memory` export,
-`foo` has access to the instance memory and can do whatever it want.
+`foo` has access to the instance memory and can do whatever it wants.
 
 Custom imports is a powerful feature and provides more than one way to
 do things. For instance, if your Haskell program needs to read a large
