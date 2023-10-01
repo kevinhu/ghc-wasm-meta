@@ -63,7 +63,7 @@ x86_64-linux-ubuntu:
   before_script:
     - |
       mkdir -p ~/.local
-      curl -f -L --retry 5 https://unofficial-builds.nodejs.org/download/release/v20.7.0/node-v20.7.0-linux-x64-pointer-compression.tar.xz | tar xJ --strip-components=1 -C ~/.local
+      curl -f -L --retry 5 https://unofficial-builds.nodejs.org/download/release/v20.8.0/node-v20.8.0-linux-x64-pointer-compression.tar.xz | tar xJ --strip-components=1 -C ~/.local
       export PATH=~/.local/bin:$PATH
     - sudo chown ghc:ghc -R .
   script:
