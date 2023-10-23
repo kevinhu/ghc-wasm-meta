@@ -1,15 +1,15 @@
 {
   "wasm32-wasi-ghc-gmp": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20231015T201517/wasm32-wasi-ghc-gmp.tar.xz",
-    "hash": "sha256-iCeUfkiGYA12ubmpMEJTFEAmS09G3pq5gcfVvc4uchc="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20231022T201507/wasm32-wasi-ghc-gmp.tar.xz",
+    "hash": "sha256-lJiJGM3NheqBSkOd+55HYhldXsCv3pxKvc1dBnJ/XY8="
   },
   "wasm32-wasi-ghc-native": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20231015T201517/wasm32-wasi-ghc-native.tar.xz",
-    "hash": "sha256-5BBccGM8AQCSR5wVr20807GgAj9Yk8QjIwBsk8NGhvo="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20231022T201507/wasm32-wasi-ghc-native.tar.xz",
+    "hash": "sha256-S16hRI3slu4dMEoUSTm9VP/TUjfPtr6jEm2Jjtev8kE="
   },
   "wasm32-wasi-ghc-unreg": {
-    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20231015T201517/wasm32-wasi-ghc-unreg.tar.xz",
-    "hash": "sha256-4zT6Sh77yQC35ycOAP2C0hf3rFCL4yJCyqfrBGOG068="
+    "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20231022T201507/wasm32-wasi-ghc-unreg.tar.xz",
+    "hash": "sha256-zrWs3+4MnrgM9LUswv/SiENBY4lbCb1PFAC/TZdaXko="
   },
   "wasm32-wasi-ghc-9.6": {
     "url": "https://github.com/amesgen/ghc-wasm-bindists/releases/download/20231001T201511/wasm32-wasi-ghc-9.6.tar.xz",
@@ -40,12 +40,12 @@
     "sha256": "0avz3wwp6j21qwqqag2sp9rskriz8c6d7a89gfrv1zx0md5nq2z1"
   },
   "nodejs": {
-    "url": "https://unofficial-builds.nodejs.org/download/release/v20.8.1/node-v20.8.1-linux-x64-pointer-compression.tar.xz",
-    "sha256": "1ds1yaqqyxb7d8jwwvgam3qg7zyydigfjr2gwda4q9vwapbgwwj6"
+    "url": "https://nodejs.org/dist/v21.0.0/node-v21.0.0-linux-x64.tar.xz",
+    "sha256": "199vxap2pgc2pp5rq84acv9khr81n52v6q3ypcpjda16m1d0nf37"
   },
   "bun": {
-    "url": "https://github.com/oven-sh/bun/releases/download/bun-v1.0.6/bun-linux-x64.zip",
-    "sha256": "110ryand1s2rlzzjsqvrd1l3nsq7kklfi5886w01sgrxqy42g1j4"
+    "url": "https://github.com/oven-sh/bun/releases/download/bun-v1.0.7/bun-linux-x64.zip",
+    "sha256": "0kssqrxz7x0q9rmi9xwshsgy8a66z85k5yn226an7rkvvz7lzihq"
   },
   "binaryen": {
     "url": "https://github.com/type-dance/binaryen/releases/download/version_116/binaryen-version_116-x86_64-linux-musl.tar.xz",
@@ -56,20 +56,20 @@
     "sha256": "0w8m7acb1rpizg86hmq6q215vmpc75ixdbh29bf3asigsxv4p1p0"
   },
   "wasmtime": {
-    "url": "https://github.com/type-dance/wasmtime/releases/download/v13.0.0/wasmtime-v13.0.0-x86_64-linux-musl.tar.xz",
-    "sha256": "1vfii1i3l9rjxk0msajnds2a08s2p7lv77x4akhbsnidaxp5i7yw"
+    "url": "https://github.com/type-dance/wasmtime/releases/download/v14.0.0/wasmtime-v14.0.0-x86_64-linux-musl.tar.xz",
+    "sha256": "0j99fan2gspcygx4ls9lv57c1sp04yk3a4g4r86vigxvjy9la2bf"
   },
   "wasmtime_aarch64_linux": {
-    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v13.0.0/wasmtime-v13.0.0-aarch64-linux.tar.xz",
-    "sha256": "0bvj8krgy8sz851ilwmswg0r702lfqzlyxka0n8wbmghmmb92818"
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v14.0.0/wasmtime-v14.0.0-aarch64-linux.tar.xz",
+    "sha256": "1b9yz2yrmcg0rhlzsydyrpwnjl3ld1p32mcphqs9mi8s75fbg22f"
   },
   "wasmtime_aarch64_darwin": {
-    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v13.0.0/wasmtime-v13.0.0-aarch64-macos.tar.xz",
-    "sha256": "073swpgmd5n1jk83cs71ghsvpzflf3z9qvg1xkfpflrqqfwvw1ql"
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v14.0.0/wasmtime-v14.0.0-aarch64-macos.tar.xz",
+    "sha256": "0w7zv973xdj8nyn8jnq2i0kmvn54aiplp9583a8kkxg70v8hypp9"
   },
   "wasmtime_x86_64_darwin": {
-    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v13.0.0/wasmtime-v13.0.0-x86_64-macos.tar.xz",
-    "sha256": "0ik698li3hjizb1p09h8d2a0wmnbg6fkpvzdzxgl79188nmmkhhr"
+    "url": "https://github.com/bytecodealliance/wasmtime/releases/download/v14.0.0/wasmtime-v14.0.0-x86_64-macos.tar.xz",
+    "sha256": "0l2iwnrxb6fr5mr192n3y9lavnbx7fx67b0ff6vlf4ycn91hsqnv"
   },
   "wasmedge": {
     "url": "https://github.com/WasmEdge/WasmEdge/releases/download/0.13.4/WasmEdge-0.13.4-ubuntu20.04_x86_64.tar.gz",

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec wasmtime run --disable-cache --disable-parallel-compilation --env PATH= --env PWD="$PWD" --mapdir /::/ --opt-level 0 --wasm-features tail-call -- ${1+"$@"}
+exec wasmtime run -C cache=n -C parallel-compilation=n --env PATH= --env PWD="$PWD" --dir /::/ -O opt-level=0 -W tail-call -- ${1+"$@"}
