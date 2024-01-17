@@ -22,10 +22,10 @@ unzip out.zip
 cp -a out/libffi-wasm/include/. "$PREFIX/wasi-sdk/share/wasi-sysroot/include"
 cp -a out/libffi-wasm/lib/. "$PREFIX/wasi-sdk/share/wasi-sysroot/lib/wasm32-wasi"
 
-# curl -f -L --retry 5 "$(jq -r .deno.url "$REPO"/autogen.json)" -o deno.zip
-# unzip deno.zip
-# mkdir -p "$PREFIX/deno/bin"
-# install -Dm755 deno "$PREFIX/deno/bin"
+curl -f -L --retry 5 "$(jq -r .deno.url "$REPO"/autogen.json)" -o deno.zip
+unzip deno.zip
+mkdir -p "$PREFIX/deno/bin"
+install -Dm755 deno "$PREFIX/deno/bin"
 
 mkdir -p "$PREFIX/nodejs"
 curl -f -L --retry 5 "$(jq -r '."nodejs".url' "$REPO"/autogen.json)" | tar xJ -C "$PREFIX/nodejs" --strip-components=1
@@ -81,9 +81,8 @@ for p in \
   "$PREFIX/wasmtime/bin" \
   "$PREFIX/wabt/bin" \
   "$PREFIX/binaryen/bin" \
-  # "$PREFIX/bun/bin" \
   "$PREFIX/nodejs/bin" \
-  # "$PREFIX/deno/bin" \
+  "$PREFIX/deno/bin" \
   "$PREFIX/wasi-sdk/bin" \
   "$PREFIX/wasm32-wasi-ghc/bin"
 do
