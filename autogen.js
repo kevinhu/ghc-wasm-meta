@@ -83,12 +83,6 @@ const _deno = fetchGitHubLatestRelease(
 const _nodejs = fetchTarball(
   "https://nodejs.org/dist/v21.0.0/node-v21.0.0-linux-x64.tar.xz"
 );
-const _bun = fetchGitHubLatestRelease(
-  "builtins.fetchTarball",
-  "oven-sh",
-  "bun",
-  "linux-x64.zip"
-);
 const _binaryen = fetchGitHubLatestRelease(
   "builtins.fetchTarball",
   "type-dance",
@@ -158,7 +152,6 @@ await Deno.writeTextFile(
       "libffi-wasm": await _libffi_wasm,
       deno: await _deno,
       nodejs: await _nodejs,
-      bun: await _bun,
       binaryen: await _binaryen,
       wabt: await _wabt,
       wasmtime: await _wasmtime,

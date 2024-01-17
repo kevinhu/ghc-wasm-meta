@@ -43,10 +43,6 @@
     "url": "https://nodejs.org/dist/v21.0.0/node-v21.0.0-linux-x64.tar.xz",
     "sha256": "199vxap2pgc2pp5rq84acv9khr81n52v6q3ypcpjda16m1d0nf37"
   },
-  "bun": {
-    "url": "https://github.com/oven-sh/bun/releases/download/bun-v1.0.7/bun-linux-x64.zip",
-    "sha256": "0kssqrxz7x0q9rmi9xwshsgy8a66z85k5yn226an7rkvvz7lzihq"
-  },
   "binaryen": {
     "url": "https://github.com/type-dance/binaryen/releases/download/version_116/binaryen-version_116-x86_64-linux-musl.tar.xz",
     "sha256": "10a52gsdmy1ps1pbrgi3xc2h52nazyn2dnza95yn9zyrki3bxpqq"
