@@ -30,10 +30,10 @@ install -Dm755 deno "$PREFIX/deno/bin"
 mkdir -p "$PREFIX/nodejs"
 curl -f -L --retry 5 "$(jq -r '."nodejs".url' "$REPO"/autogen.json)" | tar xJ -C "$PREFIX/nodejs" --strip-components=1
 
-curl -f -L --retry 5 "$(jq -r .bun.url "$REPO"/autogen.json)" -o bun.zip
-unzip bun.zip
-mkdir -p "$PREFIX/bun/bin"
-install -Dm755 bun-linux-x64/bun "$PREFIX/bun/bin"
+# curl -f -L --retry 5 "$(jq -r .bun.url "$REPO"/autogen.json)" -o bun.zip
+# unzip bun.zip
+# mkdir -p "$PREFIX/bun/bin"
+# install -Dm755 bun-linux-x64/bun "$PREFIX/bun/bin"
 
 mkdir -p "$PREFIX/binaryen"
 curl -f -L --retry 5 "$(jq -r .binaryen.url "$REPO"/autogen.json)" | tar xJ -C "$PREFIX/binaryen" --strip-components=1
